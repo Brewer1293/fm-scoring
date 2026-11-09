@@ -367,6 +367,11 @@ def build(save, config):
     roles = w.get("staff", {})
     staff = load_staff(save_dir / "staff", w.get("staff_words", {}))
     staff_rows = [staff_row(n, p, roles) for n, p in staff.items()]
+    # save.toml's `staff_released`: the club's staff let go since their latest observation
+    check_listed(cfg, "staff_released", staff.keys(), "has staff never observed")
+    for r in staff_rows:
+        if r["club"] == managed and r["name"] in cfg.get("staff_released", []):
+            r["club"] = f"left {managed}"
     check_listed(cfg, "last_staff_batch", {f for p in staff.values() for f in p["files"]}, "names files with no staff")
     check_listed(cfg, "last_staff_names", staff.keys(), "has staff never observed")
     last_staff, last_staff_names = set(cfg.get("last_staff_batch", [])), set(cfg.get("last_staff_names", []))
