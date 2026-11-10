@@ -27,7 +27,8 @@ PAGES = ["squad", "grid", "elsewhere", "last", "filters", "charts", "staff", "la
 META = {"Name", "Club", "Age", "Left Foot", "Wage", "Transfer Value", "Loan", "Minutes", "Rating", "Division"}  # every other column is an attribute
 STAFF_META = {"Name", "Club", "Age", "Job", "Personality"}
 LEFT_FOOTED = {"Fairly Strong", "Strong", "Very Strong"}
-PARTIAL_SQUAD = re.compile(r"-(u\d+s?|reserves)$")  # source of a youth/reserve squad screen: not the whole club
+PARTIAL_SQUAD = re.compile(r"-(u\d+s?|reserves|first-team)$")  # source of a youth/reserve/first-team squad screen: not the whole club
+YOUTH_TEAM = re.compile(r"-(u\d+)s?$")  # a youth squad screen's team: "u18" from "my-club-u18s"
 SEARCH_MIN_WEIGHT = 2  # attributes weighted below this are left out of the filters page's search minimums
 IMAGE_TYPES = {".png", ".jpg", ".jpeg", ".bmp", ".webp"}
 GRID_PCT_AGE = 24  # the grid page shows vs Age next to the score for senior players this age and under
@@ -48,6 +49,33 @@ def weighted(attrs, groups):
     """Each group's Σ(attribute × weight) / Σ(weights), for the groups whose attributes are all known."""
     return {key: sum(attrs[a] * x for a, x in w.items()) / sum(w.values())
             for key, w in groups.items() if all(a in attrs for a in w)}
+
+
+def curve_value(points, x):
+    """An attribute's win-rate value at level x: straight lines through (1, 6, 12, 18) = (*points[:2], 0, points[2])."""
+    (x0, y0), (x1, y1) = ((1, points[0]), (6, points[1])) if x < 6 else ((6, points[1]), (12, 0)) if x < 12 else ((12, 0), (18, points[2]))
+    return y0 + (y1 - y0) * (x - x0) / (x1 - x0)
+
+
+def curve_scores(attrs, w):
+    """Each [curve_scores.<label>]: Σ(curve value × weight/5) over the known attributes, as the level at which a player
+    with all of them equal would be worth the same. Attributes not observed are left out."""
+    out = {}
+    for label, prof in w.get("curve_scores", {}).items():
+        m = {a: prof.get(a, 5) / 5 for a in w["curve"] if a in attrs and prof.get(a, 5)}
+        total = sum(x * curve_value(w["curve"][a], attrs[a]) for a, x in m.items())
+        lo, hi = 1.0, 20.0
+        for _ in range(30):  # the total rises with the level: bisect for it
+            mid = (lo + hi) / 2
+            lo, hi = (mid, hi) if sum(x * curve_value(w["curve"][a], mid) for a, x in m.items()) < total else (lo, mid)
+        if m:
+            out[label] = lo
+    return out
+
+
+def win_score(attrs, w):
+    """%win: Σ [win] value at the player's level over their observed attributes (None without a [win] table)."""
+    return sum(curve_value(pts, attrs[a]) for a, pts in w["win"].items() if a in attrs) if w.get("win") else None
 
 
 def timeline(dates):
@@ -105,14 +133,16 @@ def player_row(name, p, w):
     for date, snap, attrs in timeline(p["dates"]):
         known.update({k: v for k, v in snap.items() if k in known})
         scores = weighted(attrs, positions)
-        if not scores:
-            raise SystemExit(f"{name}: not enough attributes to score any position on {date}")
+        if not scores:  # e.g. seen before the views showed every attribute the weights need: history starts once it can score
+            continue
         best = max(scores, key=scores.get)
         bench = w["age_benchmark"][str(min(max(snap["age"], ages[0]), ages[-1]))]
         history.append({"date": date, "club": snap["club"], "age": snap["age"], "leftFoot": known["leftFoot"],
-                        **scores, "best": best, "score": scores[best], "vsAge": scores[best] / bench,
+                        **scores, **({} if p["keeper"] else curve_scores(attrs, w)), "win": None if p["keeper"] else win_score(attrs, w), "best": best, "score": scores[best], "vsAge": scores[best] / bench,
                         "minutes": snap.get("minutes"), "rating": snap.get("rating"), "division": snap.get("division"),
                         "attrs": attrs})
+    if not history or history[-1]["date"] != max(p["dates"]):
+        raise SystemExit(f"{name}: not enough attributes to score any position on {max(p['dates'])}")
     latest = history[-1]
     return {
         "name": name,
@@ -132,7 +162,8 @@ def player_cols(w, with_club):
         {"key": "age", "label": "Age", "num": True},
         *([] if with_club else [wage]),
         {"key": "left", "label": "Left", "fmt": "yesno"},
-        *({"key": p, "label": p, "num": True, "fmt": "f1"} for p in ["GK", *w["outfield"]]),
+        *({"key": p, "label": p, "num": True, "fmt": "f1"} for p in ["GK", *w["outfield"]]),  # curve scores: computed, not shown
+        *([{"key": "win", "label": "%win", "num": True, "fmt": "win"}] if w.get("win") else []),
         {"key": "best", "label": "Best"},
         {"key": "score", "label": "Score", "num": True, "fmt": "f1"},
         {"key": "vsAge", "label": "vs Age", "num": True, "fmt": "pct"},
@@ -164,7 +195,7 @@ def charts(rows, squad, w, cfg):
     for r, mine in [*((r, False) for r in rows if r["rating"] is not None and r not in squad), *((r, True) for r in squad)]:
         attrs = r["history"][-1]["attrs"]
         out.append({"name": r["name"], "club": r["club"], "division": r["division"], "age": r["age"], "squad": mine, "wage": r["wage"],
-                    "rating": r["rating"], "minutes": r["minutes"], "best": r["best"],
+                    "rating": r["rating"], "minutes": r["minutes"], "best": r["best"], "win": r["win"],
                     "scores": {p: r[p] for p in ["GK", *w["outfield"]] if r.get(p) is not None},
                     "Acceleration": attrs.get("Acceleration"), "Pace": attrs.get("Pace"), "Jumping Reach": attrs.get("Jumping Reach"), "Agility": attrs.get("Agility")})
     return {"positions": [*w["outfield"], "GK"], "players": out,
@@ -357,6 +388,11 @@ def build(save, config):
         if r["name"] in cfg.get("recalled", []) and r["loan"] == "out":
             r["loan"] = None
     squad = [r for r in rows if r["club"] == managed]
+    # Youth team: the player's latest screen of the club's own squad was a youth team's (`my-club-u18s` → "U18")
+    for r in squad:
+        own = [obs_files[f] for f in players[r["name"]]["files"] if not obs_files[f]["source"].startswith("search-")]
+        m = own and YOUTH_TEAM.search(max(own, key=lambda f: f["date"])["source"])
+        r["team"] = m.group(1).upper() if m else None
     # The latest youth intake: players in the newest obs file(s) whose source mentions "intake", until a squad screen
     # shows them (signed: they join the youth; let go: they've left)
     intake_date = max((f["date"] for f in obs_files.values() if "intake" in f["source"]), default="")
@@ -410,6 +446,8 @@ def write_pages(save, config, cfg, pages):
     theme = (ROOT / "theme.css").read_text(encoding="utf-8")
     w = load_toml(ROOT / "weights" / f"{cfg['weights']}.toml")
     weights = json.dumps({"GK": w["gk"], **w["outfield"], **w.get("staff", {})}, ensure_ascii=False)  # for the history overlay
+    win = json.dumps({a: [round(curve_value(pts, x), 2) for x in range(1, 19)]  # %win by level 1–18: the overlay's breakdown
+                      for a, pts in w.get("win", {}).items()})
     for page, (columns, data) in pages.items():
         nav = "".join(f'<a href="{p}.html"{" class=\"on\"" if p == page else ""}>{keys[p]} {labels[p]}</a>' for p in PAGES)
         data = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")  # a "</script>" in a name can't end the script
@@ -417,7 +455,7 @@ def write_pages(save, config, cfg, pages):
         page_html = (template.replace("__THEME__", theme).replace("__NAV__", nav)
                      .replace("__TITLE__", f"{home} · {labels[page]}").replace("__SAVE__", save)
                      .replace("__HOME__", home).replace("__PAGE__", page).replace("__SITE__", site)
-                     .replace("__COLS__", json.dumps(columns)).replace("__WEIGHTS__", weights).replace("__DATA__", data))
+                     .replace("__COLS__", json.dumps(columns)).replace("__WEIGHTS__", weights).replace("__WIN__", win).replace("__DATA__", data))
         (out / f"{page}.html").write_text(page_html, encoding="utf-8")
     print(f"[{save}] out/{save}/: " + ", ".join(f"{p} ({len(d)})" for p, (_, d) in pages.items()
                                                  if p not in ("grid", "filters", "charts", "staff_filters", "settings")))

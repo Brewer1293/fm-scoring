@@ -11,7 +11,8 @@ transcribes them to CSV. `score.py` turns those into ten pages per save (keys 1�
 4. **last**: just the players from the most recent set of screenshots (e.g. one transfer search)
 5. **filters**: per position, the squad's best players and suggested minimums for FM's player search
 6. **charts**: players with a match rating (a league-wide search) by position: role scores, score vs wage,
-   score vs average rating, and Acceleration, Pace, Jumping Reach or Agility (a toggle; Agility is keepers only) by position and vs rating, with the squad overlaid
+   score vs average rating, and Acceleration, Pace, Jumping Reach or Agility (a toggle; Agility is keepers only) by position and vs rating, with the squad overlaid;
+   then %win vs minutes and vs rating, and %win by club
 7. **staff**: every staff member observed, scored for each role (manager, coach groups, scout, physio…)
 8. **last_staff**: just the staff from the most recent set of staff screenshots
 9. **staff_filters**: per staff role, the club's best staff and suggested minimums (as FM's words) for FM's staff search
@@ -29,6 +30,7 @@ Runs on macOS, Windows and Linux: stdlib Python 3.11+ only (`python3` here; on W
 | `saves/<save>/staff/*.csv` | Staff observations: `<YYYY-MM-DD>_<source>.csv` (`search-coach`). Append-only. |
 | `weights/<name>.toml` | Position weights (`[outfield.*]`, `[gk]`), age benchmarks, and staff scoring: `[staff_words]` (FM's words → numbers) and `[staff.<role>]` (the role's column label, then attribute weights). |
 | `weights/<name>_staff.md` | Notes on the staff weights: sources, FM27 key attributes, calibration. |
+| `weights/fm27_positions.xlsx` | Working sheet for the position weights: fm27 (GK, CB, WB/6, 10, 9) beside fm27v2 (GK, FB, CB, 6, wing, 10, 9), with each %win attribute's value. fm27v2 needs Crossing in the views. |
 | `views/`, `player search filters/`, `staff search filters/`, `schedules/` | FM27 views, search filters and training schedules (`.fmf`), named like FM's own folders. |
 | `score.py` | `python3 score.py [--save S] [--open PAGE]` → `out/<save>/*.html`. Also `init` (first-time setup) and `screenshots` (list new ones). Stdlib only. |
 | `template.html` | Every page but charts. Its `?` overlay is the reference for keys and filter syntax. |
@@ -113,22 +115,37 @@ If FM renames an attribute, use the new name in the CSV header and in the weight
 
 - **Position score** = Σ(attribute × weight) / Σ(weights), on FM's 1–20 scale. Outfield players get
   every `[outfield.*]` position, keepers (anyone in a `gk` observation) only `GK`. **Best** = the highest.
+- **Curve scores** (e.g. `hgCB`, `hg9`, `hgOther`; outfield only; computed but not shown on the pages, nor used for Best or the grid):
+  harvestgreen22's FM27 attribute test (`docs/attribute_test_fm27.csv`) as each attribute's win-rate value at its level
+  (`[curve]`: straight lines through 1, 6, 12, 18), × the `[curve_scores.<label>]` weight ÷ 5 (default 5 = the test's full value),
+  summed and shown as the level at which a player with all of those attributes equal would be worth the same.
+- **%win** (column after the positions; outfield only; not used for Best or the grid): the same test's raw numbers (`[win]`: each
+  attribute's change in team win rate at 1, 6 and 18 against 12, straight lines between, no flattening), summed over the player's observed
+  attributes: the win-rate change, in points, if the whole team had their attributes. Unobserved attributes count as 12 (0).
+  The spreadsheet's `%win by level` tab shows the same numbers per level, as formulas on Tables 6–8.
+  A player's history overlay (Enter) ends with the same table, levels 1–18, their level outlined: the outlined cells sum to their %win.
 - **vs Age** = best ÷ `age_benchmark` for their age (clamped to the table's ends); 100% = on track.
 - **Over time:** each attribute is its latest known value; club, age, wage and value come from the latest
   observation. Enter/double-click a player for their history by date.
 - **Left** = yes for Fairly Strong or better (`LEFT_FOOTED` in `score.py`).
 - **Left the club:** a managed-club player missing from the latest squad screen (non-`search-` file) moves to
-  elsewhere as `left <club>`. A youth or reserve squad screen (source ending `-u18s`, `-u21s`, `-reserves`: `PARTIAL_SQUAD`)
+  elsewhere as `left <club>`. A youth, reserve or first-team squad screen (source ending `-u18s`, `-u21s`, `-reserves`, `-first-team`: `PARTIAL_SQUAD`)
   shows only part of the club, so it updates its players but doesn't count as the squad screen. The user saying a player's gone ("sold X", "released X") before the next squad screen: add them
   to `released = [...]` in save.toml (name as in the obs files); don't edit obs files.
   Likewise a signing ("signed X") goes in `signed = [...]`: they count as the managed club's until a newer squad screen. A player back from loan ("recalled X") goes in `recalled = [...]`: clears their `out` flag.
   When a new squad screen comes in, empty `released`, `signed` and `recalled`.
 - **Loan** flags show next to names, from the latest observation that has a `Loan` column. Filter with `loan-in` / `loan-out` / `trial`.
+- **Youth team** (`U18`, green, next to the name): the player's latest screen of the club's own squad was a youth team's (source `-u18s`, `-u21s`); `u18` filters for them.
 - **Rating / minutes / division:** from the latest observation only (they're per season); rating and minutes show on elsewhere and last.
 - **Charts page:** players rated in their latest observation, grouped by best role (or everyone at every role).
   Dropdowns pick the division (the baseline, blue) and a club to highlight (orange): the managed club's squad
   screen, or any club in that division. Defaults: save.toml's `division` and `managed_club`.
   r = correlation over the league players; the dashed line is their least-squares fit (on log wage for wage).
+  The %win scatters take every outfield player, whatever the position toggle. **%win by club**: each club's players in
+  the division's search, their mean and median %win, **best x** (the mean of the club's top x, x = the fewest any
+  club has in the search, so clubs compare like for like; sorted on it) and the %win of the club's top 12, best on
+  the left, coloured by 10-point band (< −50 to ≥ 0). The managed club's row is its whole squad screen (youth included,
+  whatever their minutes), kept out of x.
 - **Grid page:** players are placed best first (by Score), each at their best position in the formation: its first
   free Starter, else Backup, else Third. Third holds any number, spread over that position's slots: players to sell or
   loan out. A left-footer prefers the left-footed slot. Senior = older than `youth_age`, by position score, with vs Age

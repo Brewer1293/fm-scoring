@@ -28,6 +28,7 @@ __THEME__
   td.cur { outline: 1px solid var(--cyan); outline-offset: -1px; }
   td.text { color: var(--purple); }
   .loan { font-size: 11px; margin-left: 6px; user-select: none; } .loan.in { color: var(--blue); } .loan.out { color: var(--red); } .loan.trial { color: var(--yellow); }
+  .team { font-size: 11px; margin-left: 6px; user-select: none; color: var(--green); }  /* youth team: U18 */
   td.dim, .sub { color: var(--dim); }
   .t0 { color: var(--red); } .t1 { color: var(--orange); } .t2 { color: var(--yellow); }
   .t3 { color: var(--cyan); } .t4 { color: var(--green); }
@@ -42,6 +43,14 @@ __THEME__
   #detail .tile { width: min(1000px, calc(100vw - 32px)); max-height: calc(100vh - 40px); overflow: auto; }
   #detail table + .ttitle { margin-top: 14px; }
   #detail .chg { font-size: 11px; margin-left: 4px; }
+  #detail .tile.wide { width: min(1400px, calc(100vw - 32px)); }
+  /* %win breakdown: each attribute's win-rate change by level, the player's level outlined */
+  #detail table.win td, #detail table.win th { padding: 3px 5px; font-size: 11px; }
+  #detail table.win td.lvl { outline: 2px solid var(--fg); outline-offset: -2px; font-weight: 700; color: var(--fg); }
+  #detail table.win td.lvl.as12 { outline-style: dashed; outline-color: var(--dim); font-weight: normal; }
+  #detail table.win tr.unseen td:first-child { color: var(--dim); }
+  #detail table.win td.wt { color: var(--fg); }
+  #detail table.win tr.total td { border-top: 1px solid var(--line); font-weight: 700; }
   /* Weights: small, dim multipliers behind a divider, so they don't read as attribute values */
   td.wt { color: var(--dim); font-size: 11px; border-right: 1px solid var(--line); padding-right: 12px; }
   th.wt { border-right: 1px solid var(--line); padding-right: 12px; }
@@ -96,7 +105,7 @@ __THEME__
     <tr><td><b>esc</b></td><td>clear the filter</td></tr>
     <tr><td><b>?</b></td><td>show / hide this</td></tr>
     <tr><td colspan="2" class="sub">filters: <b>col:text</b> contains · <b>col=x</b> · <b>col!=x</b> · <b>col&lt;n</b> <b>col&lt;=n</b> <b>col&gt;n</b> <b>col&gt;=n</b><br>
-      money: <b>wage&lt;=1k</b> <b>value&lt;=500k</b> (value = top of FM's range) · plain words match name / club, or <b>loan-in</b> / <b>loan-out</b> / <b>trial</b> · e.g. <b>club:gent age&lt;=24 best!=GK vs&gt;=90 left=yes</b></td></tr>
+      money: <b>wage&lt;=1k</b> <b>value&lt;=500k</b> (value = top of FM's range) · plain words match name / club, or <b>loan-in</b> / <b>loan-out</b> / <b>trial</b> / <b>u18</b> · e.g. <b>club:gent age&lt;=24 best!=GK vs&gt;=90 left=yes</b></td></tr>
   </table>
 </div></div>
 <script>
@@ -110,11 +119,13 @@ const FMT = {
   pct: v => Math.round(v * 100) + "%",
   money: v => SITE.currency + (v >= 1e6 ? +(v / 1e6).toFixed(2) + "M" : v >= 1e3 ? +(v / 1e3).toFixed(2) + "K" : v),
   delta: v => Math.abs(v) < 0.05 ? "0.0" : (v > 0 ? "+" : "−") + Math.abs(v).toFixed(1),
+  win: v => Math.abs(v) < 0.05 ? "0.0" : (v > 0 ? "+" : "−") + Math.abs(v).toFixed(1),  // %win: win-rate points vs an all-12 team
 };
 // Colour bands: value range mapped to red → green in five steps (t0–t4)
-const RANGE = { f1: [6, 13], f2: [6.5, 7.1], pct: [0.6, 1.0], attr: [5, 15] };  // f2: average match rating
+const RANGE = { f1: [6, 13], f2: [6.5, 7.1], pct: [0.6, 1.0], attr: [5, 15], win: [-90, -10] };  // f2: average match rating
 const COLS = __COLS__;
 const WEIGHTS = __WEIGHTS__;  // { position or staff role: { attribute: weight } }
+const WIN = __WIN__;  // { attribute: %win at levels 1–18 }, biggest effect first
 const ALIASES = { lefty: "left", leftfoot: "left", player: "name", pos: "best", position: "best", vs: "vsAge" };
 const STORE = "fm:__SAVE__:" + PAGE;
 const input = document.getElementById("filter"), help = document.getElementById("help"), detail = document.getElementById("detail");
@@ -147,14 +158,14 @@ function parseFilter(q) {
     const m = tok.match(/^([^:=<>!]+)(<=|>=|!=|<|>|=|:)(.*)$/);
     if (!m) {
       const t = tok.replace(/"/g, "").toLowerCase();
-      return r => `${r.name} ${r.club || ""} ${r.loan ? loanLabel(r).replace(" ", "-") : ""}`.toLowerCase().includes(t);
+      return r => `${r.name} ${r.club || ""} ${r.team || ""} ${r.loan ? loanLabel(r).replace(" ", "-") : ""}`.toLowerCase().includes(t);
     }
     const col = findCol(m[1]), op = m[2], raw = m[3].replace(/"/g, "");
     if (!col || raw === "") { bad = true; return () => true; }
     if (col.num) {
-      const mm = raw.match(/^[^\d.]?([\d.]+)([km]?)%?$/i);
+      const mm = raw.match(/^(-?)[^\d.-]?([\d.]+)([km]?)%?$/i);  // -: %win goes below 0
       if (!mm) { bad = true; return () => true; }
-      let n = parseFloat(mm[1]) * { "": 1, k: 1e3, m: 1e6 }[mm[2].toLowerCase()];
+      let n = (mm[1] ? -1 : 1) * parseFloat(mm[2]) * { "": 1, k: 1e3, m: 1e6 }[mm[3].toLowerCase()];
       if (col.fmt === "pct" && (raw.endsWith("%") || n > 1.5)) n /= 100;
       const cmp = { "<": (a, b) => a < b, "<=": (a, b) => a <= b, ">": (a, b) => a > b, ">=": (a, b) => a >= b,
                     "=": (a, b) => Math.abs(a - b) < 1e-9, ":": (a, b) => Math.abs(a - b) < 1e-9, "!=": (a, b) => a !== b }[op];
@@ -190,7 +201,7 @@ function render() {
     if (c.fmt === "range") return `<td class="num${at}">${r.valueLo === v ? FMT.money(v) : FMT.money(r.valueLo) + "–" + FMT.money(v)}</td>`;
     if (c.fmt === "yesno") return `<td class="${v === "yes" ? "t4" : "dim"}${at}">${v}</td>`;
     if (c.fmt) return `<td class="num ${tier(v, RANGE[c.fmt])}${at}">${FMT[c.fmt](v)}</td>`;
-    if (c.key === "name") return `<td class="${at}">${v}${r.loan ? `<span class="loan ${r.loan}">${loanLabel(r)}</span>` : ""}</td>`;
+    if (c.key === "name") return `<td class="${at}">${v}${r.team ? `<span class="team">${r.team}</span>` : ""}${r.loan ? `<span class="loan ${r.loan}">${loanLabel(r)}</span>` : ""}</td>`;
     return `<td class="${c.num ? "num" : "text"}${at}">${v}</td>`;
   }).join("") + "</tr>").join("");
   document.querySelector("td.cur")?.scrollIntoView({ block: "nearest", inline: "nearest" });
@@ -302,8 +313,29 @@ function showDetail(r) {
     <table><thead>${wpos.length ? `<tr><th></th><th class="group wt${gr ? " nb" : ""}">weight</th>${gr ? `<th class="group wt">growth</th>` : ""}<th class="group" colspan="${AH.length}">value</th></tr>` : ""}
       <tr><th class="ago"></th>${wpos.map(() => `<th class="wt ago${gr ? " nb" : ""}"></th>`).join("")}${gr ? `<th class="wt ago"></th>` : ""}${AH.map(h => `<th class="num ago">${yearsAgo(h.date)}</th>`).join("")}</tr>
       <tr><th></th>${wpos.map(k => `<th class="num wt${gr ? " nb" : ""}">${k}</th>`).join("")}${gr ? `<th class="num wt">${yearsAgo(H[0].date)}</th>` : ""}${AH.map(h => `<th class="num">${h.date}</th>`).join("")}</tr></thead>
-      <tbody>${attrRows}</tbody></table>`;
+      <tbody>${attrRows}</tbody></table>${winBreakdown(r, last)}`;
+  document.getElementById("detailbody").classList.toggle("wide", r.win != null);
   detail.classList.add("show");
+}
+
+// %win breakdown (outfield players): harvestgreen22's table of each attribute's win-rate change by level, as in the
+// spreadsheet, with the player's latest level outlined; the outlined cells add up to their %win. Unobserved = 12 (0).
+function winBreakdown(r, last) {
+  if (r.win == null || !Object.keys(WIN).length) return "";
+  const shade = v => Math.abs(v) < 0.05 ? "" :
+    ` style="background: color-mix(in srgb, var(--${v < 0 ? "red" : "green"}) ${Math.round(Math.min(Math.abs(v) / 40, 1) * 60 + 6)}%, transparent)"`;
+  const pct = v => (Math.abs(v) < 0.05 ? "0.0" : (v > 0 ? "+" : "−") + Math.abs(v).toFixed(1)) + "%";
+  const rows = Object.entries(WIN).map(([a, vals]) => {
+    const lv = last.attrs[a], seen = lv != null, at = seen ? lv : 12;
+    return `<tr class="${seen ? "" : "unseen"}"><td>${a}</td><td class="num">${seen ? lv : "–"}</td>` +
+      `<td class="num wt"${shade(vals[at - 1])}>${pct(vals[at - 1])}</td>` +
+      vals.map((v, i) => `<td class="num${i + 1 === at ? " lvl" + (seen ? "" : " as12") : ""}"${shade(v)}>${pct(v)}</td>`).join("") + "</tr>";
+  }).join("");
+  return `<div class="ttitle">%win ${FMT.win(r.win)} <span class="sub">· win-rate change if the whole team had these attributes, against all 12s:
+    the outlined cells summed (dashed = not observed, counted as 12)</span></div>
+    <table class="win"><thead><tr><th>Attribute</th><th class="num">level</th><th class="num wt">%win</th>
+      ${WIN[Object.keys(WIN)[0]].map((_, i) => `<th class="num">${i + 1}</th>`).join("")}</tr></thead>
+      <tbody>${rows}<tr class="total"><td>Total</td><td></td><td class="num wt">${pct(r.win)}</td><td colspan="18"></td></tr></tbody></table>`;
 }
 
 // Filters pages: DATA is one entry per position or staff role (filters() and staff_filters() in score.py); staff values come with FM's words as labels

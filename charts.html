@@ -40,6 +40,17 @@ __THEME__
   #tip { position: fixed; pointer-events: none; background: var(--desk); border: 1px solid var(--line); padding: 6px 10px;
          display: none; z-index: 5; font-size: 12px; line-height: 1.5; white-space: nowrap; }
   #tip .nm { color: var(--fg); font-weight: 700; } #tip .d { color: var(--dim); }
+  #clubs { margin-bottom: 10px; }
+  #clubs table { border-collapse: collapse; width: 100%; margin-top: 6px; }
+  #clubs th { color: var(--dim); font-weight: normal; text-align: right; padding: 2px 10px; white-space: nowrap; }
+  #clubs td { text-align: right; padding: 3px 10px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  #clubs th:first-child, #clubs td:first-child { text-align: left; }
+  #clubs th.rank, #clubs td.rank { text-align: center; padding: 3px 4px; width: 4.2%; }
+  #clubs td.rank { border: 2px solid var(--bg); border-radius: 4px; font-size: 12px; cursor: default; }  #clubs tr.hl td:first-child { color: var(--orange); font-weight: 700; }
+  #clubs tr.squad td { color: var(--dim); } #clubs tr.squad.hl td:first-child { color: var(--orange); }
+  #clubs td.key { color: var(--cyan); font-weight: 700; }
+  .bandkey { display: flex; flex-wrap: wrap; gap: 12px; color: var(--dim); font-size: 12px; margin-top: 4px; }
+  .bandkey i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
 </style>
 </head>
 <body>
@@ -56,6 +67,8 @@ __THEME__
   <div class="tile"><div class="ttitle" id="t-strip-speed"></div><div id="strip-speed"></div></div>
 </div>
 <div class="grid" id="scatters"></div>
+<div class="grid" id="wins"></div>
+<div class="tile" id="clubs"></div>
 <div id="tip"></div>
 <script>
 const { positions: POSITIONS, players: DATA, managed: MANAGED, division: HOME_DIVISION } = __DATA__;
@@ -114,7 +127,7 @@ function hover(p, e) {
   document.querySelectorAll(`.dot[data-name="${CSS.escape(p.name)}"]`).forEach(d => { d.classList.add("hl"); d.parentNode.appendChild(d); });
   const sc = Object.entries(p.scores).map(([k, v]) => `${k} ${v.toFixed(1)}`).join(" · ");
   tip.innerHTML = `<div class="nm">${p.name}</div><div class="d">${p.club} · ${p.age} · ${p.wage == null ? "–" : money(p.wage) + " p/w"}</div>` +
-    `<div>${sc} <span class="d">(best ${p.best})</span></div>` +
+    `<div>${sc} <span class="d">(best ${p.best})</span>${p.win == null ? "" : ` · %win ${fmtWin(p.win)}`}</div>` +
     `<div>${p.rating == null ? "" : `rating ${p.rating.toFixed(2)} <span class="d">in ${p.minutes} mins</span> · `}acc ${p.Acceleration ?? "–"} · pace ${p.Pace ?? "–"} · ${p.Agility != null ? `agility ${p.Agility}` : `jump ${p["Jumping Reach"] ?? "–"}`}</div>`;
   tip.style.display = "block";
   const x = e.clientX + 14, y = e.clientY + 14, w = tip.offsetWidth, h = tip.offsetHeight;
@@ -176,10 +189,12 @@ function fit(pts) {
   let sxy = 0, sxx = 0, syy = 0; for (const [a, b] of pts) { sxy += (a - mx) * (b - my); sxx += (a - mx) ** 2; syy += (b - my) ** 2; }
   return sxx && syy ? { slope: sxy / sxx, icpt: my - sxy / sxx * mx, r: sxy / Math.sqrt(sxx * syy) } : null;
 }
+// spec.all: every player, not just those whose best role is the selected position; spec.into: the container's id
 function scatter(spec) {
   const tile = document.createElement("div"); tile.className = "tile";
-  document.getElementById("scatters").appendChild(tile);
-  const ps = VIEW.filter(p => inGroup(p, state.pos) && spec.x(p) != null && spec.y(p) != null);
+  document.getElementById(spec.into || "scatters").appendChild(tile);
+  const group = p => spec.all || inGroup(p, state.pos);
+  const ps = VIEW.filter(p => group(p) && spec.x(p) != null && spec.y(p) != null);
   const league = ps.filter(inLeague), rest = ps.filter(p => !p.hl), hl = ps.filter(p => p.hl), log = spec.log;
   // log fit for wage, so the line is straight on the log axis
   const f = fit(league.map(p => [log ? Math.log(spec.x(p)) : spec.x(p), spec.y(p)]));
@@ -189,7 +204,7 @@ function scatter(spec) {
   const box = document.createElement("div"); tile.appendChild(box);
   const W = box.clientWidth, H = Math.max(240, Math.min(360, W * 0.62)), L = 40, B = 34, T = 14, R = 10;
   const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, height: H }, box);
-  const pool = AXIS_POOL().filter(p => inGroup(p, state.pos) && spec.x(p) != null && spec.y(p) != null);
+  const pool = AXIS_POOL().filter(p => group(p) && spec.x(p) != null && spec.y(p) != null);
   const xs = pool.map(spec.x), ys = pool.map(spec.y);
   const x = log ? logScale([Math.min(...xs) / 1.25, Math.max(...xs) * 1.25], [L, W - R]) : linear(extent(xs, 0.05), [L, W - R]);
   const y = linear(extent(ys, 0.06), [H - B, T]);
@@ -209,6 +224,65 @@ function scatter(spec) {
     if (!box) continue;
     placed.push([...box, cy]);
     el("text", { x: box[0], y: cy + 3, class: "squad-label", style: p.hl ? "" : "fill: var(--fg)" }, svg).textContent = text;
+  }
+}
+
+// %win by club: how many of the division's players each club has, their mean and median %win, the mean of each club's
+// best x (x = the fewest players any club has here, so every club is compared on the same number), and its top TOP
+// players' %win, best first, coloured by band. The managed club's row is its whole squad screen (whatever their
+// minutes), kept out of x.
+const TOP = 12;
+const fmtWin = v => (v > 0 ? "+" : "") + v.toFixed(1);
+const BANDS = [[-Infinity, -50, "#2a3560"], [-50, -40, "#33467f"], [-40, -30, "#3f5ba3"], [-30, -20, "#5274c8"],
+               [-20, -10, "#6b91ea"], [-10, 0, "#9db9fa"], [0, Infinity, "#d4e1ff"]];  // worst to best: one hue, dark to light
+const bandLabel = ([lo, hi]) => lo === -Infinity ? `< ${hi}` : hi === Infinity ? `≥ ${lo}` : `${lo} to ${hi}`;
+const mean = vs => vs.reduce((s, v) => s + v, 0) / vs.length;
+function clubTable() {
+  const box = document.getElementById("clubs");
+  const league = DATA.filter(p => inLeague(p) && p.win != null), byClub = {};
+  for (const p of league) (byClub[p.club] ||= []).push(p);
+  const rows = Object.entries(byClub).map(([club, ps]) => ({ club, ps }));
+  if (!rows.length) { box.style.display = "none"; return; }
+  box.style.display = "";
+  const x = Math.min(...rows.map(r => r.ps.length));
+  const squad = DATA.filter(p => p.squad && p.win != null);
+  if (squad.length && state.division === HOME_DIVISION && !byClub[MANAGED]) rows.push({ club: MANAGED, ps: squad, squad: true });
+  for (const r of rows) {
+    const ws = r.ps.map(p => p.win).sort((a, b) => b - a);
+    Object.assign(r, { n: ws.length, mean: mean(ws), median: median(ws), best: ws.length >= x ? mean(ws.slice(0, x)) : null });
+  }
+  rows.sort((a, b) => (b.best ?? -Infinity) - (a.best ?? -Infinity));
+  box.innerHTML = `<div class="ttitle">%win by club</div><div class="tsub">${league.length} ${short(state.division)} players with %win, ` +
+    `${Object.keys(byClub).length} clubs · <b>best ${x}</b> = mean of each club's top ${x} (the fewest any club has here)` +
+    `${rows.some(r => r.squad) ? ` · ${MANAGED}: its squad screen, not in the search` : ""} · click a club to highlight it</div>` +
+    `<div class="bandkey">${BANDS.map(b => `<span><i style="background:${b[2]}"></i>${bandLabel(b)}</span>`).join("")}</div>`;
+  const t = document.createElement("table"); box.appendChild(t);
+  t.innerHTML = `<tr><th>Club</th><th>players</th><th>mean</th><th>median</th><th>best ${x}</th>` +
+    Array.from({ length: TOP }, (_, i) => `<th class="rank">${i + 1}</th>`).join("") + "</tr>";
+  for (const r of rows) {
+    const tr = document.createElement("tr");
+    tr.className = (r.club === state.club ? "hl " : "") + (r.squad ? "squad" : "");
+    tr.innerHTML = `<td>${r.club}</td><td>${r.n}</td><td>${fmtWin(r.mean)}</td><td>${fmtWin(r.median)}</td>` +
+      `<td class="key">${r.best == null ? "–" : fmtWin(r.best)}</td>`;
+    tr.style.cursor = "pointer"; tr.onclick = () => { if (clubs().includes(r.club)) set("club", r.club); };
+    // The club's top players by %win, best on the left; a club with fewer leaves the rest blank
+    const top = [...r.ps].sort((a, b) => b.win - a.win).slice(0, TOP);
+    for (let i = 0; i < TOP; i++) {
+      const td = document.createElement("td"); td.className = "rank"; tr.appendChild(td);
+      const p = top[i]; if (!p) continue;
+      const b = BANDS.findIndex(([lo, hi]) => p.win >= lo && p.win < hi);
+      td.textContent = fmtWin(p.win); td.style.background = BANDS[b][2]; td.style.color = b >= 4 ? "var(--desk)" : "var(--fg)";
+      td.addEventListener("mousemove", e => {
+        tip.innerHTML = `<div class="nm">${p.name}</div><div class="d">${r.club} · ${p.age} · best ${p.best} ${p.scores[p.best].toFixed(1)}</div>` +
+          `<div>%win ${fmtWin(p.win)}${p.rating == null ? "" : ` · rating ${p.rating.toFixed(2)} <span class="d">in ${p.minutes} mins</span>`}</div>`;
+        tip.style.display = "block";
+        const w = tip.offsetWidth, h = tip.offsetHeight;
+        tip.style.left = Math.min(e.clientX + 14, innerWidth - w - 8) + "px";
+        tip.style.top = (e.clientY + 14 + h > innerHeight ? e.clientY - h - 10 : e.clientY + 14) + "px";
+      });
+      td.addEventListener("mouseleave", () => hover(null));
+    }
+    t.appendChild(tr);
   }
 }
 
@@ -236,13 +310,18 @@ function render() {
   document.getElementById("nSquad").textContent = VIEW.filter(p => p.hl).length;
   const sp = SPEEDS[state.speed];
   document.getElementById("t-strip-speed").textContent = `${sp} attribute by position`;
-  strip("strip-score", (p, pos) => p.scores[pos], "role score", inGroup, undefined, true, 10);
+  strip("strip-score", (p, pos) => p.scores[pos], "role score", inGroup, undefined, true, 9);
   strip("strip-speed", p => speed(p), sp, (p, pos) => p.best === pos, 2);
   document.getElementById("scatters").innerHTML = "";
   const pos = state.pos, score = p => p.scores[pos], rating = p => p.rating, spd = p => speed(p);
   scatter({ title: `${pos} score vs wage`, x: p => p.wage || null, y: score, xl: "wage p/w (log)", yl: `${pos} score`, log: true });
   scatter({ title: `${pos} score vs average rating`, x: rating, y: score, xl: "average rating", yl: `${pos} score` });
   scatter({ title: `${sp} vs average rating`, x: spd, y: rating, xl: sp, yl: "rating", jitter: 0.35 });
+  document.getElementById("wins").innerHTML = "";
+  const win = p => p.win, mins = p => p.minutes;
+  scatter({ title: "%win vs minutes (all outfield players)", x: mins, y: win, xl: "minutes", yl: "%win", all: true, into: "wins" });
+  scatter({ title: "%win vs average rating (all outfield players)", x: rating, y: win, xl: "average rating", yl: "%win", all: true, into: "wins" });
+  clubTable();
 }
 function set(k, v) { state[k] = v; save(); render(); }
 

@@ -1,0 +1,431 @@
+# Player scoring weights for FM27, v2: fm27.toml's positions split into FB, CB, 6, wing, 10 and 9, weighted by hand
+# against harvestgreen22's FM27 attribute test (fm-arena thread 20925); worked out in fm27_positions.xlsx.
+# Needs Balance, Concentration, Agility, Natural Fitness and (FB, wing, 10) Crossing in the screenshot views.
+# Score = sum(attribute * weight) / sum(weights). Attributes not listed count as 0.
+
+[outfield.FB]
+Acceleration = 5
+Anticipation = 2
+Balance = 1
+Concentration = 1
+Crossing = 1
+Dribbling = 1
+"Jumping Reach" = 1
+"Natural Fitness" = 1
+Pace = 5
+Passing = 1
+Positioning = 1
+Stamina = 4
+Strength = 2
+Tackling = 1
+Teamwork = 1
+"Work Rate" = 3
+
+[outfield.CB]
+Acceleration = 5
+Anticipation = 3
+Balance = 1
+Composure = 2
+Concentration = 1
+Decisions = 1
+Heading = 1
+"Jumping Reach" = 5
+Pace = 5
+Passing = 1
+Positioning = 1
+Stamina = 1
+Strength = 3
+Tackling = 1
+
+[outfield.6]
+Acceleration = 5
+Agility = 1
+Anticipation = 2
+Balance = 2
+Composure = 1
+Concentration = 1
+Decisions = 1
+Dribbling = 1
+"Jumping Reach" = 1
+"Natural Fitness" = 1
+Pace = 5
+Passing = 1
+Stamina = 4
+Strength = 1
+Teamwork = 1
+"Work Rate" = 3
+
+[outfield.wing]
+Acceleration = 5
+Agility = 1
+Anticipation = 2
+Balance = 2
+Concentration = 1
+Crossing = 2
+Dribbling = 3
+Finishing = 1
+"Jumping Reach" = 1
+"Natural Fitness" = 1
+"Off The Ball" = 1
+Pace = 5
+Passing = 1
+Stamina = 2
+Strength = 1
+"Work Rate" = 2
+
+[outfield.10]
+Acceleration = 5
+Agility = 1
+Anticipation = 3
+Balance = 2
+Concentration = 1
+Crossing = 1
+Decisions = 1
+Dribbling = 3
+Finishing = 1
+"Jumping Reach" = 2
+"Natural Fitness" = 1
+"Off The Ball" = 2
+Pace = 5
+Passing = 1
+Stamina = 3
+Strength = 1
+"Work Rate" = 2
+
+[outfield.9]
+Acceleration = 5
+Agility = 1
+Anticipation = 3
+Balance = 1
+Composure = 2
+Concentration = 1
+Dribbling = 3
+Finishing = 3
+Heading = 1
+"Jumping Reach" = 5
+"Off The Ball" = 3
+Pace = 5
+Stamina = 2
+Strength = 2
+"Work Rate" = 1
+
+[gk]
+Acceleration = 3
+"Aerial Reach" = 3
+Agility = 5
+Anticipation = 1
+"Command of Area" = 2
+Communication = 1
+Composure = 1
+Concentration = 1
+Decisions = 1
+Handling = 0.5
+Kicking = 0.5
+"One on Ones" = 1
+Passing = 1
+Positioning = 2
+Reflexes = 5
+Throwing = 0.5
+
+# Curve scores (computed but not shown on the pages; not used for Best or the grid). From harvestgreen22's FM27
+# attribute test (docs/attribute_test_fm27.csv): each attribute's win-rate change, in points, against an all-12 player
+# when it's [1, 6, 18]; 12 = 0, straight lines between. Dips are taken as noise and flattened, and Work Rate past 12
+# (worth nothing in the test) scores half its 6-12 rate per point. Attributes not listed are worth nothing.
+[curve]
+Pace = [-40.0, -26.8, 19.4]
+Acceleration = [-34.0, -21.4, 14.1]
+Stamina = [-29.4, -17.6, 14.0]
+"Jumping Reach" = [-18.0, -12.2, 15.4]
+Anticipation = [-19.8, -8.8, 4.8]
+Strength = [-18.8, -8.8, 4.6]
+"Work Rate" = [-22.0, -6.2, 3.1]
+Pressure = [-15.6, -2.0, 5.2]
+Concentration = [-13.4, -5.6, 4.4]
+"Natural Fitness" = [-12.6, -4.0, 2.8]
+Balance = [-14.2, -8.2, 0.0]
+Dribbling = [-6.8, -3.8, 3.6]
+Finishing = [-7.8, -4.8, 2.2]
+"Long Shots" = [-9.8, -4.6, 0.0]
+"Important Matches" = [-8.8, -5.0, 0.0]
+Determination = [-6.0, 0.0, 2.8]
+Agility = [-8.4, -3.2, 0.2]
+Consistency = [-6.4, -2.0, 1.2]
+Heading = [-6.8, -1.6, 0.0]
+Crossing = [-4.6, -4.0, 0.6]
+Bravery = [-2.4, -2.4, 1.4]
+Vision = [-8.2, -8.2, 0.0]
+Composure = [-5.0, -2.0, 0.0]
+Decisions = [-2.4, -2.4, 1.0]
+Flair = [-1.6, -1.6, 1.8]
+Marking = [-4.2, -0.6, 0.0]
+Aggression = [0.0, 0.0, 1.2]
+Positioning = [0.0, 0.0, 2.6]
+Tackling = [-1.0, 0.0, 0.0]
+Technique = [-1.2, -1.2, 0.0]
+"Off The Ball" = [-2.4, -2.4, 0.0]
+
+# Each [curve_scores.<label>] is a score: attribute weights out of 5, where 5 = the test's full value (the default)
+# and 0 leaves it out. Score = Σ(curve value × weight/5), shown as the level at which a player with all of those
+# attributes equal would be worth the same (so ~12 = the test's all-12 player). Outfield players only.
+# Labels start "hg" (harvestgreen) so they don't clash with the position columns.
+[curve_scores.hgCB]  # in the air, less running, no attacking
+"Jumping Reach" = 8
+Stamina = 2
+"Work Rate" = 2
+Dribbling = 0
+Finishing = 0
+"Long Shots" = 0
+"Off The Ball" = 0
+
+[curve_scores.hg9]  # in the air, less running
+"Jumping Reach" = 8
+Stamina = 2
+"Work Rate" = 2
+
+[curve_scores.hgOther]  # FB, 6, wing, 10: running, less in the air
+"Jumping Reach" = 2
+
+# %win (column after the positions; outfield only): harvestgreen22's FM27 test as it stands, no flattening.
+# Each attribute's [to_1, to_6, to_18] from Tables 1-3: the change in team win rate, in points, when the whole team
+# has it at 1, 6 or 18 instead of 12 (12 = 0, straight lines between: Tables 6-8; past 18 the 12-18 line continues).
+# %win = the sum over a player's observed attributes: the win-rate change if the whole team had the player's attributes (÷ 10 for one player).
+# Not tested in every range, so not here: Leadership, Teamwork, Penalty Taking, Corners, Free Kicks, Long Throws.
+[win]
+Pace                = [-40.0, -26.8, 19.4]
+Acceleration        = [-34.0, -21.4, 14.1]
+Stamina             = [-29.4, -17.6, 14.0]
+"Work Rate"         = [-22.0, -6.2, 0.0]
+Anticipation        = [-19.8, -8.8, 4.8]
+Strength            = [-18.8, -8.8, 4.6]
+"Jumping Reach"     = [-18.0, -12.2, 15.4]
+Pressure            = [-15.6, -2.0, 5.2]
+Balance             = [-14.2, -8.2, 0.0]
+Concentration       = [-13.4, -5.6, 4.4]
+"Natural Fitness"   = [-12.6, -4.0, 2.8]
+"Long Shots"        = [-9.8, -4.6, 0.0]
+"Important Matches" = [-8.8, -5.0, 0.0]
+Agility             = [-8.4, -3.2, 0.2]
+Vision              = [-8.2, -8.2, -5.2]
+Finishing           = [-7.8, -4.8, 2.2]
+Dribbling           = [-6.8, -3.8, 3.6]
+Heading             = [-6.8, -1.6, 0.0]
+Consistency         = [-6.4, -2.0, 1.2]
+Determination       = [-6.0, 0.0, 2.8]
+Composure           = [-5.0, -2.0, -2.0]
+Crossing            = [-4.6, -4.0, 0.6]
+Marking             = [-4.2, -0.6, -2.2]
+Bravery             = [-2.4, -2.4, 1.4]
+Decisions           = [-1.6, -2.4, 1.0]
+Tackling            = [-1.0, 1.6, -5.0]
+Flair               = [-0.6, -1.6, 1.8]
+Technique           = [-0.4, -1.2, -5.4]
+Aggression          = [0.2, 1.4, 1.2]
+"First Touch"       = [0.8, 1.6, -3.6]
+"Off The Ball"      = [1.6, -2.4, -6.0]
+Passing             = [2.0, 1.0, -0.8]
+Positioning         = [3.4, 0.4, 2.6]
+
+# Expected best-position score by age; "vs Age" = best score / benchmark.
+# Ages above the highest listed use the highest; below the lowest use the lowest.
+[age_benchmark]
+15 = 10.3
+16 = 10.9
+17 = 11.5
+18 = 12.2
+19 = 12.6
+20 = 12.9
+21 = 13.2
+22 = 13.4
+23 = 13.7
+24 = 13.8
+
+# Staff: FM shows staff attributes as words; each counts as the midpoint of its 1-20 range.
+# Role score = sum(value * weight) / sum(weights). Notes and sources: fm27_staff.md.
+[staff_words]
+Elite = 20
+Outstanding = 18.5
+"Very Good" = 16
+Good = 13
+Average = 10.5
+Competent = 8
+Reasonable = 5
+Unsuited = 2
+
+# Each staff role's full name, shown beside its short label (the [staff.<label>] tables below)
+[staff_names]
+Mgr = "Manager"
+AM = "Assistant Manager"
+HoYD = "Head of Youth Development"
+AttTct = "Coach: Attacking Tactical"
+AttTec = "Coach: Attacking Technical"
+DefTct = "Coach: Defending Tactical"
+DefTec = "Coach: Defending Technical"
+PosTct = "Coach: Possession Tactical"
+PosTec = "Coach: Possession Technical"
+GKC = "Coach: Goalkeeping"
+FitC = "Coach: Fitness"
+SetC = "Coach: Set Pieces"
+DoF = "Director of Football"
+Scout = "Scout"
+PA = "Performance Analyst"
+Physio = "Physio"
+SpSci = "Sports Scientist"
+
+[staff.Mgr]  # Manager
+"Judging Player Ability" = 4
+Motivating = 4
+"People Management" = 4
+"Tactical Knowledge" = 4
+Attacking = 3
+Defending = 3
+Determination = 3
+"Judging Player Potential" = 3
+Possession = 3
+Tactical = 3
+Technical = 3
+"Working With Youngsters" = 1
+
+[staff.AM]  # Assistant Manager
+"Judging Player Ability" = 4
+Motivating = 4
+"People Management" = 4
+Determination = 3
+"Judging Player Potential" = 3
+"Tactical Knowledge" = 3
+Attacking = 2
+Defending = 2
+Possession = 2
+Tactical = 2
+Technical = 2
+"Working With Youngsters" = 1
+
+[staff.HoYD]  # Head of Youth Development
+"Judging Player Ability" = 4
+"Judging Player Potential" = 4
+"Working With Youngsters" = 4
+Attacking = 1
+Defending = 1
+Determination = 1
+Motivating = 1
+"People Management" = 1
+Possession = 1
+Tactical = 1
+Technical = 1
+Fitness = 1
+"Tactical Knowledge" = 1
+
+[staff.AttTct]  # Coach: Attacking Tactical
+Attacking = 4
+Tactical = 4
+Authority = 2
+Determination = 2
+Motivating = 2
+"People Management" = 1
+"Working With Youngsters" = 1
+
+[staff.AttTec]  # Coach: Attacking Technical
+Attacking = 4
+Technical = 4
+Authority = 2
+Determination = 2
+Motivating = 2
+"People Management" = 1
+"Working With Youngsters" = 1
+
+[staff.DefTct]  # Coach: Defending Tactical
+Defending = 4
+Tactical = 4
+Authority = 2
+Determination = 2
+Motivating = 2
+"People Management" = 1
+"Working With Youngsters" = 1
+
+[staff.DefTec]  # Coach: Defending Technical
+Defending = 4
+Technical = 4
+Authority = 2
+Determination = 2
+Motivating = 2
+"People Management" = 1
+"Working With Youngsters" = 1
+
+[staff.PosTct]  # Coach: Possession Tactical
+Possession = 4
+Tactical = 4
+Authority = 2
+Determination = 2
+Motivating = 2
+"People Management" = 1
+"Working With Youngsters" = 1
+
+[staff.PosTec]  # Coach: Possession Technical
+Possession = 4
+Technical = 4
+Authority = 2
+Determination = 2
+Motivating = 2
+"People Management" = 1
+"Working With Youngsters" = 1
+
+[staff.GKC]  # Coach: Goalkeeping
+Goalkeeping = 4
+Motivating = 3
+Authority = 2
+Determination = 2
+"People Management" = 2
+Possession = 2
+"Working With Youngsters" = 1
+
+[staff.FitC]  # Coach: Fitness
+Fitness = 4
+Motivating = 3
+Authority = 2
+Determination = 2
+"People Management" = 2
+"Working With Youngsters" = 1
+
+[staff.SetC]  # Coach: Set Pieces
+"Set Pieces" = 4
+Authority = 2
+Determination = 2
+Motivating = 2
+Tactical = 2
+"People Management" = 1
+Technical = 1
+"Working With Youngsters" = 1
+
+[staff.DoF]  # Director of Football
+"Judging Player Ability" = 4
+"Judging Player Potential" = 4
+"People Management" = 1
+Determination = 1
+Motivating = 1
+"Tactical Knowledge" = 1
+
+[staff.Scout]  # Scout
+"Judging Player Ability" = 4
+"Judging Player Potential" = 4
+"Tactical Knowledge" = 2
+Determination = 2
+
+[staff.PA]  # Performance Analyst
+"Analysing Data" = 4
+"Judging Player Ability" = 3
+Determination = 1
+"Tactical Knowledge" = 2
+
+[staff.Physio]  # Physio
+Physiotherapy = 4
+Determination = 2
+Motivating = 2
+"People Management" = 2
+"Sports Science" = 2
+
+[staff.SpSci]  # Sports Scientist
+"Sports Science" = 4
+Determination = 2
+Fitness = 2
+Motivating = 2
+"People Management" = 2
+Physiotherapy = 2
