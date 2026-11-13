@@ -14,6 +14,8 @@ __THEME__
   #filter.bad { border-bottom-color: var(--red); }
   #filter::placeholder { color: var(--dim); }
   #count { color: var(--dim); }
+  #batch { display: none; color: var(--dim); white-space: nowrap; cursor: pointer; user-select: none; }
+  #batch b { color: var(--cyan); font-weight: normal; }
   #count.copied { color: var(--green); }
   .tile { background: var(--bg); border: 2px solid var(--blue); padding: 12px 14px; overflow-x: auto; }
   table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
@@ -49,6 +51,9 @@ __THEME__
   #detail table.win td.lvl { outline: 2px solid var(--fg); outline-offset: -2px; font-weight: 700; color: var(--fg); }
   #detail table.win td.lvl.as12 { outline-style: dashed; outline-color: var(--dim); font-weight: normal; }
   #detail table.win tr.unseen td:first-child { color: var(--dim); }
+  #detailbody.start table.win td.start { box-shadow: inset 0 0 0 2px var(--orange); }
+  #detail .st { color: var(--orange); }
+  #detailbody:not(.start) .st { display: none; }
   #detail table.win td.wt { color: var(--fg); }
   #detail table.win tr.total td { border-top: 1px solid var(--line); font-weight: 700; }
   /* Weights: small, dim multipliers behind a divider, so they don't read as attribute values */
@@ -64,19 +69,6 @@ __THEME__
   .helphint { color: var(--dim); text-decoration: none; white-space: nowrap; }
   .helphint b { color: var(--fg); font-weight: normal; }
   .tiles td.wrap { white-space: normal; }
-  /* Grid page: formation slots × senior then youth depth */
-  #main.grid table { width: auto; }
-  #main.grid td { padding: 5px 14px; }
-  #main.grid th { cursor: default; color: var(--purple); }
-  #main.grid th.group { color: var(--dim); text-align: left; border-bottom: 0; }
-  #main.grid td.slot { color: var(--cyan); }
-  #main.grid .split { border-left: 1px solid var(--line); }
-  #main.grid .v { margin-left: 6px; }
-  #main.grid .age { color: var(--dim); font-size: 11px; margin-left: 6px; }
-  #main.grid [data-name] { cursor: pointer; }
-  #main.grid .foot { color: var(--yellow); font-size: 11px; margin-left: 5px; }
-  #main.grid div.cur { outline: 1px solid var(--cyan); outline-offset: 2px; }
-  #main.grid .notes { margin-top: 12px; white-space: normal; line-height: 1.7; }
 </style>
 </head>
 <body>
@@ -84,6 +76,7 @@ __THEME__
   <span class="pages">__NAV__</span>
   <input id="filter" placeholder="/ filter  e.g. age<=24 best=CB vs>=90 left=yes" spellcheck="false" autocomplete="off">
   <span id="count"></span>
+  <span id="batch" title="b: older batch · B: newer"></span>
   <a class="helphint" href="#" id="helphint"><b>?</b> keyboard shortcuts</a>
 </div>
 <div class="tile" id="main">
@@ -96,13 +89,15 @@ __THEME__
 <div id="help"><div class="tile">
   <div class="ttitle">keyboard shortcuts</div>
   <table>
-    <tr><td><b>1</b> … <b>9</b> <b>0</b></td><td>__HOME__ · grid · elsewhere · last screenshots · filters · charts · staff · last staff screenshots · staff filters · settings</td></tr>
+    <tr><td><b>1</b> … <b>8</b></td><td>__HOME__ · elsewhere · last screenshots · filters · charts · staff · last staff screenshots · staff filters</td></tr>
     <tr><td><b>← ↑ ↓ →</b></td><td>move the cell cursor</td></tr>
-    <tr><td><b>enter</b></td><td>player (or staff) history over time (or double-click a row, or click a name on the grid; <b>esc</b> closes)</td></tr>
+    <tr><td><b>enter</b></td><td>player (or staff) history over time (or double-click a row; <b>esc</b> closes)</td></tr>
+    <tr><td><b>s</b> (in history)</td><td>%win (or keeper pts) table: outline in orange the player's levels when first observed (where they started); again to hide</td></tr>
     <tr><td><b>c</b> or <b>⌘C</b></td><td>copy the cursor's player name, for FM's search (or drag-select any text)</td></tr>
     <tr><td><b>s</b></td><td>sort by the cursor's column (again to reverse)</td></tr>
     <tr><td><b>/</b> or <b>f</b></td><td>filter box (<b>enter</b> / <b>esc</b> to leave it)</td></tr>
     <tr><td><b>esc</b></td><td>clear the filter</td></tr>
+    <tr><td><b>b</b> / <b>B</b></td><td>last screenshots pages: the previous / next of the last few batches (or click the batch name)</td></tr>
     <tr><td><b>?</b></td><td>show / hide this</td></tr>
     <tr><td colspan="2" class="sub">filters: <b>col:text</b> contains · <b>col=x</b> · <b>col!=x</b> · <b>col&lt;n</b> <b>col&lt;=n</b> <b>col&gt;n</b> <b>col&gt;=n</b><br>
       money: <b>wage&lt;=1k</b> <b>value&lt;=500k</b> (value = top of FM's range) · plain words match name / club, or <b>loan-in</b> / <b>loan-out</b> / <b>trial</b> / <b>u18</b> · e.g. <b>club:gent age&lt;=24 best!=GK vs&gt;=90 left=yes</b></td></tr>
@@ -110,8 +105,10 @@ __THEME__
 </div></div>
 <script>
 const PAGE = "__PAGE__", SITE = __SITE__, PAGES = SITE.pages;
-const TABLE = !["grid", "filters", "staff_filters", "settings"].includes(PAGE);  // the other pages are tiles, with no table to filter or move around
+const TABLE = !["filters", "staff_filters"].includes(PAGE);  // the other pages are tiles, with no table to filter or move around
 const DATA = __DATA__;
+const BATCHES = __BATCHES__;  // last pages: the recent batches' labels, newest first; each row's `batches` says which it's in
+let batch = 0;
 const loanLabel = r => r.loan === "trial" ? "trial" : "loan " + r.loan;  // "loan in", "loan out", "trial"
 const FMT = {
   f1: v => v.toFixed(1),
@@ -120,12 +117,14 @@ const FMT = {
   money: v => SITE.currency + (v >= 1e6 ? +(v / 1e6).toFixed(2) + "M" : v >= 1e3 ? +(v / 1e3).toFixed(2) + "K" : v),
   delta: v => Math.abs(v) < 0.05 ? "0.0" : (v > 0 ? "+" : "−") + Math.abs(v).toFixed(1),
   win: v => Math.abs(v) < 0.05 ? "0.0" : (v > 0 ? "+" : "−") + Math.abs(v).toFixed(1),  // %win: win-rate points vs an all-12 team
+  pts: v => Math.abs(v) < 0.05 ? "0.0" : (v > 0 ? "+" : "−") + Math.abs(v).toFixed(1),  // keeper pts: league points a season vs a level-12 keeper
 };
 // Colour bands: value range mapped to red → green in five steps (t0–t4)
-const RANGE = { f1: [6, 13], f2: [6.5, 7.1], pct: [0.6, 1.0], attr: [5, 15], win: [-90, -10] };  // f2: average match rating
+const RANGE = { f1: [6, 13], f2: [6.5, 7.1], pct: [0.6, 1.0], attr: [5, 15], win: [-90, -10], pts: [-4, 5] };  // f2: average match rating
 const COLS = __COLS__;
 const WEIGHTS = __WEIGHTS__;  // { position or staff role: { attribute: weight } }
 const WIN = __WIN__;  // { attribute: %win at levels 1–18 }, biggest effect first
+const PTS = __PTS__;  // keepers: { attribute: points a season at levels 1–20 }, biggest effect first
 const ALIASES = { lefty: "left", leftfoot: "left", player: "name", pos: "best", position: "best", vs: "vsAge" };
 const STORE = "fm:__SAVE__:" + PAGE;
 const input = document.getElementById("filter"), help = document.getElementById("help"), detail = document.getElementById("detail");
@@ -184,14 +183,21 @@ function parseFilter(q) {
 function render() {
   const { tests, bad } = parseFilter(input.value);
   input.classList.toggle("bad", bad);
-  view = DATA.filter(r => tests.every(t => t(r))).sort((a, b) => {
+  const rows = BATCHES.length ? DATA.filter(r => r.batches.includes(batch)) : DATA;
+  view = rows.filter(r => tests.every(t => t(r))).sort((a, b) => {
     const x = a[sortKey], y = b[sortKey];
     if (x == null || y == null) return (x == null) - (y == null);  // blanks always last
     return (typeof x === "number" ? x - y : String(x).localeCompare(String(y))) * dir;
   });
   cur.r = Math.max(0, Math.min(cur.r, view.length - 1));
   cur.c = Math.max(0, Math.min(cur.c, COLS.length - 1));
-  document.getElementById("count").textContent = `${view.length}/${DATA.length}`;
+  document.getElementById("count").textContent = `${view.length}/${rows.length}`;
+  if (BATCHES.length) {
+    const el = document.getElementById("batch");
+    el.style.display = "inline";
+    el.innerHTML = BATCHES.length > 1 ? `${batch + 1}/${BATCHES.length} <b>b</b>` : "";
+    el.title = `${BATCHES[batch]} · b: older batch · B: newer`;
+  }
   document.getElementById("head").innerHTML = COLS.map((c, ci) =>
     `<th data-key="${c.key}" class="${c.num ? "num" : ""} ${c.key === sortKey ? "sorted " + (dir > 0 ? "asc" : "desc") : ""} ${ci === cur.c ? "curcol" : ""}">${c.label}</th>`).join("");
   document.getElementById("body").innerHTML = view.map((r, ri) => `<tr class="${ri === cur.r ? "currow" : ""}">` + COLS.map((c, ci) => {
@@ -224,25 +230,12 @@ document.addEventListener("keydown", e => {
   }
   if (detail.classList.contains("show")) {
     if (e.key === "Escape" || e.key === "Enter") { detail.classList.remove("show"); e.preventDefault(); }
+    else if (e.key === "s") showStart = document.getElementById("detailbody").classList.toggle("start");
     return;
   }
   if (e.key === "?") { help.classList.toggle("show"); e.preventDefault(); return; }
   if (e.key === "Escape" && help.classList.contains("show")) { help.classList.remove("show"); return; }
   if (PAGES[e.key] && PAGES[e.key] !== PAGE) { location.href = PAGES[e.key] + ".html"; return; }
-  if (PAGE === "grid") {
-    const move = { ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1] }[e.key];
-    if (move) {
-      const k = (cur.k ?? 0) + move[0];  // up / down step through a cell's players first
-      if (move[0] && k >= 0 && k < gridCell().length) cur.k = k;
-      else { cur.r += move[0]; cur.c += move[1]; cur.k = move[0] < 0 ? gridCell(Math.max(0, cur.r)).length - 1 : 0; }
-      renderGrid();
-    }
-    else if (e.key === "Enter" && curPlayer()) showDetail(curPlayer());
-    else if (e.key === "c") document.execCommand("copy");
-    else return;
-    e.preventDefault();
-    return;
-  }
   if (!TABLE) return;
   const move = { ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1] }[e.key];
   if (move) { cur.r += move[0]; cur.c += move[1]; render(); }
@@ -250,6 +243,7 @@ document.addEventListener("keydown", e => {
   else if (e.key === "c") document.execCommand("copy");
   else if (e.key === "Enter" && view[cur.r]) showDetail(view[cur.r]);
   else if (e.key === "/" || e.key === "f") input.focus();
+  else if ((e.key === "b" || e.key === "B") && BATCHES.length > 1) cycleBatch(e.key === "b" ? 1 : -1);
   else if (e.key === "Escape") { input.value = ""; render(); }
   else return;
   e.preventDefault();
@@ -278,14 +272,17 @@ const yearsAgo = d => {
 
 // Player history: one row per observation date, then attribute values by date
 function showDetail(r) {
-  const H = r.history, last = H[H.length - 1], vs = H.some(h => h.vsAge != null);
+  const H = r.history, last = H[H.length - 1], vs = H.some(h => h.vsAge != null), win = H.some(h => h.win != null), pts = H.some(h => h.pts != null);
   const pos = COLS.filter(c => c.fmt === "f1" && c.key !== "score" && H.some(h => h[c.key] != null)).map(c => c.key);
   const chg = (v, p) => p == null || Math.abs(v - p) < 0.05 ? "" :
     `<span class="chg ${v > p ? "t4" : "t0"}">${FMT.delta(v - p)}</span>`;
   const scoreRows = H.map((h, i) => {
     const p = H[i - 1];
     return `<tr><td>${h.date}</td><td class="text">${h.club}</td><td class="num">${h.age ?? "–"}</td>` +
-      pos.map(k => `<td class="num ${tier(h[k], RANGE.f1)}">${FMT.f1(h[k])}${chg(h[k], p?.[k])}</td>`).join("") +
+      pos.map(k => h[k] == null ? `<td class="num dim">–</td>` :  // e.g. seen before the views showed every attribute the position needs
+        `<td class="num ${tier(h[k], RANGE.f1)}">${FMT.f1(h[k])}${chg(h[k], p?.[k])}</td>`).join("") +
+      (!win ? "" : h.win == null ? `<td class="num dim">–</td>` : `<td class="num ${tier(h.win, RANGE.win)}">${FMT.win(h.win)}${chg(h.win, p?.win)}</td>`) +
+      (!pts ? "" : h.pts == null ? `<td class="num dim">–</td>` : `<td class="num ${tier(h.pts, RANGE.pts)}">${FMT.pts(h.pts)}${chg(h.pts, p?.pts)}</td>`) +
       `<td class="text">${h.best ?? "–"}</td>${vs ? `<td class="num ${tier(h.vsAge, RANGE.pct)}">${FMT.pct(h.vsAge)}</td>` : ""}</tr>`;
   }).join("");
   // Attributes ranked by the best position's (or staff role's) weight, alphabetical within a weight
@@ -307,35 +304,42 @@ function showDetail(r) {
     <div class="ttitle">${r.name} <span class="sub">· ${[r.club, r.age != null && r.age + "y",
       ...("job" in r ? [r.job, r.personality] : ["left foot " + (last.leftFoot ?? "–"), r.loan && loanLabel(r)])].filter(Boolean).join(" · ")}</span></div>
     ${H.length === 1 ? `<div class="sub">Only one observation so far (${last.date}); changes appear once you add screenshots from a later game date.</div>` : ""}
-    <table><thead><tr><th>Date</th><th>Club</th><th class="num">Age</th>${pos.map(k => `<th class="num">${k}</th>`).join("")}<th>Best</th>${vs ? `<th class="num">vs Age</th>` : ""}</tr></thead>
+    <table><thead><tr><th>Date</th><th>Club</th><th class="num">Age</th>${pos.map(k => `<th class="num">${k}</th>`).join("")}${win ? `<th class="num">%win</th>` : ""}${pts ? `<th class="num">pts</th>` : ""}<th>Best</th>${vs ? `<th class="num">vs Age</th>` : ""}</tr></thead>
       <tbody>${scoreRows}</tbody></table>
     <div class="ttitle">Attributes</div>
     <table><thead>${wpos.length ? `<tr><th></th><th class="group wt${gr ? " nb" : ""}">weight</th>${gr ? `<th class="group wt">growth</th>` : ""}<th class="group" colspan="${AH.length}">value</th></tr>` : ""}
       <tr><th class="ago"></th>${wpos.map(() => `<th class="wt ago${gr ? " nb" : ""}"></th>`).join("")}${gr ? `<th class="wt ago"></th>` : ""}${AH.map(h => `<th class="num ago">${yearsAgo(h.date)}</th>`).join("")}</tr>
       <tr><th></th>${wpos.map(k => `<th class="num wt${gr ? " nb" : ""}">${k}</th>`).join("")}${gr ? `<th class="num wt">${yearsAgo(H[0].date)}</th>` : ""}${AH.map(h => `<th class="num">${h.date}</th>`).join("")}</tr></thead>
-      <tbody>${attrRows}</tbody></table>${winBreakdown(r, last)}`;
-  document.getElementById("detailbody").classList.toggle("wide", r.win != null);
+      <tbody>${attrRows}</tbody></table>${winBreakdown(r, last, "win")}${winBreakdown(r, last, "pts")}`;
+  document.getElementById("detailbody").classList.toggle("wide", r.win != null || r.pts != null);
+  document.getElementById("detailbody").classList.toggle("start", showStart);
   detail.classList.add("show");
 }
 
 // %win breakdown (outfield players): harvestgreen22's table of each attribute's win-rate change by level, as in the
 // spreadsheet, with the player's latest level outlined; the outlined cells add up to their %win. Unobserved = 12 (0).
-function winBreakdown(r, last) {
-  if (r.win == null || !Object.keys(WIN).length) return "";
-  const shade = v => Math.abs(v) < 0.05 ? "" :
-    ` style="background: color-mix(in srgb, var(--${v < 0 ? "red" : "green"}) ${Math.round(Math.min(Math.abs(v) / 40, 1) * 60 + 6)}%, transparent)"`;
-  const pct = v => (Math.abs(v) < 0.05 ? "0.0" : (v > 0 ? "+" : "−") + Math.abs(v).toFixed(1)) + "%";
-  const rows = Object.entries(WIN).map(([a, vals]) => {
-    const lv = last.attrs[a], seen = lv != null, at = seen ? lv : 12;
-    return `<tr class="${seen ? "" : "unseen"}"><td>${a}</td><td class="num">${seen ? lv : "–"}</td>` +
-      `<td class="num wt"${shade(vals[at - 1])}>${pct(vals[at - 1])}</td>` +
-      vals.map((v, i) => `<td class="num${i + 1 === at ? " lvl" + (seen ? "" : " as12") : ""}"${shade(v)}>${pct(v)}</td>`).join("") + "</tr>";
+// Keepers get the same for pts (Purity's goalkeeper test: league points a season, levels 1–20).
+// With more than one observation, s outlines in orange their levels when first observed: where they started.
+let showStart = false;
+function winBreakdown(r, last, key) {
+  const T = key === "pts" ? PTS : WIN, full = key === "pts" ? 8 : 40;  // full: the value shaded darkest
+  if (r[key] == null || !Object.keys(T).length) return "";
+  const zero = key === "pts" ? 0.005 : 0.05;  // pts shows two decimals
+  const shade = v => Math.abs(v) < zero ? "" :
+    ` style="background: color-mix(in srgb, var(--${v < 0 ? "red" : "green"}) ${Math.round(Math.min(Math.abs(v) / full, 1) * 60 + 6)}%, transparent)"`;
+  const pct = v => (Math.abs(v) < zero ? "0.0" : (v > 0 ? "+" : "−") + Math.abs(v).toFixed(key === "pts" ? 2 : 1)) + (key === "pts" ? "" : "%");
+  const first = r.history.length > 1 ? r.history.find(h => h[key] != null) : null, from = first && first !== last ? first : null;
+  const rows = Object.entries(T).map(([a, vals]) => {
+    const lv = last.attrs[a], seen = lv != null, at = seen ? lv : 12, st = from?.attrs[a];
+    return `<tr class="${seen ? "" : "unseen"}"><td>${a}</td>` +
+      vals.map((v, i) => `<td class="num${i + 1 === at ? " lvl" + (seen ? "" : " as12") : ""}${i + 1 === st ? " start" : ""}"${shade(v)}>${pct(v)}</td>`).join("") + "</tr>";
   }).join("");
-  return `<div class="ttitle">%win ${FMT.win(r.win)} <span class="sub">· win-rate change if the whole team had these attributes, against all 12s:
-    the outlined cells summed (dashed = not observed, counted as 12)</span></div>
-    <table class="win"><thead><tr><th>Attribute</th><th class="num">level</th><th class="num wt">%win</th>
-      ${WIN[Object.keys(WIN)[0]].map((_, i) => `<th class="num">${i + 1}</th>`).join("")}</tr></thead>
-      <tbody>${rows}<tr class="total"><td>Total</td><td></td><td class="num wt">${pct(r.win)}</td><td colspan="18"></td></tr></tbody></table>`;
+  const ago = from && yearsAgo(from.date);
+  return `<div class="ttitle">${key === "pts" ? "pts" : "%win"} ${FMT[key](r[key])}${from ? ` <span class="st">· start ${FMT[key](from[key])}${ago ? `, ${ago} ago` : ""}</span>
+    <span class="sub">· <b>s</b> start</span>` : ""}</div>
+    <table class="win"><thead><tr><th>Attribute</th>
+      ${T[Object.keys(T)[0]].map((_, i) => `<th class="num">${i + 1}</th>`).join("")}</tr></thead>
+      <tbody>${rows}</tbody></table>`;
 }
 
 // Filters pages: DATA is one entry per position or staff role (filters() and staff_filters() in score.py); staff values come with FM's words as labels
@@ -352,69 +356,9 @@ function renderFilters() {
         `<td class="num ${tier(v, RANGE.attr)}">${r.labels ? r.labels[i] : v}</td>`).join("")}<td class="num search">${r.min == null ? "–" : r.min}</td></tr>`).join("")}</tbody>
     </table></div>`).join("");
 }
-// Grid page: DATA = { slots: [{ label, pos, senior: [player|null ×3], youth: [...] }], spare, spareYouth, loanOut } (grid() in score.py)
-function renderGrid() {
-  input.style.visibility = "hidden";
-  const main = document.getElementById("main"), d = DATA, n = 3;
-  main.className = "tile grid";
-  const surname = name => name.split(" ").pop();
-  cur.r = Math.max(0, Math.min(cur.r, d.slots.length - 1));
-  const groups = d.slots.some(s => s.intake.some(c => c.length)) ? 3 : 2;  // the intake columns only while there's an intake
-  cur.c = Math.max(0, Math.min(cur.c, groups * n - 1));
-  cur.k = Math.max(0, Math.min(cur.k ?? 0, gridCell().length - 1));
-  const entry = (p, youth, here) => `<div class="${here ? "cur" : ""}" data-name="${esc(p.name)}">` +
-    `<span title="${esc(p.name)}">${esc(surname(p.name))}</span>` +
-    (youth ? `<span class="v ${tier(p.v, RANGE.pct)}">${FMT.pct(p.v)}</span><span class="age">${FMT.f1(p.score)}</span>` :
-      `<span class="v ${tier(p.score, RANGE.f1)}">${FMT.f1(p.score)}</span>`) +
-    (p.pct != null ? `<span class="v ${tier(p.pct, RANGE.pct)}">${FMT.pct(p.pct)}</span>` : "") +
-    (youth || p.pct != null ? `<span class="age">${p.age}y</span>` : "") + (youth && p.left ? `<span class="foot" title="left foot Fairly Strong or better">L</span>` : "") + (p.loan ? `<span class="loan ${p.loan}">${loanLabel(p)}</span>` : "") + "</div>";
-  const cell = (ps, youth, ri, ci) => {
-    const at = ri === cur.r && ci === cur.c;
-    return `<td class="${ci === n || ci === 2 * n ? "split" : ""}${at && !ps.length ? " cur" : ""}" data-r="${ri}" data-c="${ci}">` +
-      (ps.length ? ps.map((p, k) => entry(p, youth, at && k === cur.k)).join("") : `<span class="dim">–</span>`) + "</td>";
-  };
-  const heads = ["Starter", "Backup", "Third"];
-  const list = (title, ps, fmt) => ps.length ? `<div><span class="sub">${title}:</span> ${ps.map(p =>
-    `<span title="${esc(p.name)}" data-name="${esc(p.name)}">${esc(surname(p.name))}</span> <span class="sub">${p.age}y ${p.pos} ${fmt(p.v)}</span>`).join(" · ")}</div>` : "";
-  main.innerHTML = `<table>
-    <thead><tr><th></th>${heads.map(h => `<th>${h}</th>`).join("")}${["Youth", "Intake"].slice(0, groups - 1).map(g => heads.map((h, i) => `<th class="${i ? "" : "split"}">${g} ${i + 1}</th>`).join("")).join("")}</tr></thead>
-    <tbody>${d.slots.map((s, ri) => `<tr><td class="slot" title="scored as ${esc(s.pos)}${s.left ? ", left-footed only" : ""}">${esc(s.label)}</td>` +
-      s.senior.map((ps, i) => cell(ps, false, ri, i)).join("") + s.youth.map((ps, i) => cell(ps, true, ri, n + i)).join("") +
-      (groups > 2 ? s.intake.map((ps, i) => cell(ps, true, ri, 2 * n + i)).join("") : "") + "</tr>").join("")}</tbody>
-  </table>
-  <div class="notes">${list("Not placed", d.spare, FMT.f1)}${list("Youth not placed", d.spareYouth, FMT.pct)}${list("Out on loan", d.loanOut, FMT.f1)}</div>`;
-}
-// The grid cell under the cursor: its players (Third can hold several)
-function gridCell(r = cur.r, c = cur.c) {
-  const s = DATA.slots[r];
-  return s ? (c < 3 ? s.senior[c] : c < 6 ? s.youth[c - 3] : s.intake[c - 6]) ?? [] : [];
-}
-// The player under the cursor: a table row, or on the grid the player at the cursor
-function curPlayer() {
-  if (PAGE !== "grid") return view[cur.r];
-  const p = gridCell()[cur.k];
-  return p ? DATA.players[p.name] : undefined;
-}
-// Grid: click a name for its history (and move the cursor there)
-document.getElementById("main").addEventListener("click", e => {
-  const el = PAGE === "grid" && e.target.closest("[data-name]");
-  if (!el || !getSelection().isCollapsed) return;
-  const td = el.closest("td[data-r]");
-  if (td) { cur = { r: +td.dataset.r, c: +td.dataset.c, k: [...td.querySelectorAll("[data-name]")].indexOf(el) }; renderGrid(); }
-  showDetail(DATA.players[el.dataset.name]);
-});
-// Settings page: DATA = [{ path, values }], one per settings file (settings() in score.py)
+// The player under the cursor
+function curPlayer() { return view[cur.r]; }
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-function renderSettings() {
-  input.style.visibility = "hidden";
-  const main = document.getElementById("main");
-  main.className = "tiles";
-  const val = v => Array.isArray(v) ? (v.length ? v.map(val).join(", ") : "–") : v === "" ? "–" :
-    typeof v === "object" ? (v.label ? `${v.label} (${v.pos}${v.left ? ", left" : ""})` : JSON.stringify(v)) : v;
-  main.innerHTML = DATA.map(f => `<div class="tile"><div class="ttitle">${esc(f.path)}</div>
-    <table>${Object.entries(f.values).map(([k, v]) => `<tr><td class="text">${esc(k)}</td><td class="wrap">${esc(val(v))}</td></tr>`).join("")}</table>
-  </div>`).join("") + `<div class="sub">To change a setting, edit its file, then run <b>python3 score.py</b> again.</div>`;
-}
 document.getElementById("head").addEventListener("click", e => {
   const ci = COLS.findIndex(c => c.key === e.target.dataset.key);
   if (ci >= 0) { cur.c = ci; sortBy(ci); }
@@ -438,14 +382,20 @@ document.addEventListener("copy", e => {
   const count = document.getElementById("count");
   count.textContent = `copied ${name}`; count.classList.add("copied");
   clearTimeout(count.timer);
-  count.timer = setTimeout(() => { count.classList.remove("copied"); if (PAGE === "grid") count.textContent = ""; else render(); }, 1200);
+  count.timer = setTimeout(() => { count.classList.remove("copied"); render(); }, 1200);
 });
 input.addEventListener("input", () => { cur.r = 0; render(); });
+function cycleBatch(step) {
+  batch = (batch + step + BATCHES.length) % BATCHES.length;
+  cur.r = 0;
+  render();
+}
+document.getElementById("batch").addEventListener("click", () => BATCHES.length > 1 && cycleBatch(1));
 help.addEventListener("click", e => { if (e.target === help) help.classList.remove("show"); });
 detail.addEventListener("click", e => { if (e.target === detail) detail.classList.remove("show"); });
 document.getElementById("helphint").addEventListener("click", e => { e.preventDefault(); help.classList.add("show"); });
 if (PAGE.endsWith("staff")) input.placeholder = "/ filter  e.g. job:coach PosTct>=12 personality:prof";
-if (PAGE === "filters" || PAGE === "staff_filters") renderFilters(); else if (PAGE === "grid") renderGrid(); else if (PAGE === "settings") renderSettings(); else render();
+if (PAGE === "filters" || PAGE === "staff_filters") renderFilters(); else render();
 </script>
 </body>
 </html>

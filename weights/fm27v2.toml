@@ -429,3 +429,29 @@ Fitness = 2
 Motivating = 2
 "People Management" = 2
 Physiotherapy = 2
+
+# Keeper pts (keepers only; not used for Best): Purity's FM27 goalkeeper test (docs/gk_attribute_test_fm27.csv), each
+# attribute's change in league points per season against a level-12 keeper at levels [1, 8, 16, 20]; 12 = 0, straight
+# lines between. Summed over a keeper's observed attributes (unobserved = 12 = 0). Attributes not listed are worth nothing.
+[gk_pts]
+Agility             = [-8.59, -2.63, 2.05, 4.26]
+Reflexes            = [-9.14, -2.08, 1.65, 3.44]
+"Aerial Reach"      = [-2.07, -0.72, 0.32, 1.05]
+Concentration       = [-1.23, -0.45, 0.45, 0.90]
+Handling            = [-1.65, -0.09, 0.44, 0.20]
+"Injury Proneness"  = [0.54, 0.27, -0.43, -0.97]
+"Rushing Out"       = [0.74, 0.27, -0.27, -0.54]
+"Command of Area"   = [-0.64, -0.23, 0.23, 0.46]
+Pace                = [-0.38, -0.14, 0.14, 0.28]
+Consistency         = [-0.35, -0.13, 0.13, 0.26]
+Decisions           = [-0.30, -0.11, 0.11, 0.22]
+Balance             = [-0.30, -0.11, 0.11, 0.22]
+Anticipation        = [-0.30, -0.11, 0.11, 0.22]
+Acceleration        = [-0.29, -0.11, 0.11, 0.22]
+Stamina             = [0.28, 0.10, -0.10, -0.20]
+Dirtiness           = [-0.27, -0.10, 0.10, 0.20]
+Eccentricity        = [-0.22, -0.08, 0.08, 0.16]
+Positioning         = [-0.19, -0.07, 0.07, 0.14]
+"Work Rate"         = [-0.16, -0.06, 0.06, 0.12]
+Strength            = [-0.08, -0.03, 0.03, 0.06]
+"One on Ones"       = [-0.06, -0.02, 0.02, 0.04]
