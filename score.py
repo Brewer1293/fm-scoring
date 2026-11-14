@@ -185,9 +185,8 @@ def player_cols(w, with_club, with_rating=None):
         {"key": "left", "label": "Left", "fmt": "yesno"},
         *({"key": p, "label": p, "num": True, "fmt": "f1"} for p in ["GK", *w["outfield"]]),  # curve scores: computed, not shown
         *([{"key": "win", "label": "%win", "num": True, "fmt": "win"}] if w.get("win") else []),
-        *([{"key": "pts", "label": "pts", "num": True, "fmt": "pts"}] if w.get("gk_pts") else []),  # keepers only
+        *([{"key": "pts", "label": "GKpts", "num": True, "fmt": "pts"}] if w.get("gk_pts") else []),  # keepers only
         {"key": "best", "label": "Best"},
-        {"key": "score", "label": "Score", "num": True, "fmt": "f1"},
         {"key": "vsAge", "label": "vs Age", "num": True, "fmt": "pct"},
         *([{"key": "rating", "label": "Rating", "num": True, "fmt": "f2"},
            {"key": "minutes", "label": "Mins", "num": True}] if with_rating else []),

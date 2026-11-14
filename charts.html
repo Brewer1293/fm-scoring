@@ -132,7 +132,7 @@ function hover(p, e) {
   document.querySelectorAll(`.dot[data-name="${CSS.escape(p.name)}"]`).forEach(d => { d.classList.add("hl"); d.parentNode.appendChild(d); });
   const sc = Object.entries(p.scores).map(([k, v]) => `${k} ${v.toFixed(1)}`).join(" · ");
   tip.innerHTML = `<div class="nm">${p.name}</div><div class="d">${p.club} · ${p.age} · ${p.wage == null ? "–" : money(p.wage) + " p/w"}</div>` +
-    `<div>${sc} <span class="d">(best ${p.best})</span>${p.win == null ? "" : ` · %win ${fmtWin(p.win)}`}${p.pts == null ? "" : ` · pts ${fmtWin(p.pts)}`}</div>` +
+    `<div>${sc} <span class="d">(best ${p.best})</span>${p.win == null ? "" : ` · %win ${fmtWin(p.win)}`}${p.pts == null ? "" : ` · GKpts ${fmtWin(p.pts)}`}</div>` +
     `<div>${p.rating == null ? "" : `rating ${p.rating.toFixed(2)} <span class="d">in ${p.minutes} mins</span> · `}acc ${p.Acceleration ?? "–"} · pace ${p.Pace ?? "–"} · ${p.Agility != null ? `agility ${p.Agility}` : `jump ${p["Jumping Reach"] ?? "–"}`}</div>`;
   tip.style.display = "block";
   const x = e.clientX + 14, y = e.clientY + 14, w = tip.offsetWidth, h = tip.offsetHeight;
@@ -292,7 +292,7 @@ function clubTable(id, keep = () => true, title = "%win by club", seg = "", best
   }
 }
 
-// Keepers by club: each club's keepers in the division's search by pts (Purity's goalkeeper test: league points a season
+// Keepers by club: each club's keepers in the division's search by GKpts (Purity's goalkeeper test: league points a season
 // against a level-12 keeper), best first, sorted on the club's no. 1. The managed club's row is its squad screen.
 const GK_TOP = 4, GK_BANDS = [[-Infinity, -2, "#2a3560"], [-2, 0, "#3f5ba3"], [0, 2, "#6b91ea"], [2, 4, "#9db9fa"], [4, Infinity, "#d4e1ff"]];
 function gkTable() {
@@ -307,7 +307,7 @@ function gkTable() {
   rows.sort((a, b) => b.ps[0].pts - a.ps[0].pts);
   const n = rows.filter(r => !r.squad).reduce((s, r) => s + r.ps.length, 0);
   box.innerHTML = `<div class="ttitle">Keepers by club</div><div class="tsub">${n} ${short(state.division)} keepers, ` +
-    `${rows.filter(r => !r.squad).length} clubs · <b>pts</b> = league points a season against a level-12 keeper (Purity's goalkeeper test), ` +
+    `${rows.filter(r => !r.squad).length} clubs · <b>GKpts</b> = league points a season against a level-12 keeper (Purity's goalkeeper test), ` +
     `sorted on each club's no. 1${rows.some(r => r.squad) ? ` · ${MANAGED}: its latest squad screen` : ""} · click a club to highlight it</div>` +
     `<div class="bandkey">${GK_BANDS.map(b => `<span><i style="background:${b[2]}"></i>${bandLabel(b)}</span>`).join("")}</div>`;
   const t = document.createElement("table"); box.appendChild(t);
@@ -325,7 +325,7 @@ function gkTable() {
       td.textContent = fmtWin(p.pts); td.style.background = GK_BANDS[b][2]; td.style.color = b >= 3 ? "var(--desk)" : "var(--fg)";
       td.addEventListener("mousemove", e => {
         tip.innerHTML = `<div class="nm">${p.name}</div><div class="d">${r.club} · ${p.age} · GK ${p.scores.GK.toFixed(1)}</div>` +
-          `<div>pts ${fmtWin(p.pts)} · agility ${p.Agility ?? "–"}${p.rating == null ? "" : ` · rating ${p.rating.toFixed(2)} <span class="d">in ${p.minutes} mins</span>`}</div>`;
+          `<div>GKpts ${fmtWin(p.pts)} · agility ${p.Agility ?? "–"}${p.rating == null ? "" : ` · rating ${p.rating.toFixed(2)} <span class="d">in ${p.minutes} mins</span>`}</div>`;
         tip.style.display = "block";
         const w = tip.offsetWidth, h = tip.offsetHeight;
         tip.style.left = Math.min(e.clientX + 14, innerWidth - w - 8) + "px";
@@ -378,12 +378,12 @@ function render() {
   if (rated) scatter({ title: "%win vs minutes (all outfield players)", x: mins, y: win, xl: "minutes", yl: "%win", all: true, into: "wins" });
   if (rated) scatter({ title: "%win vs average rating (all outfield players)", x: rating, y: win, xl: "average rating", yl: "%win", all: true, into: "wins" });
   clubTable("clubs");
-  // Keepers: pts vs score, and vs minutes and rating once the season's started
+  // Keepers: GKpts vs score, and vs minutes and rating once the season's started
   document.getElementById("gks").innerHTML = "";
   const pts = p => p.pts, gk = p => p.scores.GK ?? null;
-  scatter({ title: "Keepers: pts vs GK score", x: gk, y: pts, xl: "GK score", yl: "pts", all: true, into: "gks" });
-  if (rated) scatter({ title: "Keepers: pts vs average rating", x: rating, y: pts, xl: "average rating", yl: "pts", all: true, into: "gks" });
-  if (rated) scatter({ title: "Keepers: pts vs minutes", x: mins, y: pts, xl: "minutes", yl: "pts", all: true, into: "gks" });
+  scatter({ title: "Keepers: GKpts vs GK score", x: gk, y: pts, xl: "GK score", yl: "GKpts", all: true, into: "gks" });
+  if (rated) scatter({ title: "Keepers: GKpts vs average rating", x: rating, y: pts, xl: "average rating", yl: "GKpts", all: true, into: "gks" });
+  if (rated) scatter({ title: "Keepers: GKpts vs minutes", x: mins, y: pts, xl: "minutes", yl: "GKpts", all: true, into: "gks" });
   gkTable();
   const age = state.youth === "all" ? (p => p.age >= 15 && p.age <= 17) : (p => p.age === +state.youth);
   clubTable("youth", age, `%win by club: ${YOUTH[state.youth]}-year-olds`,

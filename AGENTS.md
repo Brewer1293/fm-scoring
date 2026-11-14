@@ -26,7 +26,7 @@ Runs on macOS, Windows and Linux: stdlib Python 3.11+ only (`python3` here; on W
 | `saves/<save>/save.toml` | `weights` (→ `weights/<name>.toml`), `managed_club` (exactly as FM shows it), `short_name` (page 1 label), `division` (the managed club's, as FM shows it; page 5's default), `last_batch` (obs files for page 3), `last_staff_batch` (staff files for page 7), `last_staff_names` (staff already observed to add to page 7), `intake_kept` (intake players kept: they join the squad), `released` (players gone since the latest squad screen) `signed` (players joined since) `recalled` (back from loan since), `staff_released` (staff let go since) and `aliases` (a name FM cut off in an obs file → the full name). |
 | `saves/<save>/obs/*.csv` | Observations: `<YYYY-MM-DD>_<source>_<view>.csv`, one per screenshot set. Append-only. |
 | `saves/<save>/staff/*.csv` | Staff observations: `<YYYY-MM-DD>_<source>.csv` (`search-coach`). Append-only. |
-| `weights/<name>.toml` | Position weights (`[outfield.*]`, `[gk]`), the %win and keeper pts tests (`[win]`, `[gk_pts]`), age benchmarks, and staff scoring: `[staff_words]` (FM's words → numbers) and `[staff.<role>]` (the role's column label, then attribute weights). |
+| `weights/<name>.toml` | Position weights (`[outfield.*]`, `[gk]`), the %win and GKpts tests (`[win]`, `[gk_pts]`), age benchmarks, and staff scoring: `[staff_words]` (FM's words → numbers) and `[staff.<role>]` (the role's column label, then attribute weights). |
 | `weights/<name>_staff.md` | Notes on the staff weights: sources, FM27 key attributes, calibration. |
 | `weights/fm27_positions.xlsx` | Working sheet for the position weights: fm27 (GK, CB, WB/6, 10, 9) beside fm27v2 (GK, FB, CB, 6, wing, 10, 9), with each %win attribute's value. fm27v2 needs Crossing in the views. |
 | `views/`, `player search filters/`, `staff search filters/`, `schedules/` | FM27 views, search filters and training schedules (`.fmf`), named like FM's own folders. |
@@ -123,7 +123,7 @@ If FM renames an attribute, use the new name in the CSV header and in the weight
   The spreadsheet's `%win by level` tab shows the same numbers per level, as formulas on Tables 6–8.
   A player's history overlay (Enter) ends with the same table, levels 1–18, their level outlined: the outlined cells sum to their %win. With more than one observation, `s` toggles an orange outline on their levels when first observed
   (and their starting %win in the title): where a newgen started.
-- **pts** (column after %win; keepers only; not used for Best): Purity's FM27 goalkeeper test (`docs/gk_attribute_test_fm27.csv`,
+- **GKpts** (column after %win; keepers only; not used for Best): Purity's FM27 goalkeeper test (`docs/gk_attribute_test_fm27.csv`,
   `[gk_pts]`: each attribute's change in league points per season against a level-12 keeper at 1, 8, 16 and 20, straight lines
   through 12 = 0), summed over the keeper's observed attributes. On its own scale: don't compare it with %win.
   The history overlay ends with its table, levels 1–20, the same way.
@@ -148,7 +148,7 @@ If FM renames an attribute, use the new name in the CSV header and in the weight
   the division's search, their mean and median %win, **best 10** (the mean of the club's top 10; sorted on it) and the %win of the club's top 12, best on
   the left, coloured by 10-point band (< −50 to ≥ 0). The managed club's row is its whole squad screen (youth included,
   whatever their minutes). Below it, the same table for the 15-, 16- or 17-year-olds (or all three; a toggle) to compare youth
-  intakes, on best x (x = the fewest any club has at that age). Then keepers: pts vs GK score, vs rating and vs minutes, and **keepers by club** (each club's keepers' pts, sorted on its no. 1; the managed club's row is its squad screen). Minutes and rating charts are left out when no one's rated (the off-season).
+  intakes, on best x (x = the fewest any club has at that age). Then keepers: GKpts vs GK score, vs rating and vs minutes, and **keepers by club** (each club's keepers' GKpts, sorted on its no. 1; the managed club's row is its squad screen). Minutes and rating charts are left out when no one's rated (the off-season).
 - **Youth intake:** players in the newest obs files whose source contains `intake` (e.g. `search-youth-intake`) are
   candidates, not the squad: they show only on last until a squad screen shows them (then they're squad, or gone) or
   they're in `intake_kept` (the user's "keep X").

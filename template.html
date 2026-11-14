@@ -92,7 +92,7 @@ __THEME__
     <tr><td><b>1</b> … <b>8</b></td><td>__HOME__ · elsewhere · last screenshots · filters · charts · staff · last staff screenshots · staff filters</td></tr>
     <tr><td><b>← ↑ ↓ →</b></td><td>move the cell cursor</td></tr>
     <tr><td><b>enter</b></td><td>player (or staff) history over time (or double-click a row; <b>esc</b> closes)</td></tr>
-    <tr><td><b>s</b> (in history)</td><td>%win (or keeper pts) table: outline in orange the player's levels when first observed (where they started); again to hide</td></tr>
+    <tr><td><b>s</b> (in history)</td><td>%win (or GKpts) table: outline in orange the player's levels when first observed (where they started); again to hide</td></tr>
     <tr><td><b>c</b> or <b>⌘C</b></td><td>copy the cursor's player name, for FM's search (or drag-select any text)</td></tr>
     <tr><td><b>s</b></td><td>sort by the cursor's column (again to reverse)</td></tr>
     <tr><td><b>/</b> or <b>f</b></td><td>filter box (<b>enter</b> / <b>esc</b> to leave it)</td></tr>
@@ -273,7 +273,7 @@ const yearsAgo = d => {
 // Player history: one row per observation date, then attribute values by date
 function showDetail(r) {
   const H = r.history, last = H[H.length - 1], vs = H.some(h => h.vsAge != null), win = H.some(h => h.win != null), pts = H.some(h => h.pts != null);
-  const pos = COLS.filter(c => c.fmt === "f1" && c.key !== "score" && H.some(h => h[c.key] != null)).map(c => c.key);
+  const pos = COLS.filter(c => c.fmt === "f1" && H.some(h => h[c.key] != null)).map(c => c.key);
   const chg = (v, p) => p == null || Math.abs(v - p) < 0.05 ? "" :
     `<span class="chg ${v > p ? "t4" : "t0"}">${FMT.delta(v - p)}</span>`;
   const scoreRows = H.map((h, i) => {
@@ -304,7 +304,7 @@ function showDetail(r) {
     <div class="ttitle">${r.name} <span class="sub">· ${[r.club, r.age != null && r.age + "y",
       ...("job" in r ? [r.job, r.personality] : ["left foot " + (last.leftFoot ?? "–"), r.loan && loanLabel(r)])].filter(Boolean).join(" · ")}</span></div>
     ${H.length === 1 ? `<div class="sub">Only one observation so far (${last.date}); changes appear once you add screenshots from a later game date.</div>` : ""}
-    <table><thead><tr><th>Date</th><th>Club</th><th class="num">Age</th>${pos.map(k => `<th class="num">${k}</th>`).join("")}${win ? `<th class="num">%win</th>` : ""}${pts ? `<th class="num">pts</th>` : ""}<th>Best</th>${vs ? `<th class="num">vs Age</th>` : ""}</tr></thead>
+    <table><thead><tr><th>Date</th><th>Club</th><th class="num">Age</th>${pos.map(k => `<th class="num">${k}</th>`).join("")}${win ? `<th class="num">%win</th>` : ""}${pts ? `<th class="num">GKpts</th>` : ""}<th>Best</th>${vs ? `<th class="num">vs Age</th>` : ""}</tr></thead>
       <tbody>${scoreRows}</tbody></table>
     <div class="ttitle">Attributes</div>
     <table><thead>${wpos.length ? `<tr><th></th><th class="group wt${gr ? " nb" : ""}">weight</th>${gr ? `<th class="group wt">growth</th>` : ""}<th class="group" colspan="${AH.length}">value</th></tr>` : ""}
@@ -335,7 +335,7 @@ function winBreakdown(r, last, key) {
       vals.map((v, i) => `<td class="num${i + 1 === at ? " lvl" + (seen ? "" : " as12") : ""}${i + 1 === st ? " start" : ""}"${shade(v)}>${pct(v)}</td>`).join("") + "</tr>";
   }).join("");
   const ago = from && yearsAgo(from.date);
-  return `<div class="ttitle">${key === "pts" ? "pts" : "%win"} ${FMT[key](r[key])}${from ? ` <span class="st">· start ${FMT[key](from[key])}${ago ? `, ${ago} ago` : ""}</span>
+  return `<div class="ttitle">${key === "pts" ? "GKpts" : "%win"} ${FMT[key](r[key])}${from ? ` <span class="st">· start ${FMT[key](from[key])}${ago ? `, ${ago} ago` : ""}</span>
     <span class="sub">· <b>s</b> start</span>` : ""}</div>
     <table class="win"><thead><tr><th>Attribute</th>
       ${T[Object.keys(T)[0]].map((_, i) => `<th class="num">${i + 1}</th>`).join("")}</tr></thead>
