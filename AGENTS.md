@@ -29,6 +29,7 @@ Runs on macOS, Windows and Linux: stdlib Python 3.11+ only (`python3` here; on W
 | `weights/<name>.toml` | Position weights (`[outfield.*]`, `[gk]`), the %win and GKpts tests (`[win]`, `[gk_pts]`), age benchmarks, and staff scoring: `[staff_words]` (FM's words → numbers) and `[staff.<role>]` (the role's column label, then attribute weights). |
 | `weights/<name>_staff.md` | Notes on the staff weights: sources, FM27 key attributes, calibration. |
 | `weights/fm27_positions.xlsx` | Working sheet for the position weights: fm27 (GK, CB, WB/6, 10, 9) beside fm27v2 (GK, FB, CB, 6, wing, 10, 9), with each %win attribute's value. fm27v2 needs Crossing in the views. |
+| `leagues/*.csv` | Shared league searches (public): `<date>_search-<division>_<view>.csv`, names anonymised (`Arsenal 3`), no `Loan`. `python3 score.py share-leagues` writes them from the active save's latest league search per division, replacing that division's older file. |
 | `views/`, `player search filters/`, `staff search filters/`, `schedules/` | FM27 views, search filters and training schedules (`.fmf`), named like FM's own folders. |
 | `score.py` | `python3 score.py [--save S] [--open PAGE]` → `out/<save>/*.html`. Also `init` (first-time setup) and `screenshots` (list new ones). Stdlib only. |
 | `template.html` | Every page but charts. Its `?` overlay is the reference for keys and filter syntax. |
@@ -141,6 +142,8 @@ If FM renames an attribute, use the new name in the CSV header and in the weight
 - **Youth team** (`U18`, green, next to the name): the player's latest screen of the club's own squad was a youth team's (source `-u18s`, `-u21s`); `u18` filters for them.
 - **Rating / minutes / division:** from the latest observation only (they're per season); rating and minutes show on elsewhere.
 - **Charts page:** players whose latest observation is a league search (a `Division` column), grouped by best role for the by-position strips.
+  A division the save hasn't searched (fewer than 20 players, `MIN_DIVISION`) comes from `leagues/` instead, marked `(shared)` in the dropdown;
+  each shared file loads on its own, so its players have no history.
   Dropdowns pick the division (the baseline, blue) and a club to highlight (orange): the managed club's squad
   screen, or any club in that division. Defaults: save.toml's `division` and `managed_club`.
   r = correlation over the league players; the dashed line is their least-squares fit.

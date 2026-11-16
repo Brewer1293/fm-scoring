@@ -1,0 +1,283 @@
+Name,Club,Age,Left Foot,Wage,Transfer Value,Minutes,Rating,Division,Acceleration,Anticipation,Composure,Decisions,Dribbling,Finishing,First Touch,Heading,Jumping Reach,Off The Ball,Pace,Passing,Positioning,Stamina,Strength,Tackling,Teamwork,Work Rate,Concentration,Natural Fitness,Balance,Agility,Vision,Crossing
+Ebbsfleet 1,Ebbsfleet,29,Very Strong,£575 p/w,£0 - £20K,3630,6.67,National League South,9,9,9,10,9,6,11,7,6,9,9,10,9,10,7,9,11,12,10,13,10,12,9,13
+Maidstone Utd 1,Maidstone Utd,26,Reasonable,£775 p/w,£20K - £200K,3140,6.88,National League South,10,10,9,9,6,6,10,11,14,3,9,9,11,14,14,12,9,13,10,13,12,7,7,4
+Bishop's Stortford 1,Bishop's Stortford,20,Very Strong,£470 p/w,£9K - £90K,3018,6.78,National League South,10,6,5,14,4,4,9,5,11,4,11,12,6,14,7,11,8,12,8,13,8,10,12,2
+Eastbourne Borough 1,Eastbourne Borough,26,Very Strong,£725 p/w,£3K - £28K,2966,6.73,National League South,11,8,4,5,9,7,8,4,4,8,10,8,10,14,7,10,14,14,9,11,8,10,9,8
+Eastleigh 1,Eastleigh,18,Reasonable,£400 p/w,£22K - £210K,2894,6.71,National League South,14,7,6,9,8,3,8,3,7,9,13,7,9,14,9,6,9,12,9,14,8,12,7,10
+Ebbsfleet 2,Ebbsfleet,26,Very Strong,£650 p/w,£0 - £100K,2887,6.84,National League South,9,10,9,11,7,4,9,11,17,9,8,8,12,10,13,10,10,9,10,12,10,9,7,4
+Tonbridge 1,Tonbridge,24,Reasonable,£525 p/w,£4K - £40K,2830,6.73,National League South,10,10,11,12,8,7,10,9,11,9,8,11,8,13,8,11,12,13,12,12,9,11,7,9
+Dover 1,Dover,26,Fairly Strong,£525 p/w,£0 - £75K,2826,6.80,National League South,10,9,9,8,9,6,9,6,7,7,10,11,7,15,13,10,13,14,10,14,8,9,10,7
+St. Albans City 1,St. Albans City,24,Reasonable,£600 p/w,£45K - £140K,2744,6.94,National League South,12,10,8,8,10,8,7,8,12,11,14,8,7,13,11,7,14,14,7,14,10,12,7,8
+Maidenhead 1,Maidenhead,22,Reasonable,£600 p/w,£45K - £425K,2715,6.75,National League South,12,14,4,14,4,3,7,14,11,6,13,13,8,13,9,12,7,8,9,5,9,10,13,1
+Walton & Hersham 1,Walton & Hersham,22,Reasonable,£240 p/w,£500 - £4.5K,2693,6.63,National League South,9,6,7,15,4,2,6,5,10,7,12,8,5,13,6,10,8,15,9,15,4,12,7,12
+Eastleigh 2,Eastleigh,24,Reasonable,£550 p/w,£14K - £140K,2683,6.86,National League South,12,11,10,10,7,6,9,8,12,8,13,11,10,14,9,11,14,13,11,12,8,8,11,7
+Enfield Town 1,Enfield Town,20,Reasonable,£290 p/w,£12K - £120K,2662,6.88,National League South,9,10,6,9,13,6,13,6,13,10,13,12,2,13,5,3,12,10,9,13,13,12,3,12
+Bishop's Stortford 2,Bishop's Stortford,29,Reasonable,£250 p/w,£0 - £20K,2661,6.92,National League South,10,9,9,9,10,9,8,6,8,10,11,10,9,12,9,9,10,12,11,13,9,10,10,8
+Dover 2,Dover,30,Weak,£550 p/w,£18K,2661,6.55,National League South,13,6,9,8,10,7,10,6,6,11,11,9,3,10,8,4,11,11,7,12,10,12,7,8
+Bishop's Stortford 3,Bishop's Stortford,22,Fairly Strong,£500 p/w,£30K - £95K,2655,6.76,National League South,11,8,11,7,9,13,9,9,11,11,12,8,8,12,9,3,8,11,8,15,10,11,9,6
+Havant & W 1,Havant & W,24,Fairly Strong,N/A,£0,2653,6.67,National League South,9,8,6,8,3,4,6,9,12,4,10,7,8,11,12,9,11,11,9,14,11,8,7,2
+Tonbridge 2,Tonbridge,24,Reasonable,£180 p/w,£14K - £130K,2647,6.88,National League South,8,8,12,13,4,6,13,14,10,5,12,9,12,8,5,11,7,7,11,8,8,10,6,3
+Ebbsfleet 3,Ebbsfleet,27,Reasonable,£550 p/w,£1K - £8K,2637,6.65,National League South,11,11,9,9,7,4,7,10,12,8,11,9,11,8,12,11,9,10,10,12,10,8,7,2
+Enfield Town 2,Enfield Town,28,Weak,N/A,£0,2619,6.86,National League South,10,8,8,8,5,5,9,13,15,8,11,7,9,11,13,12,13,12,8,12,12,8,6,3
+Bishop's Stortford 4,Bishop's Stortford,20,Weak,£525 p/w,£3K - £30K,2618,6.88,National League South,12,9,10,9,9,6,9,8,11,8,13,10,11,13,11,11,10,9,11,13,11,13,8,10
+Weston-super-Mare 1,Weston-super-Mare,26,Reasonable,£230 p/w,£2K - £22K,2606,6.59,National League South,12,7,8,7,9,4,10,8,9,8,10,7,7,12,11,10,10,12,8,15,9,11,6,8
+Farnham 1,Farnham,26,Very Weak,£230 p/w,£1K - £8K,2595,6.80,National League South,10,13,10,9,4,3,6,11,12,6,11,5,12,9,13,10,9,10,12,10,8,9,6,2
+Bath City 1,Bath City,23,Reasonable,£750 p/w,£30K - £300K,2580,7.03,National League South,8,6,8,13,7,4,9,12,15,5,11,8,14,7,7,14,7,8,10,12,9,9,8,10
+Weston-super-Mare 2,Weston-super-Mare,22,Very Strong,£330 p/w,£0 - £20K,2574,6.63,National League South,12,9,10,8,9,6,9,8,10,10,12,9,9,8,7,9,8,10,11,11,9,12,7,9
+Bath City 2,Bath City,26,Reasonable,£430 p/w,£45K - £130K,2562,6.90,National League South,9,11,12,11,9,3,10,11,13,5,10,11,11,9,11,12,11,11,10,11,13,10,9,5
+Farnham 2,Farnham,24,Very Strong,£350 p/w,£2.5K - £26K,2560,6.67,National League South,10,8,6,9,11,7,8,7,7,10,10,10,8,8,8,5,8,11,9,10,11,9,10,8
+St. Albans City 2,St. Albans City,24,Very Strong,£575 p/w,£28K - £90K,2558,6.63,National League South,11,10,11,9,10,5,9,8,9,9,10,10,9,8,9,12,11,9,8,9,11,11,11,13
+Maidenhead 2,Maidenhead,24,Very Strong,£500 p/w,£10K - £110K,2551,6.86,National League South,10,10,9,11,8,6,7,12,14,9,11,6,11,5,12,12,8,9,11,15,10,8,7,9
+Bishop's Stortford 5,Bishop's Stortford,22,Weak,£360 p/w,£0 - £35K,2551,6.73,National League South,15,8,8,8,11,8,8,6,9,9,13,7,5,9,6,4,6,10,6,12,15,10,5,8
+Bath City 3,Bath City,23,Reasonable,£725 p/w,£18K - £180K,2544,6.78,National League South,10,11,10,10,11,8,10,8,11,10,12,12,11,12,11,10,15,14,12,15,11,9,10,8
+Bath City 4,Bath City,24,Very Strong,N/A,£0,2538,6.67,National League South,11,8,9,12,6,11,9,8,9,9,11,14,8,12,8,8,10,7,9,7,9,9,10,6
+Eastbourne Borough 2,Eastbourne Borough,24,Fairly Strong,£625 p/w,£18K - £180K,2537,7.01,National League South,11,11,11,11,8,10,9,12,13,11,10,10,8,12,13,9,12,12,10,12,12,10,10,6
+Salisbury 1,Salisbury,26,Reasonable,£650 p/w,£2.5K - £24K,2530,6.69,National League South,9,10,10,10,9,9,11,6,6,11,9,11,9,9,9,6,9,8,8,11,13,12,10,7
+Ebbsfleet 4,Ebbsfleet,26,Reasonable,£525 p/w,£1.5K - £14K,2529,6.82,National League South,9,11,11,11,8,6,11,9,12,9,10,11,11,12,12,10,11,13,12,10,8,8,9,6
+Enfield Town 3,Enfield Town,23,Reasonable,N/A,£0,2529,6.78,National League South,11,10,11,9,9,7,12,6,11,10,12,12,10,12,7,9,13,12,8,11,12,10,11,8
+Farnham 3,Farnham,30,Fairly Strong,N/A,£0,2528,6.65,National League South,9,8,9,8,8,8,9,6,7,7,9,10,11,12,9,7,8,12,8,11,11,9,8,5
+Walton & Hersham 2,Walton & Hersham,23,Reasonable,N/A,£0,2527,6.65,National League South,10,9,9,8,10,9,8,8,15,8,12,8,6,11,11,5,9,10,7,12,11,9,7,8
+Tonbridge 3,Tonbridge,29,Very Strong,N/A,£0,2526,6.63,National League South,13,8,7,5,8,10,8,8,13,8,13,7,5,10,9,5,8,10,6,17,11,12,8,6
+Weston-super-Mare 3,Weston-super-Mare,25,Fairly Strong,£775 p/w,£0 - £45K,2526,6.84,National League South,12,8,10,8,9,7,11,5,5,10,10,11,9,11,6,6,12,15,7,14,10,10,11,9
+Worthing 1,Worthing,18,Fairly Strong,£330 p/w,£22K - £210K,2523,6.67,National League South,11,10,5,7,6,3,8,14,14,6,12,8,8,14,12,12,8,8,9,12,10,10,8,5
+Farnham 4,Farnham,27,Reasonable,£270 p/w,£22K - £65K,2521,6.76,National League South,9,10,10,9,6,5,8,11,13,8,10,11,10,9,10,11,10,10,7,8,9,10,6,4
+Salisbury 2,Salisbury,19,Very Strong,£525 p/w,£4K - £40K,2519,6.73,National League South,10,9,7,13,2,1,6,13,13,3,8,7,14,11,10,13,5,6,7,14,11,11,4,4
+Salisbury 3,Salisbury,26,Very Strong,N/A,£0,2515,6.65,National League South,8,7,6,15,6,5,10,6,12,12,7,10,9,11,11,9,12,12,7,13,10,9,7,4
+St. Albans City 3,St. Albans City,24,Fairly Strong,N/A,£0,2512,6.75,National League South,12,7,8,8,6,6,9,9,10,8,12,8,10,11,9,10,10,10,10,13,10,10,8,8
+Dover 3,Dover,29,Very Strong,£490 p/w,£7K - £70K,2509,6.61,National League South,9,6,10,8,7,5,7,11,11,8,9,10,11,12,10,11,13,12,9,11,9,10,10,5
+Worthing 2,Worthing,19,Reasonable,£320 p/w,£24K - £250K,2508,6.40,National League South,10,8,5,12,5,1,7,3,4,8,11,6,9,15,6,7,13,10,10,13,14,9,9,8
+Worthing 3,Worthing,22,Reasonable,£775 p/w,£500 - £4K,2504,6.86,National League South,9,13,10,13,7,7,11,6,3,10,9,12,10,12,7,10,12,12,11,12,13,9,13,7
+Ebbsfleet 5,Ebbsfleet,22,Very Strong,N/A,£0,2501,6.59,National League South,9,9,6,14,4,3,5,13,11,5,9,5,11,8,7,11,5,6,12,12,8,8,4,1
+Hendon 1,Hendon,24,Weak,£550 p/w,£0 - £12K,2495,6.69,National League South,12,9,10,9,7,10,8,6,8,9,10,5,5,10,9,4,8,9,7,13,9,12,6,7
+St. Albans City 4,St. Albans City,20,Fairly Strong,£650 p/w,£95K - £275K,2487,6.92,National League South,13,9,8,7,13,5,12,5,12,8,14,10,5,12,4,5,8,7,5,13,12,14,8,11
+Dover 4,Dover,24,Reasonable,£525 p/w,£22K - £220K,2486,6.71,National League South,13,9,11,8,5,8,10,6,12,10,12,10,10,13,7,7,13,10,6,7,13,9,11,6
+Chelmsford 1,Chelmsford,20,Very Strong,£240 p/w,£0 - £30K,2486,6.57,National League South,12,12,6,13,4,1,6,14,7,3,9,5,13,8,12,13,6,7,13,16,9,5,7,4
+Enfield Town 4,Enfield Town,21,Weak,£340 p/w,£30K - £100K,2484,6.76,National League South,15,6,7,10,9,4,8,2,7,5,11,9,8,13,10,12,7,7,8,12,9,13,8,11
+Salisbury 4,Salisbury,23,Weak,£500 p/w,£0 - £55K,2473,6.76,National League South,11,10,11,9,7,5,10,8,8,10,10,12,11,12,12,10,10,12,11,12,11,10,8,5
+St. Albans City 5,St. Albans City,22,Reasonable,N/A,£0,2460,6.96,National League South,10,10,8,9,9,6,10,8,13,7,10,11,10,12,10,12,10,11,11,12,11,10,8,7
+Salisbury 5,Salisbury,28,Weak,N/A,£0,2457,6.84,National League South,13,8,9,8,9,11,10,4,6,8,12,8,4,11,7,2,10,10,6,11,9,13,8,8
+Braintree 1,Braintree,22,Weak,N/A,£0,2457,6.50,National League South,12,15,6,16,5,2,8,5,4,8,12,9,5,12,8,11,13,13,8,11,8,9,8,6
+Braintree 2,Braintree,29,Weak,N/A,£0,2455,6.71,National League South,12,10,9,7,4,2,8,12,13,3,13,9,10,9,12,12,9,15,10,12,9,10,3,5
+Bath City 5,Bath City,19,Reasonable,£675 p/w,£28K - £275K,2455,6.69,National League South,14,5,7,13,11,7,8,3,11,9,13,10,2,12,7,1,7,6,8,12,10,15,6,12
+Truro 1,Truro,28,Weak,£625 p/w,£0 - £80K,2454,6.86,National League South,12,8,8,10,8,5,8,11,10,8,11,9,8,12,13,9,11,14,10,13,9,12,7,8
+Ebbsfleet 6,Ebbsfleet,20,Reasonable,£550 p/w,£1K - £9K,2452,6.59,National League South,10,10,10,11,7,6,10,8,5,11,10,11,9,12,5,8,12,12,11,13,9,11,10,5
+Worthing 4,Worthing,21,Weak,£1.4K p/w,£0 - £28K,2438,6.75,National League South,13,6,7,13,1,4,12,5,16,8,12,9,8,12,8,11,7,12,9,16,6,12,10,5
+Maidstone Utd 2,Maidstone Utd,22,Weak,£950 p/w,£275K - £850K,2434,6.86,National League South,12,11,13,10,11,11,10,10,8,11,12,8,12,13,10,5,11,13,8,13,12,10,11,9
+Maidenhead 3,Maidenhead,22,Weak,£1.1K p/w,£6K - £55K,2431,6.63,National League South,12,13,13,10,6,7,11,8,11,13,11,12,10,13,13,10,11,9,9,13,13,12,11,8
+Enfield Town 5,Enfield Town,22,Very Strong,N/A,£0,2428,6.73,National League South,9,7,8,11,3,4,9,9,12,7,10,6,11,9,8,13,9,9,11,13,10,12,7,9
+Enfield Town 6,Enfield Town,21,Fairly Strong,N/A,£0,2427,6.73,National League South,13,5,11,10,10,12,12,7,7,8,12,9,5,11,7,4,6,7,1,13,8,13,6,11
+Salisbury 6,Salisbury,29,Fairly Strong,£650 p/w,£9K - £28K,2405,6.67,National League South,11,10,9,10,6,2,8,9,10,11,13,10,9,10,13,11,10,12,8,5,11,10,7,3
+Weymouth 1,Weymouth,21,Very Strong,£450 p/w,£3K - £28K,2403,6.92,National League South,13,10,8,9,8,7,9,5,6,9,14,8,5,9,8,3,11,11,8,10,10,12,7,8
+Dover 5,Dover,24,Fairly Strong,£525 p/w,£18K - £180K,2398,6.76,National League South,12,9,9,8,11,10,10,8,12,10,14,8,6,10,10,5,10,9,6,9,12,11,9,8
+Braintree 3,Braintree,23,Weak,N/A,£0,2397,6.71,National League South,10,11,8,10,9,7,8,6,8,8,11,9,10,10,10,11,12,11,10,10,11,9,12,8
+Weston-super-Mare 4,Weston-super-Mare,29,Weak,£290 p/w,£0 - £20K,2387,6.71,National League South,12,8,6,7,10,5,9,6,4,9,12,8,8,10,6,8,11,14,8,8,9,11,8,8
+Farnham 5,Farnham,20,Weak,£300 p/w,£26K - £80K,2387,6.59,National League South,13,10,3,13,1,1,6,12,11,5,13,6,12,9,5,13,5,5,7,7,8,13,3,1
+Eastleigh 3,Eastleigh,20,Very Strong,£525 p/w,£20K - £210K,2387,6.67,National League South,12,11,4,12,3,1,5,9,12,4,13,6,12,10,9,11,5,6,13,10,9,12,2,5
+St. Albans City 6,St. Albans City,20,Fairly Strong,£370 p/w,£8K - £75K,2381,6.73,National League South,15,6,6,9,4,5,8,13,13,6,15,5,11,12,11,9,11,12,13,15,10,9,2,10
+Walton & Hersham 3,Walton & Hersham,25,Reasonable,N/A,£0,2380,6.86,National League South,12,11,9,8,10,10,8,9,8,10,12,8,7,9,11,3,9,9,7,12,10,8,8,4
+Maidstone Utd 3,Maidstone Utd,27,Very Strong,£600 p/w,£12K - £40K,2374,6.76,National League South,11,8,11,9,8,7,11,4,5,9,11,12,8,12,5,9,12,12,9,12,13,12,11,7
+Weymouth 2,Weymouth,21,Weak,N/A,£0,2372,6.61,National League South,11,7,3,10,1,2,4,9,18,4,11,4,12,4,8,11,4,5,8,14,6,9,4,2
+Dover 6,Dover,22,Very Strong,£550 p/w,£3.5K - £35K,2359,6.80,National League South,13,8,8,7,9,9,8,7,11,8,14,8,6,13,12,6,9,13,9,13,9,9,8,7
+Tonbridge 4,Tonbridge,26,Very Strong,£470 p/w,£0 - £95K,2355,6.67,National League South,12,7,11,8,11,12,9,6,5,7,10,6,5,10,6,6,10,13,7,9,13,13,10,9
+Bath City 6,Bath City,22,Reasonable,£210 p/w,£2.5K - £26K,2355,6.78,National League South,14,4,3,14,7,4,7,8,14,4,10,12,12,13,8,11,11,11,12,12,8,9,3,6
+Eastleigh 4,Eastleigh,23,Reasonable,£470 p/w,£6K - £55K,2355,6.82,National League South,10,11,11,11,8,4,7,10,11,10,11,12,11,10,12,10,11,10,12,10,11,11,6,5
+Maidenhead 4,Maidenhead,20,Weak,£600 p/w,£20K - £200K,2355,6.88,National League South,11,10,7,12,9,9,14,9,4,5,12,12,12,12,4,15,8,11,9,13,8,11,13,7
+Bath City 7,Bath City,24,Reasonable,£600 p/w,£1K - £10K,2354,6.73,National League South,10,10,12,13,9,10,14,9,12,7,13,8,8,10,5,3,8,8,7,12,5,11,11,7
+Weymouth 3,Weymouth,20,Reasonable,£290 p/w,£5K - £55K,2352,6.73,National League South,14,6,11,11,10,13,12,12,12,11,14,5,5,8,8,1,6,6,5,12,9,13,6,3
+Bishop's Stortford 6,Bishop's Stortford,23,Reasonable,£250 p/w,£500 - £4.5K,2350,6.65,National League South,9,7,12,12,4,4,7,7,15,5,10,2,8,5,6,12,8,6,13,14,7,10,7,5
+Salisbury 7,Salisbury,23,Very Strong,£800 p/w,£10K - £110K,2347,6.57,National League South,11,10,10,7,7,11,9,6,11,11,13,9,5,10,8,5,7,8,7,7,10,8,10,6
+Hendon 2,Hendon,24,Reasonable,£220 p/w,£0 - £20K,2342,6.57,National League South,9,10,6,9,6,5,7,9,9,8,9,8,9,11,10,9,10,10,9,11,9,11,9,6
+Eastbourne Borough 3,Eastbourne Borough,27,Weak,N/A,£0,2341,6.80,National League South,8,9,9,10,9,5,11,9,11,9,8,9,10,10,11,10,11,10,10,11,11,9,11,10
+Maidenhead 5,Maidenhead,24,Weak,£350 p/w,£4.5K,2340,6.90,National League South,13,9,9,6,12,6,11,8,9,10,12,10,7,11,8,5,7,7,8,12,10,13,5,8
+Maidenhead 6,Maidenhead,31,Weak,£875 p/w,£0 - £24K,2333,6.78,National League South,12,9,9,9,10,9,10,4,7,12,12,10,4,9,7,8,12,12,8,9,9,12,9,9
+Bishop's Stortford 7,Bishop's Stortford,20,Reasonable,£320 p/w,£4.5K - £12K,2333,6.55,National League South,10,10,5,14,1,1,2,5,12,2,7,4,13,6,8,12,5,5,11,14,7,8,2,3
+Gosport 1,Gosport,32,Reasonable,£625 p/w,£0,2331,6.48,National League South,10,5,9,8,10,6,11,7,8,8,10,11,9,11,10,9,15,15,8,8,7,7,6,11
+Maidstone Utd 4,Maidstone Utd,24,Weak,£1K p/w,£5K - £50K,2313,6.82,National League South,10,11,11,12,11,7,11,5,7,12,9,10,12,11,9,9,12,13,11,12,12,10,12,8
+Ebbsfleet 7,Ebbsfleet,28,Reasonable,£430 p/w,£0 - £35K,2304,6.78,National League South,9,9,9,9,10,9,11,10,12,9,10,11,9,10,8,8,10,10,9,11,12,12,11,9
+Truro 2,Truro,25,Reasonable,£675 p/w,£16K - £170K,2304,6.78,National League South,11,12,12,9,10,12,9,9,8,13,10,10,9,11,7,8,11,12,10,18,11,11,11,12
+Chelmsford 2,Chelmsford,19,Very Strong,£950 p/w,£28K - £85K,2304,6.76,National League South,12,13,12,14,7,6,9,8,8,12,12,8,8,11,9,4,8,12,8,12,14,12,10,11
+Truro 3,Truro,23,Very Strong,£550 p/w,£4.5K - £45K,2302,6.73,National League South,10,10,9,9,9,8,10,8,8,9,11,10,10,11,8,8,10,11,11,11,12,11,10,10
+Truro 4,Truro,24,Very Strong,N/A,£0,2296,6.86,National League South,10,8,7,10,8,3,9,11,13,6,11,8,11,10,12,12,11,11,11,10,13,9,4,5
+Enfield Town 7,Enfield Town,21,Reasonable,£260 p/w,£0 - £24K,2295,6.86,National League South,12,7,2,12,2,1,5,12,17,1,7,6,13,9,7,11,4,6,9,14,7,8,1,3
+Welling 1,Welling,26,Reasonable,N/A,£0,2294,6.80,National League South,14,7,6,9,4,4,8,6,9,4,14,8,8,6,6,12,7,7,14,8,7,14,5,11
+Welling 2,Welling,19,Fairly Strong,£330 p/w,£100K - £300K,2284,6.55,National League South,11,10,6,8,5,2,5,5,13,5,11,4,11,13,11,12,11,11,7,9,12,12,5,6
+Walton & Hersham 4,Walton & Hersham,19,Reasonable,£360 p/w,£2K - £18K,2279,6.82,National League South,15,5,10,12,6,8,13,5,7,6,12,12,3,6,3,8,12,9,4,14,7,13,13,9
+Eastbourne Borough 4,Eastbourne Borough,23,Very Strong,£800 p/w,£6K - £55K,2277,6.80,National League South,11,11,13,11,8,7,10,7,12,8,12,12,10,12,8,10,12,12,9,13,11,11,13,10
+Walton & Hersham 5,Walton & Hersham,26,Weak,£340 p/w,£1.5K - £16K,2270,6.76,National League South,13,10,11,7,7,4,8,7,8,9,12,11,7,12,9,7,12,11,10,13,9,9,10,6
+Tonbridge 5,Tonbridge,23,Very Strong,£370 p/w,£0 - £24K,2268,6.65,National League South,13,9,7,13,9,1,9,7,4,9,11,9,9,9,4,9,12,12,7,15,14,14,4,11
+Tonbridge 6,Tonbridge,19,Very Strong,£600 p/w,£6K - £55K,2261,6.76,National League South,13,8,7,7,9,8,11,9,10,11,12,9,3,12,7,1,11,7,5,13,14,11,9,10
+Bath City 8,Bath City,22,Very Strong,£550 p/w,£14K - £150K,2248,6.63,National League South,14,9,7,12,4,3,10,5,9,5,12,8,11,10,9,15,9,8,10,12,9,13,6,13
+Truro 5,Truro,28,Weak,£1K p/w,£18K - £170K,2246,6.92,National League South,11,8,9,10,10,11,11,9,11,12,13,9,8,11,10,5,11,10,8,12,10,11,9,9
+Hendon 3,Hendon,20,Very Strong,£440 p/w,£12K - £120K,2243,6.65,National League South,14,7,3,11,6,1,6,6,7,4,12,8,6,11,12,12,7,7,15,15,10,11,7,12
+Gosport 2,Gosport,18,Fairly Strong,£340 p/w,£12K - £120K,2243,6.65,National League South,9,8,7,8,4,2,6,8,15,4,7,10,11,8,13,14,4,9,8,18,10,6,9,3
+Braintree 4,Braintree,28,Reasonable,N/A,£0,2237,6.63,National League South,12,8,8,8,7,10,8,9,4,8,11,10,7,11,9,7,8,10,7,14,12,6,10,8
+Enfield Town 8,Enfield Town,35,Weak,£230 p/w,£0 - £12K,2233,6.86,National League South,6,12,12,12,5,8,12,9,9,10,5,10,12,10,11,12,16,13,12,13,8,5,12,7
+Havant & W 2,Havant & W,20,Weak,£350 p/w,£0 - £120K,2229,6.75,National League South,11,8,9,11,10,14,9,10,15,10,12,10,2,8,8,1,5,10,5,16,15,12,6,5
+St. Albans City 7,St. Albans City,19,Very Strong,£340 p/w,£6K - £60K,2225,6.76,National League South,14,7,9,7,9,10,14,10,9,12,12,9,5,12,8,3,11,10,5,15,11,13,8,9
+Havant & W 3,Havant & W,19,Reasonable,£320 p/w,£24K - £75K,2217,6.78,National League South,13,3,5,9,5,5,12,4,7,7,14,13,6,9,7,12,8,12,11,14,8,13,12,6
+St. Albans City 8,St. Albans City,19,Reasonable,£340 p/w,£18K - £170K,2216,6.57,National League South,14,10,8,14,3,7,10,5,10,7,10,12,9,10,9,12,7,12,9,9,10,11,10,5
+Gosport 3,Gosport,19,Reasonable,£440 p/w,£75K - £230K,2205,6.71,National League South,9,10,10,12,6,4,9,3,13,5,12,8,15,16,10,11,8,11,13,11,9,11,11,7
+Welling 3,Welling,25,Weak,N/A,£0,2201,6.67,National League South,12,10,9,7,9,9,8,6,5,10,11,9,4,9,7,4,10,13,8,11,10,12,9,7
+Truro 6,Truro,22,Weak,£725 p/w,£110K - £325K,2178,6.80,National League South,10,10,8,9,8,6,7,11,15,6,10,8,12,9,12,10,10,12,12,12,11,8,10,5
+Maidstone Utd 5,Maidstone Utd,22,Reasonable,£1.4K p/w,£12K - £35K,2168,7.03,National League South,10,9,9,9,6,3,11,14,15,7,11,10,13,4,9,11,7,8,10,13,9,9,8,2
+Welling 4,Welling,18,Reasonable,£320 p/w,£16K - £160K,2167,6.76,National League South,8,5,8,11,4,5,12,4,11,10,11,10,8,14,7,7,10,12,11,15,15,9,12,3
+Worthing 5,Worthing,23,Very Strong,£850 p/w,£60K - £190K,2164,6.63,National League South,12,9,6,13,1,1,6,13,9,5,14,5,14,4,8,12,3,6,14,13,5,12,1,1
+Maidstone Utd 6,Maidstone Utd,20,Weak,£675 p/w,£10K - £110K,2157,6.69,National League South,11,8,10,11,4,9,11,5,5,8,10,13,10,12,7,12,13,13,12,16,11,11,7,5
+Eastleigh 5,Eastleigh,18,Very Strong,£330 p/w,£20K - £65K,2157,6.73,National League South,14,10,9,11,8,7,10,9,7,10,12,8,7,12,7,1,10,11,8,16,13,13,12,6
+Salisbury 8,Salisbury,27,Fairly Strong,£625 p/w,£7K,2149,6.80,National League South,12,9,6,8,10,8,8,5,8,11,12,8,4,10,11,4,8,10,7,9,11,10,8,10
+Eastbourne Borough 5,Eastbourne Borough,23,Weak,£725 p/w,£20K - £210K,2137,6.76,National League South,11,9,9,15,9,10,14,9,8,8,13,13,7,9,5,6,14,11,9,13,10,14,10,11
+Enfield Town 9,Enfield Town,22,Weak,£380 p/w,£0 - £95K,2128,6.78,National League South,5,10,8,14,5,3,12,8,16,9,10,11,10,12,8,13,13,10,12,10,9,10,13,6
+Bishop's Stortford 8,Bishop's Stortford,19,Weak,£250 p/w,£3.5K - £12K,2128,6.63,National League South,11,5,6,13,3,2,2,13,16,1,12,4,8,6,9,10,5,5,11,16,8,13,4,2
+Hendon 4,Hendon,22,Reasonable,£230 p/w,£0 - £24K,2124,6.71,National League South,12,6,7,10,3,4,11,5,4,6,12,13,7,8,7,12,7,10,6,18,9,12,12,2
+Truro 7,Truro,28,Weak,£975 p/w,£26K - £275K,2115,6.90,National League South,9,10,11,8,8,11,10,11,11,11,11,8,7,10,11,7,13,9,10,11,10,11,8,6
+Walton & Hersham 6,Walton & Hersham,22,Reasonable,N/A,£0,2114,6.65,National League South,11,8,13,7,14,12,8,7,8,9,13,6,5,7,6,4,7,11,8,6,12,11,7,9
+Havant & W 4,Havant & W,26,Weak,N/A,£0,2101,6.90,National League South,12,10,10,10,4,4,9,11,12,8,12,7,8,13,8,10,10,11,9,13,9,9,9,6
+Braintree 5,Braintree,22,Very Strong,£600 p/w,£18K - £180K,2099,6.50,National League South,14,5,6,14,10,1,8,5,5,5,14,11,9,7,4,13,13,11,6,14,7,12,6,7
+Truro 8,Truro,35,Very Strong,£650 p/w,£0 - £4.5K,2082,6.94,National League South,11,10,9,12,8,9,11,3,6,9,7,10,8,10,6,5,14,15,7,12,10,6,3,13
+Gosport 4,Gosport,22,Weak,N/A,£0,2079,6.57,National League South,10,4,7,13,6,6,13,5,6,9,8,6,8,10,3,10,12,12,7,11,14,7,7,3
+Chelmsford 3,Chelmsford,23,Reasonable,£600 p/w,£14K - £40K,2072,6.63,National League South,10,7,13,12,4,6,14,7,9,7,12,12,7,7,6,8,6,11,10,13,9,13,15,7
+Havant & W 5,Havant & W,31,Weak,N/A,£0,2070,7.03,National League South,12,10,10,7,9,5,7,9,10,9,11,6,4,10,12,4,9,13,9,15,9,11,7,6
+Maidenhead 7,Maidenhead,23,Fairly Strong,£1.3K p/w,£45K - £140K,2066,6.80,National League South,13,10,8,8,8,6,10,7,6,8,11,9,10,9,9,11,11,11,11,13,11,12,9,9
+Havant & W 6,Havant & W,23,Very Strong,£650 p/w,£0 - £55K,2062,6.67,National League South,11,10,10,10,8,4,7,7,8,9,11,9,12,11,11,9,10,11,10,12,11,10,10,9
+St. Albans City 9,St. Albans City,32,Reasonable,N/A,£0,2049,6.73,National League South,9,8,8,9,4,5,8,12,11,9,9,8,11,10,11,10,13,12,10,13,9,7,7,7
+Chelmsford 4,Chelmsford,29,Weak,£300 p/w,£0 - £95K,2048,6.61,National League South,8,10,10,8,8,6,9,12,11,6,9,10,12,12,13,13,11,13,9,11,8,6,9,6
+Maidenhead 8,Maidenhead,18,Reasonable,£320 p/w,£300K - £850K,2040,6.76,National League South,10,12,9,13,3,4,5,10,12,5,11,5,10,8,13,13,10,7,8,12,14,9,5,4
+Truro 9,Truro,29,Weak,£725 p/w,£0 - £95K,2035,6.78,National League South,10,10,8,11,7,7,9,10,12,10,9,9,10,11,9,10,13,13,9,15,10,9,6,10
+Chelmsford 5,Chelmsford,23,Strong,£430 p/w,£1.5K - £16K,2031,6.90,National League South,13,7,6,7,8,7,11,4,11,8,13,11,6,7,4,7,7,13,5,14,13,13,6,11
+Walton & Hersham 7,Walton & Hersham,26,Reasonable,N/A,,2029,6.69,National League South,12,9,7,8,8,8,6,8,13,10,13,5,10,10,11,2,9,8,8,11,10,11,8,6
+Farnham 6,Farnham,19,Very Strong,N/A,£0,2023,6.23,National League South,10,5,4,6,9,2,3,4,8,9,11,7,3,8,6,1,7,11,3,15,14,7,4,6
+Worthing 6,Worthing,18,Reasonable,£330 p/w,£7K - £75K,2022,6.61,National League South,10,10,12,9,13,9,11,6,16,11,11,11,3,9,6,4,6,5,8,12,14,11,11,8
+Dover 7,Dover,18,Reasonable,£320 p/w,£85K - £250K,2021,6.73,National League South,9,13,6,12,3,1,7,13,17,7,10,6,11,8,9,12,7,10,7,11,5,7,5,3
+St. Albans City 10,St. Albans City,23,Reasonable,£450 p/w,£35K - £100K,2018,6.96,National League South,12,9,14,12,11,12,12,8,14,6,13,10,6,6,8,3,6,8,3,15,7,12,7,13
+Maidstone Utd 7,Maidstone Utd,27,Very Strong,£625 p/w,£14K - £130K,2017,6.71,National League South,14,12,8,9,6,5,8,8,6,9,13,8,7,12,9,10,10,10,10,14,10,10,9,11
+Chelmsford 6,Chelmsford,24,Weak,£240 p/w,£16K - £160K,2016,6.84,National League South,13,9,11,9,8,12,9,10,11,11,13,8,9,10,8,4,13,12,10,11,13,12,7,6
+Havant & W 7,Havant & W,22,Very Strong,N/A,,2007,6.67,National League South,6,8,8,14,4,8,10,6,8,7,8,6,10,11,7,12,14,13,10,13,11,9,8,7
+St. Albans City 11,St. Albans City,32,Reasonable,N/A,£0,2004,6.78,National League South,11,10,9,10,10,10,10,7,10,11,10,8,6,9,11,6,11,12,8,14,10,8,9,6
+Bath City 9,Bath City,22,Reasonable,£480 p/w,£3.5K - £35K,1998,6.76,National League South,13,8,8,11,10,10,10,5,11,10,13,7,5,7,6,2,6,9,5,13,9,14,5,8
+Farnham 7,Farnham,28,Weak,N/A,£0,1987,6.65,National League South,8,11,6,12,2,6,14,11,13,6,8,12,10,6,8,13,7,12,11,12,6,8,8,5
+Hendon 5,Hendon,18,Reasonable,£410 p/w,£0 - £24K,1983,6.48,National League South,13,6,4,11,5,3,6,6,10,6,13,5,9,10,7,11,7,8,10,10,14,10,3,8
+Eastbourne Borough 6,Eastbourne Borough,23,Reasonable,N/A,£0,1981,6.65,National League South,5,9,8,13,6,3,7,11,14,4,6,6,14,8,6,11,12,12,10,14,7,4,3,7
+Weston-super-Mare 5,Weston-super-Mare,20,Reasonable,£440 p/w,£12K - £120K,1972,6.73,National League South,11,6,8,13,3,7,12,6,13,5,9,10,12,14,9,10,5,11,10,13,10,11,7,5
+Havant & W 8,Havant & W,20,Reasonable,£550 p/w,£3K - £30K,1968,7.07,National League South,5,11,12,12,10,16,10,11,14,12,7,8,8,10,11,7,12,8,8,12,16,6,6,5
+Havant & W 9,Havant & W,21,Reasonable,N/A,£0,1966,6.63,National League South,14,7,4,11,3,4,10,4,4,8,11,10,4,13,9,3,5,11,4,11,8,11,13,3
+Chelmsford 7,Chelmsford,21,Reasonable,£625 p/w,£14K - £130K,1963,6.73,National League South,14,5,10,12,7,8,9,7,14,8,14,5,3,10,9,1,4,7,4,15,9,13,7,9
+Eastleigh 6,Eastleigh,20,Very Strong,£675 p/w,£30K - £300K,1960,6.76,National League South,15,9,12,10,11,7,10,1,11,11,11,7,8,11,11,4,12,13,7,11,9,13,10,10
+Truro 10,Truro,29,Very Strong,N/A,£0,1956,6.80,National League South,9,9,8,10,11,6,9,8,10,11,9,10,10,11,9,9,12,11,10,8,11,9,10,6
+Maidenhead 9,Maidenhead,26,Fairly Strong,N/A,£0,1952,6.75,National League South,12,9,9,7,9,9,10,10,9,12,12,8,8,8,9,5,9,10,8,9,10,8,8,8
+Gosport 5,Gosport,18,Reasonable,£320 p/w,£24K - £240K,1952,6.80,National League South,10,9,10,9,9,3,8,6,7,8,13,7,7,13,9,7,8,12,7,15,8,13,7,8
+Walton & Hersham 8,Walton & Hersham,20,Reasonable,N/A,£0,1950,6.63,National League South,12,8,2,11,1,1,5,11,6,1,12,6,13,10,9,10,4,5,9,14,8,12,1,2
+Farnham 8,Farnham,30,Reasonable,N/A,£0,1949,6.55,National League South,9,9,12,9,7,6,10,5,6,6,10,9,9,11,13,9,11,13,7,11,12,11,9,4
+Salisbury 9,Salisbury,21,Reasonable,£400 p/w,£0 - £85K,1940,6.67,National League South,11,8,8,15,5,8,6,6,9,10,9,6,11,9,8,13,7,12,6,10,5,12,10,6
+St. Albans City 12,St. Albans City,25,Fairly Strong,N/A,£0,1939,6.59,National League South,10,11,9,11,7,4,11,7,7,9,9,11,9,12,8,9,12,13,11,11,10,9,8,4
+Weston-super-Mare 6,Weston-super-Mare,23,Weak,£280 p/w,£6K - £18K,1935,6.61,National League South,15,7,6,7,3,5,9,6,10,8,14,14,9,11,9,13,8,13,4,12,9,11,7,6
+Welling 5,Welling,27,Weak,£400 p/w,£6K,1931,6.48,National League South,13,9,10,7,7,8,9,7,11,8,12,6,6,10,10,4,8,9,4,10,10,9,6,5
+Braintree 6,Braintree,25,Weak,N/A,,1924,6.44,National League South,11,8,7,8,9,4,10,1,4,5,11,7,6,8,4,7,11,9,3,10,11,7,8,7
+Braintree 7,Braintree,26,Reasonable,N/A,,1917,6.75,National League South,11,14,3,13,1,1,3,11,13,4,11,5,13,7,5,9,5,6,11,18,6,7,3,1
+Ebbsfleet 8,Ebbsfleet,29,Weak,£390 p/w,£0 - £26K,1911,6.67,National League South,11,10,10,8,7,9,9,12,12,10,11,9,10,11,13,5,11,11,8,12,10,10,8,6
+Chelmsford 8,Chelmsford,23,Reasonable,£250 p/w,£0 - £60K,1886,6.73,National League South,13,9,6,7,5,4,6,8,13,5,13,8,11,13,12,9,10,10,9,12,11,12,7,5
+Hendon 6,Hendon,23,Reasonable,£270 p/w,£0 - £24K,1877,6.63,National League South,12,6,12,13,2,6,13,4,12,9,8,13,7,7,6,4,6,10,4,10,3,11,7,4
+Gosport 6,Gosport,19,Reasonable,£500 p/w,£22K - £210K,1868,6.78,National League South,9,6,5,9,6,4,10,5,17,9,11,10,8,10,10,7,10,11,8,14,14,11,13,4
+Maidstone Utd 8,Maidstone Utd,22,Weak,£1.3K p/w,Not for Sale,1861,6.76,National League South,13,10,9,9,9,6,7,7,12,8,15,8,10,14,10,9,10,12,11,8,10,10,7,9
+Enfield Town 10,Enfield Town,26,Weak,N/A,£0,1858,6.82,National League South,11,8,9,7,7,8,12,9,4,13,11,10,8,12,5,4,13,16,9,12,8,10,10,6
+Dover 8,Dover,19,Reasonable,£725 p/w,£60K - £600K,1855,6.65,National League South,12,7,10,10,5,6,10,5,12,9,13,6,6,13,7,5,10,15,4,12,14,13,8,7
+Gosport 7,Gosport,28,Weak,N/A,£0,1849,6.48,National League South,12,6,7,10,4,1,7,6,15,5,13,6,14,13,8,7,5,8,11,14,7,10,4,3
+Ebbsfleet 9,Ebbsfleet,18,Reasonable,£875 p/w,£500 - £6K,1834,6.61,National League South,10,11,13,7,10,12,11,12,10,11,11,4,5,7,6,1,8,11,3,14,13,9,7,5
+Chelmsford 9,Chelmsford,18,Weak,£420 p/w,£65K - £650K,1829,6.75,National League South,9,11,5,8,4,3,7,14,13,8,9,6,14,11,12,11,8,12,7,5,9,6,6,5
+Maidenhead 10,Maidenhead,29,Reasonable,£775 p/w,£35K - £100K,1827,6.69,National League South,10,11,12,11,10,8,12,8,8,11,11,12,5,10,10,6,9,8,10,10,11,10,12,11
+Ebbsfleet 10,Ebbsfleet,23,Reasonable,£525 p/w,£0,1793,6.65,National League South,10,11,9,7,8,12,8,7,15,8,10,10,9,9,7,7,12,12,10,12,9,10,10,5
+Braintree 8,Braintree,26,Very Weak,N/A,£0,1776,6.44,National League South,11,9,8,5,7,10,7,8,14,10,11,6,7,7,10,4,6,10,7,9,9,11,7,5
+Gosport 8,Gosport,18,Weak,£320 p/w,£16K - £160K,1770,6.61,National League South,11,5,2,13,6,3,4,10,14,4,12,6,9,13,8,7,10,14,11,16,14,9,5,6
+Weston-super-Mare 7,Weston-super-Mare,19,Reasonable,£460 p/w,£24K - £240K,1768,6.80,National League South,15,6,6,7,9,3,7,5,8,6,14,7,5,13,7,4,9,15,8,10,10,13,4,10
+Walton & Hersham 9,Walton & Hersham,21,Weak,£310 p/w,£2K - £18K,1756,6.63,National League South,11,9,4,8,9,5,8,1,6,9,14,9,4,11,4,6,12,12,5,13,8,14,7,8
+Havant & W 10,Havant & W,24,Very Weak,£250 p/w,£500 - £6K,1747,6.69,National League South,14,11,7,8,10,5,8,7,8,8,12,9,8,11,9,10,11,12,8,12,9,12,8,11
+Eastbourne Borough 7,Eastbourne Borough,22,Weak,£190 p/w,£0,1731,6.69,National League South,11,9,13,10,9,7,9,8,7,11,12,9,9,13,10,9,12,11,9,13,12,12,9,3
+Walton & Hersham 10,Walton & Hersham,21,Reasonable,£280 p/w,£3.5K,1727,6.61,National League South,13,4,8,6,10,6,8,5,8,10,13,8,4,7,4,2,13,12,4,11,12,13,7,6
+Truro 11,Truro,19,Weak,£320 p/w,£0 - £50K,1727,6.84,National League South,12,6,8,9,3,3,4,12,17,7,8,3,13,11,14,11,7,8,10,11,15,7,6,2
+Tonbridge 7,Tonbridge,24,Reasonable,£250 p/w,£6K - £60K,1714,6.88,National League South,14,9,7,8,10,5,12,8,9,9,12,7,8,12,10,9,11,10,8,12,9,12,5,7
+Welling 6,Welling,27,Weak,N/A,£0,1711,6.48,National League South,9,10,10,10,8,9,8,8,11,9,9,9,7,9,6,5,9,12,9,9,7,9,11,7
+Ebbsfleet 11,Ebbsfleet,27,Weak,N/A,£0,1692,6.67,National League South,11,9,10,8,9,9,8,4,6,11,11,8,11,11,8,7,13,14,11,11,10,11,10,8
+Eastbourne Borough 8,Eastbourne Borough,22,Reasonable,N/A,£0,1690,6.82,National League South,11,9,8,10,11,8,10,7,12,10,11,9,5,9,8,5,9,12,9,13,9,12,9,11
+Walton & Hersham 11,Walton & Hersham,19,Weak,£320 p/w,£14K - £140K,1689,6.78,National League South,10,7,7,15,8,6,12,5,15,10,9,8,9,14,10,9,12,14,9,11,10,7,9,7
+Maidstone Utd 9,Maidstone Utd,25,Very Strong,£750 p/w,£1K - £12K,1685,6.82,National League South,10,8,9,8,7,11,9,10,11,11,11,8,7,11,10,6,11,12,8,11,10,10,8,7
+Dover 9,Dover,21,Weak,N/A,£0,1685,6.55,National League South,13,7,12,8,13,12,11,6,8,12,9,5,3,7,7,1,3,4,4,10,6,10,1,3
+Farnham 9,Farnham,20,Reasonable,£260 p/w,£0 - £16K,1682,6.73,National League South,14,5,7,12,5,5,10,1,9,6,14,9,6,9,8,9,7,10,10,12,7,14,9,3
+Weston-super-Mare 8,Weston-super-Mare,18,Weak,£1K p/w,£0 - £55K,1672,6.78,National League South,9,11,8,13,7,4,10,11,9,5,9,9,13,12,10,9,8,6,12,13,8,8,6,4
+Walton & Hersham 12,Walton & Hersham,20,Fairly Strong,N/A,£0,1671,6.63,National League South,5,6,7,12,1,3,8,10,12,4,9,7,13,5,10,13,4,4,7,15,8,6,8,1
+Bath City 10,Bath City,23,Reasonable,£575 p/w,£0 - £40K,1656,6.84,National League South,12,8,10,9,8,8,8,9,14,9,13,7,5,14,11,5,11,13,9,14,8,6,7,5
+Welling 7,Welling,19,Fairly Strong,£320 p/w,£4K - £40K,1647,6.53,National League South,10,9,4,10,2,1,4,11,13,5,12,4,13,10,9,12,5,4,10,7,9,9,3,2
+Truro 12,Truro,27,Very Strong,£500 p/w,£3K,1629,6.69,National League South,10,10,7,8,7,5,9,10,15,8,11,8,11,10,10,10,10,10,8,10,9,8,8,4
+Chelmsford 10,Chelmsford,20,Weak,£320 p/w,£40K - £375K,1626,6.78,National League South,12,10,6,14,6,4,13,5,13,6,15,8,8,10,11,10,7,7,9,8,8,16,6,12
+Walton & Hersham 13,Walton & Hersham,22,Reasonable,£180 p/w,£0 - £20K,1625,6.73,National League South,10,9,7,6,6,4,7,10,13,5,12,8,9,9,12,10,9,9,10,9,10,9,5,6
+Weymouth 4,Weymouth,18,Very Strong,N/A,£0,1623,6.51,National League South,14,7,3,7,7,2,5,2,5,5,13,4,5,12,3,5,8,8,7,14,8,12,6,9
+Gosport 9,Gosport,18,Very Strong,£440 p/w,£16K - £150K,1586,6.59,National League South,14,6,4,7,6,3,8,4,9,6,13,6,7,13,10,8,8,12,6,5,14,13,2,6
+Hendon 7,Hendon,20,Weak,£525 p/w,£9K - £95K,1582,6.80,National League South,12,8,11,7,11,13,12,5,11,10,11,12,3,7,5,4,6,8,7,9,8,11,10,11
+Chelmsford 11,Chelmsford,20,Very Strong,£240 p/w,£0 - £50K,1570,6.73,National League South,13,10,7,12,9,10,14,5,7,9,12,12,5,10,9,5,8,14,6,16,8,12,12,6
+Truro 13,Truro,25,Reasonable,£500 p/w,£0 - £16K,1549,6.73,National League South,13,11,10,7,6,8,13,10,11,10,11,2,8,11,7,1,5,5,6,17,7,10,7,4
+Bath City 11,Bath City,27,Very Strong,N/A,£0,1548,6.71,National League South,12,7,9,8,12,8,10,3,4,9,11,9,3,8,6,4,8,10,7,10,10,13,8,8
+Havant & W 11,Havant & W,19,Weak,N/A,£0,1548,6.84,National League South,13,5,7,6,10,11,8,7,8,8,13,6,3,9,10,3,4,8,6,7,10,11,5,13
+Gosport 10,Gosport,29,Weak,N/A,£0,1547,6.57,National League South,11,11,9,11,5,11,8,10,10,10,11,5,4,10,9,4,13,12,8,16,9,9,7,6
+St. Albans City 13,St. Albans City,17,Very Strong,£200 p/w,£8K - £24K,1535,6.69,National League South,10,8,9,6,11,7,6,4,14,13,12,10,4,14,10,2,7,7,10,7,14,9,7,9
+Weston-super-Mare 9,Weston-super-Mare,22,Very Strong,N/A,£0,1527,6.53,National League South,10,9,8,13,9,9,10,2,8,11,8,10,9,10,6,6,14,13,10,10,6,7,11,7
+Tonbridge 8,Tonbridge,20,Reasonable,£575 p/w,£24K - £240K,1521,6.86,National League South,13,12,8,13,4,7,11,5,9,8,14,11,10,12,8,10,8,9,11,12,6,13,10,8
+Chelmsford 12,Chelmsford,18,Strong,£340 p/w,£16K - £160K,1520,6.69,National League South,15,8,8,8,3,14,9,8,7,8,13,6,3,7,7,1,9,8,3,13,8,13,6,10
+Bath City 12,Bath City,32,Reasonable,N/A,£0,1519,6.82,National League South,11,9,9,8,7,9,8,13,14,11,11,8,7,13,13,9,12,13,9,11,10,9,9,7
+Weston-super-Mare 10,Weston-super-Mare,31,Weak,N/A,£0,1518,6.78,National League South,8,10,9,10,5,10,9,11,14,8,10,9,7,11,11,7,12,12,10,12,11,10,9,5
+Braintree 9,Braintree,20,Very Strong,N/A,£0,1506,6.57,National League South,14,3,4,5,7,6,8,5,8,8,11,5,5,7,2,4,12,11,3,7,10,12,6,8
+Gosport 11,Gosport,21,Reasonable,N/A,£0,1499,6.57,National League South,9,10,11,11,7,6,8,4,9,9,11,9,8,9,5,6,13,11,6,10,6,11,14,4
+Eastleigh 7,Eastleigh,19,Weak,£480 p/w,£95K - £300K,1466,6.65,National League South,14,6,9,8,10,13,7,5,10,9,11,10,2,11,8,3,4,9,5,18,14,14,2,11
+Salisbury 10,Salisbury,19,Very Strong,£750 p/w,£35K - £350K,1461,6.67,National League South,13,13,4,13,2,2,4,13,12,1,15,4,8,12,11,12,6,7,10,9,11,12,3,4
+Walton & Hersham 14,Walton & Hersham,21,Very Strong,£390 p/w,£24K - £75K,1445,6.57,National League South,11,9,6,11,8,2,12,4,12,7,15,8,7,11,7,9,7,8,9,9,10,14,7,11
+Welling 8,Welling,34,Very Weak,N/A,£0,1435,6.51,National League South,7,10,9,9,9,7,9,6,6,9,7,11,9,8,7,10,15,18,11,11,7,5,9,6
+Maidenhead 11,Maidenhead,29,Weak,£500 p/w,£0 - £30K,1431,6.73,National League South,9,6,6,10,6,4,7,11,13,6,8,6,12,6,13,11,6,6,9,11,8,10,6,3
+Weymouth 5,Weymouth,16,Reasonable,£5 p/w,£0 - £8K,1417,6.51,National League South,10,5,6,8,3,1,8,4,9,5,10,4,10,10,5,6,17,14,7,12,12,12,4,6
+Ebbsfleet 12,Ebbsfleet,18,Reasonable,N/A,£0,1412,6.51,National League South,13,6,11,10,9,8,11,5,11,11,11,8,4,9,6,2,8,11,7,11,11,11,7,5
+Ebbsfleet 13,Ebbsfleet,21,Fairly Strong,£550 p/w,£12K - £130K,1407,6.94,National League South,12,8,6,13,2,1,5,10,14,5,11,5,13,9,13,11,4,4,9,14,8,10,5,4
+Walton & Hersham 15,Walton & Hersham,25,Weak,£575 p/w,£1K - £9K,1398,6.69,National League South,11,9,6,8,7,8,6,12,13,7,12,8,9,11,11,12,8,9,10,11,11,10,6,6
+Chelmsford 13,Chelmsford,24,Reasonable,N/A,£0,1396,6.69,National League South,10,8,12,9,8,10,7,6,7,11,9,9,9,14,7,7,11,12,9,6,6,10,9,8
+Gosport 12,Gosport,24,Very Weak,N/A,£0,1390,6.61,National League South,12,11,8,12,2,1,6,8,17,6,14,7,9,6,6,7,5,7,7,15,7,12,5,7
+Dover 10,Dover,21,Very Strong,£625 p/w,£1K - £8K,1384,6.57,National League South,12,9,9,9,7,4,9,6,13,11,12,8,12,11,10,9,10,12,9,13,10,10,9,6
+Worthing 7,Worthing,18,Very Strong,£490 p/w,£500 - £3K,1382,6.71,National League South,8,10,9,11,1,1,4,8,16,1,8,1,9,9,12,12,3,5,8,12,13,8,5,3
+Eastbourne Borough 9,Eastbourne Borough,32,Reasonable,N/A,£0,1381,6.57,National League South,10,10,8,9,10,8,10,5,8,12,10,8,8,8,8,6,15,15,8,13,9,9,8,8
+Weston-super-Mare 11,Weston-super-Mare,21,Weak,N/A,£0,1381,6.63,National League South,12,7,6,12,7,4,7,4,10,5,10,10,5,14,7,11,13,12,6,16,8,11,6,7
+Weymouth 6,Weymouth,22,Weak,N/A,£0,1376,6.42,National League South,7,6,8,15,1,1,6,7,5,4,11,6,14,6,7,6,4,6,8,7,6,10,7,3
+Maidenhead 12,Maidenhead,25,Reasonable,£500 p/w,£0 - £26K,1367,6.80,National League South,10,13,8,15,7,7,8,6,7,8,10,12,12,9,5,11,7,6,8,12,8,10,10,8
+Tonbridge 9,Tonbridge,26,Weak,£470 p/w,£3K,1361,6.65,National League South,10,12,9,9,9,4,10,10,13,9,10,10,10,10,8,11,13,13,11,13,12,8,8,10
+Truro 14,Truro,27,Very Strong,£500 p/w,£1K - £8K,1343,6.80,National League South,11,10,9,10,7,7,7,8,10,10,10,9,8,15,8,9,11,11,8,8,9,9,9,6
+Havant & W 12,Havant & W,27,Weak,N/A,£0,1338,6.59,National League South,10,12,9,8,8,4,10,9,15,8,11,9,7,8,13,9,9,10,9,13,7,8,4,7
+Eastleigh 8,Eastleigh,20,Reasonable,N/A,£0,1327,6.75,National League South,9,13,8,13,12,15,9,5,6,14,10,4,6,11,9,2,6,7,6,10,9,12,7,4
+Welling 9,Welling,25,Weak,N/A,£0,1326,6.55,National League South,10,5,7,12,3,1,5,8,10,5,10,2,13,7,8,12,5,6,12,15,8,8,3,1
+Hendon 8,Hendon,26,Weak,N/A,£0,1318,6.53,National League South,13,7,7,10,9,3,10,6,10,6,13,7,6,9,8,7,12,7,6,15,10,11,5,10
+Farnham 10,Farnham,18,Weak,N/A,£0,1315,6.53,National League South,12,11,10,9,9,7,9,5,6,14,11,6,6,12,5,1,4,7,7,13,8,11,9,9
+Worthing 8,Worthing,23,Reasonable,N/A,£0,1309,6.46,National League South,11,5,3,11,1,1,5,6,14,1,12,3,5,4,5,8,3,5,7,8,6,12,1,5
+Dover 11,Dover,29,Weak,N/A,£0,1307,6.51,National League South,10,8,10,8,8,8,9,8,13,10,10,9,9,10,10,8,11,11,9,5,8,8,10,7
+Maidstone Utd 10,Maidstone Utd,22,Very Strong,£800 p/w,£0 - £50K,1295,6.69,National League South,14,8,7,7,9,7,10,4,6,8,14,7,10,11,7,7,11,12,8,12,10,11,5,9
+Farnham 11,Farnham,32,Reasonable,N/A,£0,1265,6.57,National League South,8,10,10,8,5,5,6,10,8,9,7,8,10,7,7,8,11,11,9,12,11,9,8,6
+Eastleigh 9,Eastleigh,21,Very Strong,£600 p/w,£3.5K - £12K,1263,6.61,National League South,7,11,5,13,1,1,6,6,11,1,9,7,13,8,5,12,7,10,6,13,6,7,11,2
+Welling 10,Welling,27,Weak,N/A,£0,1260,6.65,National League South,13,9,6,7,9,7,10,3,6,8,13,6,2,9,5,4,7,11,6,11,7,10,7,6
+Truro 15,Truro,25,Very Strong,£500 p/w,£5K,1252,6.86,National League South,15,8,8,6,9,6,10,3,3,10,15,6,5,9,3,2,8,10,5,9,6,12,6,6
+Worthing 9,Worthing,22,Reasonable,£500 p/w,£0 - £4K,1239,6.69,National League South,13,8,8,7,11,1,11,1,13,9,11,7,4,8,6,1,7,9,5,13,13,12,7,11
+Welling 11,Welling,30,Reasonable,N/A,£0,1207,6.59,National League South,13,6,7,9,7,6,10,4,5,11,11,7,5,11,3,4,7,12,3,12,6,10,4,9
+Maidenhead 13,Maidenhead,27,Weak,£500 p/w,£1.5K,1204,6.98,National League South,13,7,9,7,10,6,9,4,6,10,11,9,5,10,7,1,7,8,8,7,6,12,9,10
+Maidenhead 14,Maidenhead,18,Reasonable,N/A,£0,1181,6.65,National League South,9,7,4,7,4,2,7,2,8,4,12,5,5,11,6,6,14,9,8,7,12,12,4,6
+St. Albans City 14,St. Albans City,28,Weak,N/A,£0,1162,6.90,National League South,12,6,8,8,8,11,7,9,11,8,13,7,4,11,7,2,8,12,7,10,7,10,7,8
+Salisbury 11,Salisbury,17,Reasonable,N/A,£0,1159,6.38,National League South,12,6,6,3,6,10,4,8,11,7,11,6,3,12,5,1,8,12,2,15,10,9,5,9
+Enfield Town 11,Enfield Town,19,Reasonable,£330 p/w,£0 - £28K,1158,6.65,National League South,12,11,7,14,3,7,13,6,12,4,10,11,7,9,6,11,8,12,10,14,8,9,9,8
+Dover 12,Dover,21,Reasonable,N/A,£0,1155,6.63,National League South,13,4,6,11,5,3,13,4,16,6,10,7,5,12,7,7,7,10,3,12,7,11,14,1
+Welling 12,Welling,32,Very Strong,N/A,£0,1153,6.57,National League South,12,5,9,5,11,7,11,6,2,8,9,9,5,8,4,3,4,10,5,9,11,8,7,7
+Eastleigh 10,Eastleigh,27,Weak,N/A,£0,1138,6.55,National League South,10,9,10,9,9,8,9,6,8,10,11,8,8,9,11,7,10,9,8,11,11,11,10,10
+Bishop's Stortford 9,Bishop's Stortford,23,Reasonable,£230 p/w,£500 - £3.5K,1131,6.69,National League South,9,6,10,9,9,9,8,5,13,7,10,15,9,10,7,6,8,5,8,12,8,9,9,7
+Maidstone Utd 11,Maidstone Utd,20,Fairly Strong,£850 p/w,£24K - £70K,1109,6.53,National League South,13,10,4,13,3,3,9,4,7,3,14,7,13,9,8,11,5,11,9,15,9,12,10,1
+Enfield Town 12,Enfield Town,25,Weak,£250 p/w,£0 - £16K,1107,6.88,National League South,12,7,6,7,7,6,8,6,10,7,12,6,7,17,8,4,11,12,6,12,10,11,4,7
+Maidenhead 15,Maidenhead,18,Reasonable,£320 p/w,£0,1095,6.42,National League South,9,7,3,7,4,1,6,3,7,6,11,5,4,11,8,7,7,11,8,15,7,9,4,7
+Welling 13,Welling,25,Fairly Strong,N/A,£0,1091,6.40,National League South,8,9,5,13,1,1,4,8,10,4,9,4,12,4,9,7,3,4,12,12,7,7,2,1
+Salisbury 12,Salisbury,18,Very Strong,£470 p/w,£70K - £210K,1080,6.65,National League South,14,6,6,6,11,5,7,2,11,7,14,7,2,13,11,5,9,11,3,13,8,15,7,11
+Weymouth 7,Weymouth,26,Reasonable,N/A,£0,1076,6.73,National League South,11,7,6,10,8,5,11,3,11,13,11,9,5,8,5,6,8,12,7,17,9,10,8,7
+Walton & Hersham 16,Walton & Hersham,17,Reasonable,N/A,£0,1074,6.53,National League South,8,7,7,11,3,3,5,4,13,4,7,4,10,9,8,6,9,7,10,11,12,5,6,6
+Tonbridge 10,Tonbridge,23,Very Weak,£310 p/w,£0,1073,6.76,National League South,11,8,7,10,4,5,7,11,10,6,9,7,14,7,8,14,9,9,11,11,9,5,7,7
+Maidstone Utd 12,Maidstone Utd,18,Reasonable,£370 p/w,£90K - £275K,1073,6.57,National League South,12,8,7,10,8,16,11,9,10,9,13,9,4,12,10,3,15,12,5,12,16,9,8,5
+Bath City 13,Bath City,19,Reasonable,£700 p/w,£75K - £240K,1071,6.73,National League South,12,9,8,12,4,5,13,6,12,7,12,8,11,13,9,12,7,12,9,12,11,14,10,5
+Dover 13,Dover,21,Very Weak,£460 p/w,£6K - £18K,1065,6.67,National League South,12,11,11,7,6,5,6,10,12,7,12,11,8,11,11,10,8,8,10,12,8,11,9,5
+St. Albans City 15,St. Albans City,18,Reasonable,£220 p/w,£500 - £3.5K,1064,6.69,National League South,10,7,3,9,2,2,3,6,12,1,12,1,13,10,10,7,6,10,9,17,11,9,4,6
+Worthing 10,Worthing,19,Reasonable,N/A,£0,1028,6.28,National League South,7,4,10,8,5,13,12,13,14,7,6,6,3,10,12,3,13,10,5,7,8,5,5,4
+Chelmsford 14,Chelmsford,17,Reasonable,£470 p/w,£55K - £170K,1015,6.80,National League South,14,12,12,8,11,7,8,8,11,11,12,8,5,9,9,4,8,12,7,6,16,13,6,9
+Maidstone Utd 13,Maidstone Utd,21,Fairly Strong,£875 p/w,£0 - £70K,1013,6.57,National League South,14,8,5,11,5,4,6,4,3,7,12,6,11,14,6,11,6,6,7,12,10,11,6,8

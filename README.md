@@ -166,7 +166,8 @@ Whenever you want to add players, screenshot them in FM and tell your assistant 
 - **A transfer search:** screenshot the results to compare everyone it finds.
 - **A shortlist or scouting list.**
 - **A whole league:** screenshot every player in a division, with Minutes, Average Rating and Division showing.
-  That fills the charts page, so you can see how your squad compares.
+  That fills the charts page, so you can see how your squad compares. Until you do, the charts page uses the
+  shared English leagues in `leagues/` (Premier League to the National Leagues, January 2030, names hidden).
 - **Staff searches:** coaches, scouts, physios and so on, with the staff view.
 - **Your squad again later:** re-screenshot it every few months of game time to see who's improving.
 

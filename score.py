@@ -5,6 +5,7 @@
     python3 score.py --save NAME      score another save
     python3 score.py init             first-time setup: config.toml and a save
     python3 score.py screenshots      list the newest screenshots in config.toml's screenshots_dir
+    python3 score.py share-leagues    copy the save's latest league searches to leagues/ (public), names anonymised
 
 Reads saves/<save>/obs/<YYYY-MM-DD>_<source>_<view>.csv (players) and saves/<save>/staff/<YYYY-MM-DD>_<source>.csv,
 scores them with weights/<save.toml's weights>.toml, and writes one page per entry in PAGES.
@@ -33,6 +34,8 @@ YOUTH_TEAM = re.compile(r"-(u\d+)s?$")  # a youth squad screen's team: "u18" fro
 SEARCH_MIN_WEIGHT = 2  # attributes weighted below this are left out of the filters page's search minimums
 IMAGE_TYPES = {".png", ".jpg", ".jpeg", ".bmp", ".webp"}
 LAST_BATCHES = 3  # the last and last_staff pages cycle through this many recent batches (b / B)
+LEAGUES = ROOT / "leagues"  # shared league searches, names anonymised: the charts page's divisions a save hasn't searched
+MIN_DIVISION = 20  # a division needs this many players from league searches to count as searched (charts.html: the same)
 
 
 
@@ -104,8 +107,8 @@ def timeline(dates):
 
 
 def read_rows(folder):
-    """(path, row) for every CSV row in a folder, oldest file first."""
-    for path in sorted(folder.glob("*.csv")) if folder.exists() else []:
+    """(path, row) for every CSV row in a folder (or one file), oldest file first."""
+    for path in [folder] if folder.is_file() else sorted(folder.glob("*.csv")) if folder.exists() else []:
         with open(path, newline="", encoding="utf-8") as f:
             for row in csv.DictReader(f):
                 yield path, row
@@ -214,12 +217,26 @@ def filters(squad, w):
 CHART_ATTRS = ["Acceleration", "Pace", "Stamina", "Strength", "Jumping Reach", "Anticipation", "Concentration"]
 
 
+def divisions(rows):
+    """Divisions with a league-wide search among these players: a few stray players from other searches don't make one."""
+    counts = {}
+    for r in rows:
+        if r["division"]:
+            counts[r["division"]] = counts.get(r["division"], 0) + 1
+    return {d for d, n in counts.items() if n >= MIN_DIVISION}
+
+
 def charts(rows, squad, w, cfg):
-    """Players whose latest observation is a league search (one per division), plus the squad."""
+    """Players whose latest observation is a league search (one per division), plus the squad; then leagues/'s
+    shared searches (`ref`) for any division the save hasn't searched itself."""
+    own = divisions(rows)
+    shared = [player_row(n, p, w) for f in sorted(LEAGUES.glob("*.csv")) for n, p in load_players(f)[0].items()]  # each file alone:
+    # its names ("Arsenal 1") aren't the same players as another file's
     out = []
-    for r, mine in [*((r, False) for r in rows if r["division"] is not None and r not in squad), *((r, True) for r in squad)]:
+    for r, mine, ref in [*((r, False, False) for r in rows if r["division"] is not None and r not in squad), *((r, True, False) for r in squad),
+                         *((r, False, True) for r in shared if r["division"] not in own)]:
         attrs = r["history"][-1]["attrs"]
-        out.append({"name": r["name"], "club": r["club"], "division": r["division"], "age": r["age"], "squad": mine, "wage": r["wage"],
+        out.append({"name": r["name"], "club": r["club"], "division": r["division"], "age": r["age"], "squad": mine, "ref": ref, "wage": r["wage"],
                     "rating": r["rating"], "minutes": r["minutes"], "best": r["best"], "win": r["win"], "pts": r.get("pts"),
                     "scores": {p: r[p] for p in ["GK", *w["outfield"]] if r.get(p) is not None},
                     **{a: attrs.get(a) for a in CHART_ATTRS}})
@@ -499,6 +516,43 @@ def init():
     print("Wrote config.toml. Next: screenshot your squad screen in FM, then ask your agent to add the screenshots.")
 
 
+def share_leagues(save):
+    """Copy the save's latest league search per division to leagues/, for everyone: names become "<club> <n>", loan flags go."""
+    latest = {}  # division -> (date, [files])
+    for path in sorted((ROOT / "saves" / save / "obs").glob("*_search-*.csv")):
+        with open(path, newline="", encoding="utf-8") as f:
+            rows = list(csv.DictReader(f))
+        divs = {r.get("Division") for r in rows} - {None, ""}
+        if "intake" in path.stem or len(divs) != 1 or len(rows) < MIN_DIVISION:
+            continue
+        div, date = divs.pop(), path.stem[:10]
+        if div not in latest or date > latest[div][0]:
+            latest[div] = (date, [path])
+        elif date == latest[div][0]:
+            latest[div][1].append(path)
+    LEAGUES.mkdir(exist_ok=True)
+    for div, (date, paths) in sorted(latest.items()):
+        slug = re.sub(r"[^a-z0-9]+", "-", re.sub(r"^Sky Bet ", "", div).lower()).strip("-")
+        for old in LEAGUES.glob(f"*_search-{slug}_*.csv"):
+            old.unlink()
+        for path in paths:
+            with open(path, newline="", encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                fields = [c for c in reader.fieldnames if c != "Loan"]
+                rows = list(reader)
+            seen = {}
+            for r in rows:
+                club = r["Club"]  # clubs stay: %win by club needs them
+                seen[club] = seen.get(club, 0) + 1
+                r["Name"] = f"{club} {seen[club]}" + (" (GK)" if path.stem.endswith("_gk") else "")
+            out = LEAGUES / f"{date}_search-{slug}_{path.stem.rsplit('_', 1)[1]}.csv"
+            with open(out, "w", newline="", encoding="utf-8") as f:
+                wr = csv.DictWriter(f, fields, extrasaction="ignore", lineterminator="\n")
+                wr.writeheader()
+                wr.writerows(rows)
+            print(f"{out.relative_to(ROOT)}: {len(rows)} players")
+
+
 def screenshots(minutes):
     """The newest images in screenshots_dir, newest first, so an agent can find the ones just taken on any OS."""
     folder = Path(load_config().get("screenshots_dir", default_screenshots_dir())).expanduser()
@@ -524,6 +578,7 @@ def main():
     sub.add_parser("init", help="first-time setup: config.toml and a save")
     sp = sub.add_parser("screenshots", help="list the newest screenshots in screenshots_dir")
     sp.add_argument("--minutes", type=float, default=10, help="how far back to look (default 10)")
+    sub.add_parser("share-leagues", help="copy the save's latest league searches to leagues/, names anonymised")
     args = ap.parse_args()
 
     if args.command == "init":
@@ -532,6 +587,8 @@ def main():
         return screenshots(args.minutes)
     config = load_config()
     save = args.save or config["active_save"]
+    if args.command == "share-leagues":
+        return share_leagues(save)
     cfg, pages = build(save)
     out = write_pages(save, config, cfg, pages)
     if args.open:

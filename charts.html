@@ -76,6 +76,8 @@ const MIN_DIVISION = 20, perDivision = {};
 for (const p of DATA) if (p.division) perDivision[p.division] = (perDivision[p.division] || 0) + 1;
 const DIVISIONS = Object.keys(perDivision).filter(d => perDivision[d] >= MIN_DIVISION).sort();
 const short = d => d.replace(/^Sky Bet /, "");
+// Divisions from leagues/ (shared searches, names anonymised), not this save's own
+const SHARED = new Set(DATA.filter(p => p.ref).map(p => p.division));
 const YOUTH = { 15: "15", 16: "16", 17: "17", all: "15–17" };  // the youth %win table's toggle
 const SPEEDS = Object.fromEntries(["Acceleration", "Pace", "Stamina", "Strength", "Jumping Reach", "Anticipation", "Concentration"].map(a => [a, a]));
 const STORE = "fm:__SAVE__:charts", SITE = __SITE__;
@@ -212,7 +214,7 @@ function scatter(spec) {
   // Name the division's top three on this chart's y, and every club player: right of the dot, else left, else not at all
   const top = new Set([...rest].sort((a, b) => spec.y(b) - spec.y(a)).slice(0, 3)), placed = [];
   for (const p of [...hl, ...top]) {
-    const cx = x(spec.x(p)), cy = y(spec.y(p)), text = p.name.split(" ").slice(-1)[0], w = text.length * 6.2 + 2;
+    const cx = x(spec.x(p)), cy = y(spec.y(p)), text = p.ref ? p.name : p.name.split(" ").slice(-1)[0], w = text.length * 6.2 + 2;
     const box = [[cx + 7, cx + 7 + w], [cx - 7 - w, cx - 7]].find(([a, b]) => a >= L && b <= W &&
       !placed.some(([pa, pb, py]) => a < pb && b > pa && Math.abs(py - cy) < 11));
     if (!box) continue;
@@ -285,7 +287,7 @@ function render() {
   if (!clubs().includes(state.club)) state.club = MANAGED;
   VIEW = DATA.filter(p => inLeague(p) || isHl(p));
   for (const p of DATA) p.hl = isHl(p);
-  for (const [id, opts] of [["division", DIVISIONS.map(d => [d, short(d)])], ["club", clubs().map(c => [c, c])]]) {
+  for (const [id, opts] of [["division", DIVISIONS.map(d => [d, short(d) + (SHARED.has(d) ? " (shared)" : "")])], ["club", clubs().map(c => [c, c])]]) {
     const s = document.getElementById(id);
     s.innerHTML = opts.map(([v, l]) => `<option value="${v}"${v === state[id] ? " selected" : ""}>${l}</option>`).join("");
     s.onchange = () => set(id, s.value);
