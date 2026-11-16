@@ -26,7 +26,7 @@ __THEME__
   svg { display: block; width: 100%; overflow: visible; font: 11px "JetBrains Mono", monospace; }
   .axis text { fill: var(--dim); } .axis line, .axis path { stroke: var(--line); }
   .grid-line { stroke: var(--line); stroke-opacity: .45; }
-  .row-label { fill: var(--purple); font-size: 12px; cursor: pointer; } .row-label.on { fill: var(--cyan); font-weight: 700; }
+  .row-label { fill: var(--purple); font-size: 12px; }
   .row-n { fill: var(--dim); }
   .dot { stroke: var(--bg); stroke-width: 1.5; cursor: pointer; }
   .dot.league { fill: var(--blue); fill-opacity: .75; }
@@ -58,7 +58,6 @@ __THEME__
   <span class="pages">__NAV__</span>
   <span class="seg"><span class="lbl">division</span><select id="division"></select></span>
   <span class="seg"><span class="lbl">club</span><select id="club"></select></span>
-  <span class="seg" id="pos"><span class="lbl">position</span></span>
   <span class="seg" id="speed"><span class="lbl">attribute</span></span>
   <span class="legend"><span><i style="background:var(--blue)"></i><span id="lLeague"></span> <span id="nLeague"></span></span><span><i style="background:var(--orange)"></i><span id="lClub"></span> <span id="nSquad"></span></span></span>
 </div>
@@ -66,12 +65,9 @@ __THEME__
   <div class="tile"><div class="ttitle">Role score by position</div><div id="strip-score"></div></div>
   <div class="tile"><div class="ttitle" id="t-strip-speed"></div><div id="strip-speed"></div></div>
 </div>
-<div class="grid" id="scatters"></div>
 <div class="grid" id="wins"></div>
 <div class="tile" id="clubs"></div>
 <div class="tile" id="youth"></div>
-<div class="grid" id="gks" style="margin-top:10px"></div>
-<div class="tile" id="gkclubs"></div>
 <div id="tip"></div>
 <script>
 const { positions: POSITIONS, players: DATA, managed: MANAGED, division: HOME_DIVISION } = __DATA__;
@@ -81,14 +77,13 @@ for (const p of DATA) if (p.division) perDivision[p.division] = (perDivision[p.d
 const DIVISIONS = Object.keys(perDivision).filter(d => perDivision[d] >= MIN_DIVISION).sort();
 const short = d => d.replace(/^Sky Bet /, "");
 const YOUTH = { 15: "15", 16: "16", 17: "17", all: "15–17" };  // the youth %win table's toggle
-const SPEEDS = { Acceleration: "Acceleration", Pace: "Pace", "Jumping Reach": "Jumping Reach", Agility: "Agility" };
+const SPEEDS = Object.fromEntries(["Acceleration", "Pace", "Stamina", "Strength", "Jumping Reach", "Anticipation", "Concentration"].map(a => [a, a]));
 const STORE = "fm:__SAVE__:charts", SITE = __SITE__;
-let state = { pos: POSITIONS.find(p => p !== "GK") || POSITIONS[0], speed: "Acceleration", youth: "all",
+let state = { speed: "Acceleration", youth: "all",
               division: DIVISIONS.includes(HOME_DIVISION) ? HOME_DIVISION : DIVISIONS[0], club: MANAGED };
 try { Object.assign(state, JSON.parse(localStorage.getItem(STORE) || "{}")); } catch (e) {}
 if (!(state.speed in SPEEDS)) state.speed = "Acceleration";
 if (!(state.youth in YOUTH)) state.youth = "all";
-if (!POSITIONS.includes(state.pos)) state.pos = POSITIONS[0];
 if (!DIVISIONS.includes(state.division)) state.division = DIVISIONS[0];
 // The division's players are the baseline; the club's are highlighted (the managed club: its squad screen)
 const inLeague = p => !p.squad && p.division === state.division;
@@ -100,7 +95,7 @@ const AXIS_POOL = () => DATA.filter(p => (!p.squad && DIVISIONS.includes(p.divis
 const save = () => { try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {} };
 
 const money = v => SITE.currency + (v >= 1e6 ? +(v / 1e6).toFixed(2) + "M" : v >= 1e3 ? +(v / 1e3).toFixed(2) + "K" : v);
-// Keepers have no Pace or Jumping Reach, and only keepers have Agility: players without one drop out of its charts
+// Players without the attribute (keepers have no Pace or Jumping Reach) drop out of its charts
 const speed = p => p[state.speed];
 const inGroup = (p, pos) => p.scores[pos] != null && p.best === pos;  // each player in their best role
 const jitter = name => { let h = 0; for (const c of name) h = (h * 31 + c.charCodeAt(0)) | 0; return ((h >>> 0) % 1000) / 1000 - 0.5; };
@@ -119,10 +114,6 @@ function linear([d0, d1], [r0, r1], step) {
   f.ticks = () => step ? Array.from({ length: Math.floor(d1 / step) - Math.ceil(d0 / step) + 1 }, (_, i) => (Math.ceil(d0 / step) + i) * step) : niceTicks(d0, d1);
   return f;
 }
-function logScale([d0, d1], [r0, r1]) {
-  const f = v => r0 + (Math.log(v) - Math.log(d0)) / (Math.log(d1) - Math.log(d0)) * (r1 - r0);
-  f.domain = [d0, d1]; f.ticks = () => [250, 500, 1e3, 2e3, 5e3, 1e4, 2e4, 5e4, 1e5].filter(t => t >= d0 && t <= d1); f.fmt = money; return f;
-}
 
 // Hover: one tooltip, and the hovered player ringed on every chart
 const tip = document.getElementById("tip");
@@ -133,7 +124,8 @@ function hover(p, e) {
   const sc = Object.entries(p.scores).map(([k, v]) => `${k} ${v.toFixed(1)}`).join(" · ");
   tip.innerHTML = `<div class="nm">${p.name}</div><div class="d">${p.club} · ${p.age} · ${p.wage == null ? "–" : money(p.wage) + " p/w"}</div>` +
     `<div>${sc} <span class="d">(best ${p.best})</span>${p.win == null ? "" : ` · %win ${fmtWin(p.win)}`}${p.pts == null ? "" : ` · GKpts ${fmtWin(p.pts)}`}</div>` +
-    `<div>${p.rating == null ? "" : `rating ${p.rating.toFixed(2)} <span class="d">in ${p.minutes} mins</span> · `}acc ${p.Acceleration ?? "–"} · pace ${p.Pace ?? "–"} · ${p.Agility != null ? `agility ${p.Agility}` : `jump ${p["Jumping Reach"] ?? "–"}`}</div>`;
+    `<div>${p.rating == null ? "" : `rating ${p.rating.toFixed(2)} <span class="d">in ${p.minutes} mins</span> · `}` +
+    `${Object.keys(SPEEDS).map(a => `${a === state.speed ? "<b>" : ""}${a.toLowerCase()} ${p[a] ?? "–"}${a === state.speed ? "</b>" : ""}`).join(" · ")}</div>`;
   tip.style.display = "block";
   const x = e.clientX + 14, y = e.clientY + 14, w = tip.offsetWidth, h = tip.offsetHeight;
   tip.style.left = Math.min(x, innerWidth - w - 8) + "px"; tip.style.top = (y + h > innerHeight ? e.clientY - h - 10 : y) + "px";
@@ -171,8 +163,7 @@ function strip(id, value, label, groupFor, step, showMedian, min) {
   const labels = [];
   rows.forEach(({ pos, ps }, i) => {
     const cy = i * rowH + rowH / 2, league = ps.filter(inLeague);
-    const t = el("text", { x: 0, y: cy + 4, class: "row-label" + (pos === state.pos ? " on" : "") }, svg); t.textContent = pos;
-    t.addEventListener("click", () => set("pos", pos));
+    el("text", { x: 0, y: cy + 4, class: "row-label" }, svg).textContent = pos;
     el("text", { x: W, y: cy + 4, "text-anchor": "end", class: "row-n" }, svg).textContent = `n=${league.length}`;
     for (const p of [...ps.filter(p => !p.hl), ...ps.filter(p => p.hl)]) dot(svg, p, x(value(p, pos)), cy + jitter(p.name + pos) * (rowH - 14));
     if (league.length) {
@@ -194,36 +185,34 @@ function fit(pts) {
   let sxy = 0, sxx = 0, syy = 0; for (const [a, b] of pts) { sxy += (a - mx) * (b - my); sxx += (a - mx) ** 2; syy += (b - my) ** 2; }
   return sxx && syy ? { slope: sxy / sxx, icpt: my - sxy / sxx * mx, r: sxy / Math.sqrt(sxx * syy) } : null;
 }
-// spec.all: every player, not just those whose best role is the selected position; spec.into: the container's id
+// spec.into: the container's id; spec.x / spec.y return null for players the chart leaves out
 function scatter(spec) {
   const tile = document.createElement("div"); tile.className = "tile";
-  document.getElementById(spec.into || "scatters").appendChild(tile);
-  const group = p => spec.all || inGroup(p, state.pos);
-  const ps = VIEW.filter(p => group(p) && spec.x(p) != null && spec.y(p) != null);
-  const league = ps.filter(inLeague), rest = ps.filter(p => !p.hl), hl = ps.filter(p => p.hl), log = spec.log;
-  // log fit for wage, so the line is straight on the log axis
-  const f = fit(league.map(p => [log ? Math.log(spec.x(p)) : spec.x(p), spec.y(p)]));
+  document.getElementById(spec.into || "wins").appendChild(tile);
+  const has = p => spec.x(p) != null && spec.y(p) != null;
+  const ps = VIEW.filter(has);
+  const league = ps.filter(inLeague), rest = ps.filter(p => !p.hl), hl = ps.filter(p => p.hl);
+  const f = fit(league.map(p => [spec.x(p), spec.y(p)]));
   tile.innerHTML = `<div class="ttitle">${spec.title}</div><div class="tsub">${rest.length} ${short(state.division)}${hl.length ? ` + ${hl.length} ${state.club}` : ""}` +
     `${f ? ` · r = <b>${f.r.toFixed(2)}</b>` : ""}</div>`;
   if (!ps.length) return;
   const box = document.createElement("div"); tile.appendChild(box);
   const W = box.clientWidth, H = Math.max(240, Math.min(360, W * 0.62)), L = 40, B = 34, T = 14, R = 10;
   const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, height: H }, box);
-  const pool = AXIS_POOL().filter(p => group(p) && spec.x(p) != null && spec.y(p) != null);
+  const pool = AXIS_POOL().filter(has);
   const xs = pool.map(spec.x), ys = pool.map(spec.y);
-  const x = log ? logScale([Math.min(...xs) / 1.25, Math.max(...xs) * 1.25], [L, W - R]) : linear(extent(xs, 0.05), [L, W - R]);
+  const x = linear(extent(xs, 0.05), [L, W - R]);
   const y = linear(extent(ys, 0.06), [H - B, T]);
   axis(svg, x, true, H - B, H - B - T, spec.xl); axis(svg, y, false, L, W - L - R, spec.yl);
   if (f) {
-    const [a, b] = x.domain, tx = v => log ? Math.log(v) : v;
-    el("line", { x1: x(a), y1: y(f.icpt + f.slope * tx(a)), x2: x(b), y2: y(f.icpt + f.slope * tx(b)), class: "trend" }, svg);
+    const [a, b] = x.domain;
+    el("line", { x1: x(a), y1: y(f.icpt + f.slope * a), x2: x(b), y2: y(f.icpt + f.slope * b), class: "trend" }, svg);
   }
-  const jx = spec.jitter ? (p => spec.jitter * jitter(p.name)) : (() => 0), jy = spec.jitterY ? (p => spec.jitterY * jitter(p.name + "y")) : (() => 0);
-  for (const p of [...rest, ...hl]) dot(svg, p, x(spec.x(p) + jx(p)), y(spec.y(p) + jy(p)));
+  for (const p of [...rest, ...hl]) dot(svg, p, x(spec.x(p)), y(spec.y(p)));
   // Name the division's top three on this chart's y, and every club player: right of the dot, else left, else not at all
   const top = new Set([...rest].sort((a, b) => spec.y(b) - spec.y(a)).slice(0, 3)), placed = [];
   for (const p of [...hl, ...top]) {
-    const cx = x(spec.x(p) + jx(p)), cy = y(spec.y(p) + jy(p)), text = p.name.split(" ").slice(-1)[0], w = text.length * 6.2 + 2;
+    const cx = x(spec.x(p)), cy = y(spec.y(p)), text = p.name.split(" ").slice(-1)[0], w = text.length * 6.2 + 2;
     const box = [[cx + 7, cx + 7 + w], [cx - 7 - w, cx - 7]].find(([a, b]) => a >= L && b <= W &&
       !placed.some(([pa, pb, py]) => a < pb && b > pa && Math.abs(py - cy) < 11));
     if (!box) continue;
@@ -292,52 +281,6 @@ function clubTable(id, keep = () => true, title = "%win by club", seg = "", best
   }
 }
 
-// Keepers by club: each club's keepers in the division's search by GKpts (Purity's goalkeeper test: league points a season
-// against a level-12 keeper), best first, sorted on the club's no. 1. The managed club's row is its squad screen.
-const GK_TOP = 4, GK_BANDS = [[-Infinity, -2, "#2a3560"], [-2, 0, "#3f5ba3"], [0, 2, "#6b91ea"], [2, 4, "#9db9fa"], [4, Infinity, "#d4e1ff"]];
-function gkTable() {
-  const box = document.getElementById("gkclubs"), byClub = {};
-  for (const p of DATA.filter(p => inLeague(p) && p.pts != null)) (byClub[p.club] ||= []).push(p);
-  const rows = Object.entries(byClub).map(([club, ps]) => ({ club, ps }));
-  const squad = DATA.filter(p => p.squad && p.pts != null);
-  if (squad.length && state.division === HOME_DIVISION && !byClub[MANAGED]) rows.push({ club: MANAGED, ps: squad, squad: true });
-  if (!rows.length) { box.style.display = "none"; return; }
-  box.style.display = "";
-  for (const r of rows) r.ps.sort((a, b) => b.pts - a.pts);
-  rows.sort((a, b) => b.ps[0].pts - a.ps[0].pts);
-  const n = rows.filter(r => !r.squad).reduce((s, r) => s + r.ps.length, 0);
-  box.innerHTML = `<div class="ttitle">Keepers by club</div><div class="tsub">${n} ${short(state.division)} keepers, ` +
-    `${rows.filter(r => !r.squad).length} clubs · <b>GKpts</b> = league points a season against a level-12 keeper (Purity's goalkeeper test), ` +
-    `sorted on each club's no. 1${rows.some(r => r.squad) ? ` · ${MANAGED}: its latest squad screen` : ""} · click a club to highlight it</div>` +
-    `<div class="bandkey">${GK_BANDS.map(b => `<span><i style="background:${b[2]}"></i>${bandLabel(b)}</span>`).join("")}</div>`;
-  const t = document.createElement("table"); box.appendChild(t);
-  t.innerHTML = `<tr><th>Club</th><th>keepers</th><th>no. 1</th>` + Array.from({ length: GK_TOP }, (_, i) => `<th class="rank">${i + 1}</th>`).join("") +
-    `<th style="text-align:left">keeper</th></tr>`;
-  for (const r of rows) {
-    const tr = document.createElement("tr"), top = r.ps[0];
-    tr.className = (r.club === state.club ? "hl " : "") + (r.squad ? "squad" : "");
-    tr.innerHTML = `<td>${r.club}</td><td>${r.ps.length}</td><td class="key">${fmtWin(top.pts)}</td>`;
-    tr.style.cursor = "pointer"; tr.onclick = () => { if (clubs().includes(r.club)) set("club", r.club); };
-    for (let i = 0; i < GK_TOP; i++) {
-      const td = document.createElement("td"); td.className = "rank"; tr.appendChild(td);
-      const p = r.ps[i]; if (!p) continue;
-      const b = GK_BANDS.findIndex(([lo, hi]) => p.pts >= lo && p.pts < hi);
-      td.textContent = fmtWin(p.pts); td.style.background = GK_BANDS[b][2]; td.style.color = b >= 3 ? "var(--desk)" : "var(--fg)";
-      td.addEventListener("mousemove", e => {
-        tip.innerHTML = `<div class="nm">${p.name}</div><div class="d">${r.club} · ${p.age} · GK ${p.scores.GK.toFixed(1)}</div>` +
-          `<div>GKpts ${fmtWin(p.pts)} · agility ${p.Agility ?? "–"}${p.rating == null ? "" : ` · rating ${p.rating.toFixed(2)} <span class="d">in ${p.minutes} mins</span>`}</div>`;
-        tip.style.display = "block";
-        const w = tip.offsetWidth, h = tip.offsetHeight;
-        tip.style.left = Math.min(e.clientX + 14, innerWidth - w - 8) + "px";
-        tip.style.top = (e.clientY + 14 + h > innerHeight ? e.clientY - h - 10 : e.clientY + 14) + "px";
-      });
-      td.addEventListener("mouseleave", () => hover(null));
-    }
-    const nm = document.createElement("td"); nm.style.textAlign = "left"; nm.textContent = `${top.name} (${top.age})`; tr.appendChild(nm);
-    t.appendChild(tr);
-  }
-}
-
 function render() {
   if (!clubs().includes(state.club)) state.club = MANAGED;
   VIEW = DATA.filter(p => inLeague(p) || isHl(p));
@@ -348,8 +291,7 @@ function render() {
     s.onchange = () => set(id, s.value);
   }
   // [value, label] pairs, not objects: "9" and "10" would jump the queue as integer keys
-  for (const [id, opts, key] of [["pos", POSITIONS.map(p => [p, p]), "pos"],
-                                 ["speed", Object.entries(SPEEDS), "speed"]]) {
+  for (const [id, opts, key] of [["speed", Object.entries(SPEEDS), "speed"]]) {
     const seg = document.getElementById(id); seg.querySelectorAll("button").forEach(b => b.remove());
     for (const [v, l] of opts) {
       const b = document.createElement("button"); b.textContent = l; b.className = state[key] === v ? "on" : "";
@@ -364,27 +306,14 @@ function render() {
   document.getElementById("t-strip-speed").textContent = `${sp} attribute by position`;
   strip("strip-score", (p, pos) => p.scores[pos], "role score", inGroup, undefined, true, 9);
   strip("strip-speed", p => speed(p), sp, (p, pos) => p.best === pos, 2);
-  document.getElementById("scatters").innerHTML = "";
-  const pos = state.pos, score = p => p.scores[pos], rating = p => p.rating, spd = p => speed(p);
-  scatter({ title: `${pos} score vs wage`, x: p => p.wage || null, y: score, xl: "wage p/w (log)", yl: `${pos} score`, log: true });
+  const rating = p => p.rating;
   // Minutes and ratings are per season: in the off-season (a search with none) those charts are left out
   const rated = VIEW.some(p => p.rating != null);
-  if (rated) {
-    scatter({ title: `${pos} score vs average rating`, x: rating, y: score, xl: "average rating", yl: `${pos} score` });
-    scatter({ title: `${sp} vs average rating`, x: spd, y: rating, xl: sp, yl: "rating", jitter: 0.35 });
-  }
   document.getElementById("wins").innerHTML = "";
   const win = p => p.win, mins = p => p.minutes;
-  if (rated) scatter({ title: "%win vs minutes (all outfield players)", x: mins, y: win, xl: "minutes", yl: "%win", all: true, into: "wins" });
-  if (rated) scatter({ title: "%win vs average rating (all outfield players)", x: rating, y: win, xl: "average rating", yl: "%win", all: true, into: "wins" });
+  if (rated) scatter({ title: "%win vs minutes (all outfield players)", x: mins, y: win, xl: "minutes", yl: "%win", into: "wins" });
+  if (rated) scatter({ title: "%win vs average rating (all outfield players)", x: rating, y: win, xl: "average rating", yl: "%win", into: "wins" });
   clubTable("clubs");
-  // Keepers: GKpts vs score, and vs minutes and rating once the season's started
-  document.getElementById("gks").innerHTML = "";
-  const pts = p => p.pts, gk = p => p.scores.GK ?? null;
-  scatter({ title: "Keepers: GKpts vs GK score", x: gk, y: pts, xl: "GK score", yl: "GKpts", all: true, into: "gks" });
-  if (rated) scatter({ title: "Keepers: GKpts vs average rating", x: rating, y: pts, xl: "average rating", yl: "GKpts", all: true, into: "gks" });
-  if (rated) scatter({ title: "Keepers: GKpts vs minutes", x: mins, y: pts, xl: "minutes", yl: "GKpts", all: true, into: "gks" });
-  gkTable();
   const age = state.youth === "all" ? (p => p.age >= 15 && p.age <= 17) : (p => p.age === +state.youth);
   clubTable("youth", age, `%win by club: ${YOUTH[state.youth]}-year-olds`,
     `<span class="seg">${Object.entries(YOUTH).map(([v, l]) => `<button data-v="${v}" class="${state.youth === v ? "on" : ""}">${l}</button>`).join("")}</span>`, null);
@@ -394,10 +323,6 @@ function set(k, v) { state[k] = v; save(); render(); }
 document.addEventListener("keydown", e => {
   if (e.metaKey || e.ctrlKey || e.altKey || e.target.tagName === "SELECT") return;
   if (SITE.pages[e.key] && SITE.pages[e.key] !== "charts") location.href = SITE.pages[e.key] + ".html";
-  if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-    const i = POSITIONS.indexOf(state.pos) + (e.key === "ArrowRight" ? 1 : -1);
-    set("pos", POSITIONS[(i + POSITIONS.length) % POSITIONS.length]);
-  }
 });
 let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(render, 150); });
 render();

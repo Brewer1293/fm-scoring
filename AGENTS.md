@@ -9,8 +9,8 @@ transcribes them to CSV. `score.py` turns those into eight pages per save (keys 
 3. **last**: just the players from the most recent set of screenshots (e.g. one transfer search); `b` / `B` step back
    through the last 3 sets (earlier `last_batch` / `last_names` values, from the `saves/` repo's history of save.toml)
 4. **filters**: per position, the squad's best players and suggested minimums for FM's player search
-5. **charts**: players with a match rating (a league-wide search) by position: role scores, score vs wage,
-   score vs average rating, and Acceleration, Pace, Jumping Reach or Agility (a toggle; Agility is keepers only) by position and vs rating, with the squad overlaid;
+5. **charts**: one division at a time, players with a match rating (a league-wide search): role scores by position, and an attribute
+   (a toggle: Acceleration, Pace, Stamina, Strength, Jumping Reach, Anticipation, Concentration) by position, with the squad overlaid;
    then %win vs minutes and vs rating, and %win by club
 6. **staff**: every staff member observed, scored for each role (manager, coach groups, scout, physio…)
 7. **last_staff**: just the staff from the most recent set of staff screenshots; `b` / `B` likewise for the last 3
@@ -140,15 +140,15 @@ If FM renames an attribute, use the new name in the CSV header and in the weight
 - **Loan** flags show next to names, from the latest observation that has a `Loan` column. Filter with `loan-in` / `loan-out` / `trial`.
 - **Youth team** (`U18`, green, next to the name): the player's latest screen of the club's own squad was a youth team's (source `-u18s`, `-u21s`); `u18` filters for them.
 - **Rating / minutes / division:** from the latest observation only (they're per season); rating and minutes show on elsewhere.
-- **Charts page:** players whose latest observation is a league search (a `Division` column), grouped by best role (or everyone at every role).
+- **Charts page:** players whose latest observation is a league search (a `Division` column), grouped by best role for the by-position strips.
   Dropdowns pick the division (the baseline, blue) and a club to highlight (orange): the managed club's squad
   screen, or any club in that division. Defaults: save.toml's `division` and `managed_club`.
-  r = correlation over the league players; the dashed line is their least-squares fit (on log wage for wage).
-  The %win scatters take every outfield player, whatever the position toggle. **%win by club**: each club's players in
+  r = correlation over the league players; the dashed line is their least-squares fit.
+  The %win scatters take every outfield player. **%win by club**: each club's players in
   the division's search, their mean and median %win, **best 10** (the mean of the club's top 10; sorted on it) and the %win of the club's top 12, best on
   the left, coloured by 10-point band (< −50 to ≥ 0). The managed club's row is its whole squad screen (youth included,
   whatever their minutes). Below it, the same table for the 15-, 16- or 17-year-olds (or all three; a toggle) to compare youth
-  intakes, on best x (x = the fewest any club has at that age). Then keepers: GKpts vs GK score, vs rating and vs minutes, and **keepers by club** (each club's keepers' GKpts, sorted on its no. 1; the managed club's row is its squad screen). Minutes and rating charts are left out when no one's rated (the off-season).
+  intakes, on best x (x = the fewest any club has at that age). Minutes and rating charts are left out when no one's rated (the off-season).
 - **Youth intake:** players in the newest obs files whose source contains `intake` (e.g. `search-youth-intake`) are
   candidates, not the squad: they show only on last until a squad screen shows them (then they're squad, or gone) or
   they're in `intake_kept` (the user's "keep X").

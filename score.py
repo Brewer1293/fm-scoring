@@ -210,6 +210,10 @@ def filters(squad, w):
     return out
 
 
+# Attributes the charts page plots by position
+CHART_ATTRS = ["Acceleration", "Pace", "Stamina", "Strength", "Jumping Reach", "Anticipation", "Concentration"]
+
+
 def charts(rows, squad, w, cfg):
     """Players whose latest observation is a league search (one per division), plus the squad."""
     out = []
@@ -218,7 +222,7 @@ def charts(rows, squad, w, cfg):
         out.append({"name": r["name"], "club": r["club"], "division": r["division"], "age": r["age"], "squad": mine, "wage": r["wage"],
                     "rating": r["rating"], "minutes": r["minutes"], "best": r["best"], "win": r["win"], "pts": r.get("pts"),
                     "scores": {p: r[p] for p in ["GK", *w["outfield"]] if r.get(p) is not None},
-                    "Acceleration": attrs.get("Acceleration"), "Pace": attrs.get("Pace"), "Jumping Reach": attrs.get("Jumping Reach"), "Agility": attrs.get("Agility")})
+                    **{a: attrs.get(a) for a in CHART_ATTRS}})
     return {"positions": [*w["outfield"], "GK"], "players": out,
             "managed": cfg["managed_club"], "division": cfg.get("division")}
 

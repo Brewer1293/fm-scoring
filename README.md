@@ -179,7 +179,7 @@ Press the number keys to move between pages, and **?** on any page for its keybo
 | 2 | Elsewhere | Every other player you've screenshotted |
 | 3 | Last | Just the players from your latest screenshots |
 | 4 | Filters | Your best players per position, and minimum attributes to search FM for players better than them |
-| 5 | Charts | Your squad against a whole league: scores, wages, ratings and pace |
+| 5 | Charts | Your squad against a whole league: scores, key attributes and ratings |
 | 6 | Staff | Every staff member you've screenshotted, scored for each job |
 | 7 | Last staff | Just the staff from your latest staff screenshots |
 | 8 | Staff filters | Your best staff per job, and minimum attributes to search FM for staff better than them |
