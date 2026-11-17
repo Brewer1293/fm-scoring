@@ -17,12 +17,14 @@ transcribes them to CSV. `score.py` turns those into eight pages per save (keys 
 8. **staff_filters**: per staff role, the club's best staff and suggested minimums (as FM's words) for FM's staff search
 
 Runs on macOS, Windows and Linux: stdlib Python 3.11+ only (`python3` here; on Windows it may be `python` or `py`).
+Git is optional for the user (see Conventions). Many users aren't technical and start everything by double-clicking
+a Start file, so keep their side free of commands: run them yourself and explain in plain words.
 
 ## Files
 
 | Path | Purpose |
 |---|---|
-| `config.toml` | This computer's settings: `active_save` (the save being worked on; only ever touch that save), `screenshots_dir`, `currency`. Gitignored; `python3 score.py init` writes it, `config.example.toml` shows it. |
+| `config.toml` | This computer's settings: `active_save` (the save being worked on; only ever touch that save), `screenshots_dir`, `currency`, and optionally `fm_dir` (FM's own folder, when it isn't in the usual place) and `assistant` (`claude` or `codex`: which one the Start file opens when both are installed). Gitignored; `python3 score.py init` writes it, `config.example.toml` shows it. |
 | `saves/<save>/save.toml` | `weights` (→ `weights/<name>.toml`), `managed_club` (exactly as FM shows it), `short_name` (page 1 label), `division` (the managed club's, as FM shows it; page 5's default), `last_batch` (obs files for page 3), `last_staff_batch` (staff files for page 7), `last_staff_names` (staff already observed to add to page 7), `intake_kept` (intake players kept: they join the squad), `released` (players gone since the latest squad screen) `signed` (players joined since) `recalled` (back from loan since), `staff_released` (staff let go since) and `aliases` (a name FM cut off in an obs file → the full name). |
 | `saves/<save>/obs/*.csv` | Observations: `<YYYY-MM-DD>_<source>_<view>.csv`, one per screenshot set. Append-only. |
 | `saves/<save>/staff/*.csv` | Staff observations: `<YYYY-MM-DD>_<source>.csv` (`search-coach`). Append-only. |
@@ -31,6 +33,8 @@ Runs on macOS, Windows and Linux: stdlib Python 3.11+ only (`python3` here; on W
 | `weights/fm27_positions.xlsx` | Working sheet for the position weights: fm27 (GK, CB, WB/6, 10, 9) beside fm27v2 (GK, FB, CB, 6, wing, 10, 9), with each %win attribute's value. fm27v2 needs Crossing in the views. |
 | `leagues/*.csv` | Shared league searches (public): `<date>_search-<division>_<view>.csv`, names anonymised (`Arsenal 3`), no `Loan`. `python3 score.py share-leagues` writes them from the active save's latest league search per division, replacing that division's older file. |
 | `views/`, `player search filters/`, `staff search filters/`, `schedules/` | FM27 views, search filters and training schedules (`.fmf`), named like FM's own folders. |
+| `Start FM Scoring (Mac).command`, `(Windows).bat`, `(Linux).sh` | Double-click launchers: find Python 3.11+ (or open python.org) and run `start.py`. The `.command` and `.sh` must stay executable; the `.bat` keeps CRLF (`.gitattributes`). |
+| `start.py` | The Start files' menu: a plain-English check of the setup, then talk to the assistant (with "Help me set up a new save." when there's no save), open the pages, or install the FM files. `python3 start.py check` prints just the check; `python3 start.py install-fm-files [--overwrite] [--fm-dir PATH]` copies `views/`, the search filters and `schedules/` into FM's folders, never replacing a file that differs unless `--overwrite`. Keep its syntax plain enough for old Pythons to reach its version message. |
 | `score.py` | `python3 score.py [--save S] [--open PAGE]` → `out/<save>/*.html`. Also `init` (first-time setup) and `screenshots` (list new ones). Stdlib only. |
 | `template.html` | Every page but charts. Its `?` overlay is the reference for keys and filter syntax. |
 | `charts.html` | Page 5: hand-drawn SVG charts. |
@@ -78,7 +82,7 @@ The user says something like "new screenshots".
 5. Set `last_batch` in `save.toml` to the file(s) from this update, and remove any `last_names`.
    If the screenshot is just a list of names of players already observed (e.g. a shortlist), set
    `last_names = [...]` instead (names exactly as in the obs files): page 3 then shows only them.
-6. Run `python3 score.py --open last` and commit the save data: `git -C saves add -A && git -C saves commit -m "<save>: <what> <date>"`.
+6. Run `python3 score.py --open last` and commit the save data (if Git is installed): `git -C saves add -A && git -C saves commit -m "<save>: <what> <date>"`.
 7. Report notable players: top of the new batch, big changes since a player's previous observation.
 
 ## Adding staff screenshots
@@ -162,6 +166,8 @@ If FM renames an attribute, use the new name in the CSV header and in the weight
 
 ## Conventions
 
+- **Git is optional for users.** Many download the ZIP rather than cloning. If `git --version` fails, skip every
+  `git -C saves` step without fuss; the only loss is that `b` / `B` on the last pages can't step back to earlier batches.
 - Two git repos. The code repo (this folder) is public on GitHub and ignores `saves/`, `config.toml` and `out/`.
   `saves/` is its own git repo, local only, never pushed: the user's save data stays private. Commit data there
   (`git -C saves …`) and code here, separately. Never add personal details (email, real save names) to the code repo.

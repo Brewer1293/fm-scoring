@@ -2,3 +2,5 @@
 active_save = "my-club"            # saves/<this>/save.toml
 screenshots_dir = "~/Desktop"      # where your screenshots are saved (Windows: "~/Pictures/Screenshots")
 currency = "£"                     # the money symbol FM shows
+# fm_dir = "~/Library/Application Support/Sports Interactive/Football Manager 27"  # only if FM's folder isn't found
+# assistant = "claude"            # claude or codex: which one the Start file opens, if you have both

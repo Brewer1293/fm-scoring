@@ -23,7 +23,13 @@ Click the link and a zip file downloads. Open it to unzip it, then follow `How t
 ## Just want the FM views and search filters?
 
 This project comes with ready-made FM views, search filters and training schedules that you can use on their own.
-They're in four folders: `views`, `player search filters`, `staff search filters` and `schedules`. To add them to FM:
+They're in four folders: `views`, `player search filters`, `staff search filters` and `schedules`.
+
+**The quick way:** download the ZIP (step 1 below), quit FM, double-click the Start file for your computer
+(`Start FM Scoring (Mac).command` or `Start FM Scoring (Windows).bat`) and choose **3**. It copies everything into FM's
+folders without replacing any of your own. It needs Python, and opens the download page if you don't have it.
+
+**By hand:**
 
 1. **Download them.** At the top of this page, click the green **Code** button, then **Download ZIP**. Open the
    downloaded file to unzip it. You'll get a folder called `fm-scoring-main`.
@@ -53,54 +59,63 @@ They're in four folders: `views`, `player search filters`, `staff search filters
 ## What you need
 
 - **Football Manager 2027.**
-- **An AI coding assistant**, either:
-  - **Claude Code**, which needs a paid Claude plan (Pro or above). Install it from [claude.com/claude-code](https://claude.com/claude-code).
-  - **Codex**, which needs a paid ChatGPT plan. Install it from [developers.openai.com/codex](https://developers.openai.com/codex).
-- **Python**, version 3.11 or newer. It's free: download it from [python.org/downloads](https://www.python.org/downloads/).
-  On Windows, tick **"Add python.exe to PATH"** on the installer's first screen.
-- **Git**, to download this project. Macs ask to install it the first time you need it. On Windows, get it from
-  [git-scm.com](https://git-scm.com/downloads) and click Next through the installer.
+- **Python**, version 3.11 or newer. It's free, from [python.org/downloads](https://www.python.org/downloads/).
+  Not sure if you have it? Skip this: the Start file checks, and opens the download page if you need it.
+- **An AI assistant**, to read your screenshots. Either:
+  - **Claude Code**, which needs a paid Claude plan (Pro or above): [claude.com/claude-code](https://claude.com/claude-code).
+    The Claude desktop app works too.
+  - **Codex**, with a paid ChatGPT plan or an OpenAI API key: [developers.openai.com/codex](https://developers.openai.com/codex).
 
-Your screenshots are sent to the AI service (Anthropic or OpenAI) so it can read them.
+You don't need Git, and you don't need to type commands. Your screenshots are sent to the AI service (Anthropic or
+OpenAI) so it can read them.
 
 ---
 
 ## Setting up (about 10 minutes)
 
-### 1. Open a terminal
+### 1. Download this project
 
-The terminal is a window where you type commands. You only need it for a couple of steps.
+At the top of this page, click the green **Code** button, then **Download ZIP**. Open the downloaded file to unzip it.
+You'll get a folder called `fm-scoring-main`: move it somewhere you'll find it again, such as your Documents folder.
 
-- **Mac:** press ⌘ Space, type **Terminal**, press Enter.
-- **Windows:** press the Windows key, type **Terminal** (or **PowerShell**), press Enter.
+### 2. Install your AI assistant
 
-### 2. Download this project
+Follow the install steps on [claude.com/claude-code](https://claude.com/claude-code) (or
+[Codex's page](https://developers.openai.com/codex)). The first time it starts, it asks you to log in.
 
-Copy these lines into the terminal one at a time, pressing Enter after each:
+### 3. Double-click the Start file
+
+In the `fm-scoring-main` folder, double-click:
+
+- **Mac:** `Start FM Scoring (Mac).command`
+- **Windows:** `Start FM Scoring (Windows).bat`
+- **Linux:** `Start FM Scoring (Linux).sh`
+
+The first time, your computer may warn you that it comes from the internet. That's expected: see
+[Mac says it can't be opened](#mac-says-the-start-file-cant-be-opened) or
+[Windows protected your PC](#windows-protected-your-pc).
+
+A window opens and checks everything's ready, something like this:
 
 ```
-cd Documents
-git clone https://github.com/jamiebolden/fm-scoring.git
-cd fm-scoring
+  ✓  Python 3.13.1
+  ✓  Claude Code installed
+  !  No save set up yet
+  !  53 of this project's 53 FM views, filters and schedules aren't in FM yet
+
+What would you like to do?
+   1  Set up my save with Claude Code (recommended)   <- press Enter
+   2  Set up my save here instead: answer a few questions
+   3  Put this project's views, filters and schedules into FM
+   q  Quit
 ```
 
-This puts the project in a folder called `fm-scoring` inside your Documents folder.
+If Python's missing, it opens python.org instead: install it (on Windows, tick **"Add python.exe to PATH"** on the
+installer's first screen), then double-click the Start file again.
 
-### 3. Start your AI assistant in that folder
+### 4. Set up your save
 
-In the same terminal, type `claude` (for Claude Code) or `codex` (for Codex), then press Enter.
-The first time, it will ask you to log in.
-
-Prefer an app to a terminal? The Claude desktop app and the Codex app can both work in a folder too: choose the
-`fm-scoring` folder in Documents.
-
-### 4. Ask it to set you up
-
-Type this to your assistant:
-
-> Help me set up a new save.
-
-It will check that everything is installed, then ask you a few questions:
+Press **Enter**. Your assistant starts and asks you a few questions:
 
 - **Which club you manage.** Type the name **exactly as FM shows it in its tables**, e.g. "Man Utd", not "Manchester United".
 - **Your club's division**, again exactly as FM shows it, e.g. "Sky Bet League One".
@@ -109,14 +124,14 @@ It will check that everything is installed, then ask you a few questions:
   - **Windows:** Windows key + Print Screen. Screenshots go to Pictures → Screenshots.
 - **Which currency** FM shows wages in (£, €, $…).
 
-It saves your answers, so you only do this once per save.
+It saves your answers, so you only do this once per save. It also offers to put this project's views into FM (next step).
 
-### 5. Set up your views in FM
+### 5. Put the views into FM
 
 The assistant only knows what your screenshots show, so FM's player lists need the right columns. This project
-comes with ready-made FM views (`views`), search filters (`player search filters`, `staff search filters`) and
-training schedules (`schedules`), all `.fmf` files, and the assistant offers to copy them into FM's folders of the same names for you. **Close FM first**,
-then reopen it afterwards so it picks them up.
+comes with ready-made FM views, search filters and training schedules. To add them to FM, **close FM first**, then
+either say yes when your assistant offers, or choose **3** in the Start window. Both copy them into FM's folders,
+and never replace any of your own views, filters or schedules without asking. Then start FM again so it picks them up.
 
 | View | Use it on | Columns |
 |---|---|---|
@@ -192,23 +207,80 @@ Press the number keys to move between pages, and **?** on any page for its keybo
 Click a column heading to sort by it, and double-click a player to see their history. Type in the box at the top
 to filter: for example, `age<=21 best=CB` shows centre-backs aged 21 and under.
 
-To open the pages yourself, ask your assistant to "open my squad page".
+To open the pages yourself, double-click the Start file and choose **2**, or ask your assistant to "open my squad page".
 
 ### Coming back later
 
-Open a terminal, go to the folder, and start your assistant:
-
-```
-cd Documents/fm-scoring
-claude
-```
-
-Use `codex` instead of `claude` if that's your assistant. Then carry on with "new screenshots".
+Double-click the Start file and press **Enter** to talk to your assistant. Then carry on with "new screenshots".
 
 ### Starting another save
 
 Tell your assistant "help me set up a new save" again. Each save keeps its own players. To switch between saves,
 ask it to "switch to my <club> save".
+
+### Updating to a newer version
+
+Your save data lives in the `saves` folder and your settings in `config.toml`, both inside the project folder.
+Download the ZIP again, unzip it, and copy `saves` and `config.toml` from your old folder into the new one. Then use
+the new folder's Start file. (If you used `git clone`, run `git pull` in the folder instead.)
+
+---
+
+## If something goes wrong
+
+### Mac says the Start file can't be opened
+
+Macs block files downloaded from the internet until you say they're OK. You only need to do this once:
+
+1. Double-click the Start file and click **Done** on the warning.
+2. Open **System Settings → Privacy & Security** and scroll down to **Security**. Next to the message about
+   `Start FM Scoring (Mac).command`, click **Open Anyway**, then confirm.
+
+On macOS 14 (Sonoma) or older, you can instead Control-click the file, choose **Open**, then **Open** again.
+
+If double-clicking opens the file in a text editor instead, it's lost its "can be run" setting (some unzip apps do
+this). Open Terminal, type `chmod +x ` (with the space), drag the Start file into the Terminal window, and press Enter.
+
+### Windows protected your PC
+
+Windows warns about files from the internet. Click **More info**, then **Run anyway**. If you see an
+"Open File – Security Warning" instead, click **Run**.
+
+### Python is installed, but the Start file says it isn't
+
+- **Windows:** run Python's installer again, choose **Modify**, and make sure **"Add Python to environment variables"**
+  is ticked. If that doesn't help, open **Settings → Apps → Advanced app settings → App execution aliases** and
+  turn off the two **python** entries (they point at the Microsoft Store, not your Python).
+- **Mac:** the `python3` that comes with Apple's developer tools is too old. Install Python from
+  [python.org](https://www.python.org/downloads/).
+
+### It says no AI assistant was found, but I use the Claude desktop app
+
+That's fine. In the desktop app, open the project folder (in Claude Code, choose a folder to work in) and type
+"Help me set up a new save." Everything else works the same.
+
+### It can't find FM's folder
+
+Start FM27 once and quit it: FM creates the folder on its first run. If you've moved FM's user data somewhere
+unusual, tell your assistant where it is and it will remember.
+
+---
+
+## Prefer the terminal?
+
+If you're happy with a terminal and Git, you can clone instead of downloading the ZIP, and start your assistant
+yourself:
+
+```
+cd Documents
+git clone https://github.com/Brewer1293/fm-scoring.git
+cd fm-scoring
+claude
+```
+
+Use `codex` instead of `claude` if that's your assistant. Then say "Help me set up a new save." With Git installed,
+your save data also keeps a history, so the Last pages can step back through earlier screenshot sets (**b** / **B**).
+`python3 start.py` opens the same menu as the Start file.
 
 ---
 

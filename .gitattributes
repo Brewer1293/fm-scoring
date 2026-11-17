@@ -1,0 +1,5 @@
+# Windows needs CRLF in batch files; keep them byte-for-byte as committed, in clones and in GitHub's ZIP.
+*.bat -text
+# The Mac and Linux launchers must keep LF endings.
+*.command text eol=lf
+*.sh text eol=lf

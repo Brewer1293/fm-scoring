@@ -10,6 +10,12 @@
 Reads saves/<save>/obs/<YYYY-MM-DD>_<source>_<view>.csv (players) and saves/<save>/staff/<YYYY-MM-DD>_<source>.csv,
 scores them with weights/<save.toml's weights>.toml, and writes one page per entry in PAGES.
 """
+import sys
+
+if sys.version_info < (3, 11):  # before tomllib: say what to do rather than show a traceback
+    sys.exit("This needs Python 3.11 or newer, and this is Python %d.%d. "
+             "Get the latest from https://www.python.org/downloads/" % sys.version_info[:2])
+
 import argparse
 import csv
 import html
@@ -17,7 +23,6 @@ import json
 import platform
 import re
 import subprocess
-import sys
 import time
 import tomllib
 import webbrowser
@@ -513,7 +518,7 @@ def init():
     CONFIG.write_text("# Settings for this computer: config.example.toml explains each one.\n"
                       f"active_save = {toml_str(save)}\nscreenshots_dir = {toml_str(shots)}\n"
                       f"currency = {toml_str(currency)}\n", encoding="utf-8")
-    print("Wrote config.toml. Next: screenshot your squad screen in FM, then ask your agent to add the screenshots.")
+    print("Wrote config.toml. Next: screenshot your squad screen in FM, then tell your assistant \"new screenshots\".")
 
 
 def share_leagues(save):
