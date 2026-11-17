@@ -1,7 +1,8 @@
 {
   "weights": [
     "fm27v2",
-    "fm27"
+    "fm27",
+    "fm27_1_measured"
   ],
   "leagues": [
     "2030-01-13_search-championship_outfield.csv",
