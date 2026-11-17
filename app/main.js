@@ -180,7 +180,7 @@
   // --- modal ---
 
   function openModal(...content) {
-    $("#panel").replaceChildren(...content);
+    $("#panel").replaceChildren(...content.filter(c => c !== null && c !== undefined));
     $("#modal").hidden = false;
   }
   function closeModal() {
