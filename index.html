@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FM Scoring</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="theme.css">
+<style>
+  /* The web app's frame around the pages (template.html, charts.html), in the same Tokyo Night theme */
+  html, body { height: 100%; }
+  body { display: flex; flex-direction: column; padding: 0; overflow: hidden; }
+  [hidden] { display: none !important; }
+  a { color: var(--cyan); }
+  code { color: var(--purple); }
+  button, input, select { font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 4px 10px; }
+  button { cursor: pointer; }
+  button:hover:not(:disabled) { border-color: var(--blue); }
+  button:disabled { opacity: .45; cursor: default; }
+  button.primary { background: var(--blue); color: var(--desk); border-color: var(--blue); font-weight: 700; }
+  button.primary:hover:not(:disabled) { background: var(--cyan); border-color: var(--cyan); }
+  button.danger { color: var(--red); border-color: var(--red); }
+  button.x { border: 0; background: none; color: var(--dim); padding: 0 4px; }
+  button.x:hover { color: var(--red); }
+  input:focus, select:focus { outline: none; border-color: var(--cyan); }
+  .dim { color: var(--dim); }
+
+  header { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .brand { font-weight: 700; color: var(--blue); }
+  #saveSel { max-width: 220px; }
+  #tabs { display: flex; gap: 2px; flex-wrap: wrap; padding: 4px 8px; border-bottom: 1px solid var(--line); }
+  #tabs:empty { display: none; }
+  #tabs button { border: 0; background: none; color: var(--dim); padding: 3px 9px; border-radius: 3px; }
+  #tabs button b { color: var(--line); font-weight: normal; }
+  #tabs button:hover:not(:disabled) { color: var(--fg); }
+  #tabs button.on { background: var(--blue); color: var(--desk); font-weight: 700; }
+  #tabs button.on b { color: var(--desk); }
+  .grow { flex: 1; }
+  #banner { padding: 6px 12px; border-bottom: 1px solid var(--line); }
+  #banner.warn { color: var(--yellow); } #banner.bad { color: var(--red); }
+  main { flex: 1; position: relative; min-height: 0; }
+  #page { border: 0; width: 100%; height: 100%; display: block; background: var(--desk); }
+  #welcome { overflow: auto; height: 100%; padding: 24px 12px; }
+
+  .card { max-width: 720px; margin: 0 auto; background: var(--bg); border: 2px solid var(--blue); padding: 20px 24px; }
+  .card h1, .panel h2 { color: var(--cyan); font-size: 18px; margin: 0 0 12px; }
+  .steps li { margin-bottom: 12px; }
+  .field { display: flex; flex-direction: column; gap: 3px; margin: 10px 0; }
+  .field > span { color: var(--purple); }
+  .field small, small { color: var(--dim); }
+  .field input:not([size]), .field select { width: 100%; }
+  .row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+  .row > .field { flex: 1; }
+  .actions { display: flex; gap: 10px; align-items: center; margin-top: 14px; }
+  .actions.wrap { flex-wrap: wrap; }
+
+  .modal { position: fixed; inset: 0; background: #16161ecc; display: flex; align-items: flex-start; justify-content: center; z-index: 20; overflow: auto; padding: 4vh 12px; }
+  .panel { background: var(--bg); border: 2px solid var(--blue); padding: 18px 22px; width: min(1100px, 100%); }
+  .panel section { border-top: 1px solid var(--line); padding-top: 10px; margin-top: 14px; }
+  .panel h3 { color: var(--purple); margin: 0 0 4px; font-size: 14px; }
+  fieldset { border: 1px solid var(--line); margin: 14px 0 0; padding: 8px 14px; }
+  legend { color: var(--purple); padding: 0 6px; }
+  .radio { display: block; padding: 2px 0; cursor: pointer; }
+  .radio input { margin-right: 8px; }
+
+  .drop { border: 2px dashed var(--line); padding: 26px; text-align: center; cursor: pointer; }
+  .drop.over, .drop:hover { border-color: var(--cyan); }
+  .thumbs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .thumbs figure { margin: 0; position: relative; }
+  .thumbs img { height: 90px; border: 1px solid var(--line); display: block; }
+  .thumbs .x { position: absolute; top: 0; right: 0; background: var(--desk); }
+
+  .jobs { list-style: none; padding: 0; }
+  .jobs li { display: flex; gap: 10px; align-items: center; padding: 4px 0; }
+  .jobs img { height: 34px; border: 1px solid var(--line); }
+  .jobs .name { min-width: 220px; }
+  .jobs .done .status { color: var(--green); } .jobs .failed .status { color: var(--red); } .jobs .reading .status { color: var(--cyan); }
+
+  .reading { border-top: 1px solid var(--line); margin-top: 12px; padding-top: 10px; }
+  .rhead { display: flex; gap: 12px; align-items: center; margin-bottom: 6px; }
+  .rhead img { height: 60px; border: 1px solid var(--line); display: block; }
+  .inline input { padding: 1px 4px; }
+  input.bad { border-color: var(--red); }
+  .warn { color: var(--yellow); margin: 4px 0; }
+  .badtext { color: var(--red); }
+  .gridwrap { overflow-x: auto; }
+  table.grid { border-collapse: collapse; font-size: 12px; }
+  .grid th { color: var(--purple); font-weight: normal; padding: 2px 4px; text-align: left; white-space: nowrap; }
+  .grid td { padding: 1px; }
+  .grid td input { border: 1px solid transparent; background: transparent; padding: 1px 3px; border-radius: 2px; }
+  .grid td input:focus { border-color: var(--cyan); background: var(--desk); }
+  .grid td.unsure input { background: #e0af6833; border-color: var(--yellow); }
+  .grid td.bad input { background: #f7768e33; border-color: var(--red); }
+  .grid td.fixed input { color: var(--cyan); }
+  .grid tr.off td input { opacity: .35; text-decoration: line-through; }
+  .grid td.note { color: var(--yellow); white-space: nowrap; padding-left: 8px; }
+  .sticky { position: sticky; bottom: -4vh; background: var(--bg); padding: 10px 0; border-top: 1px solid var(--line); }
+
+  .chip { display: inline-flex; align-items: center; gap: 2px; border: 1px solid var(--line); border-radius: 12px; padding: 0 4px 0 10px; margin: 3px 4px 3px 0; }
+  .chip.bad { border-color: var(--red); color: var(--red); padding-right: 10px; }
+  .change .row { align-items: center; margin-top: 4px; }
+
+  #toast { position: fixed; right: 16px; bottom: 16px; max-width: 560px; background: var(--bg); border: 2px solid var(--green); padding: 10px 34px 10px 14px; z-index: 30; }
+  #toast .x { position: absolute; top: 4px; right: 4px; }
+</style>
+</head>
+<body>
+<header>
+  <span class="brand">FM Scoring</span>
+  <select id="saveSel" title="Your saves" hidden></select>
+  <span id="gameDate" class="dim"></span>
+  <span class="grow"></span>
+  <button id="addBtn" class="primary" disabled>+ Add screenshots</button>
+  <button id="changesBtn" disabled>Player changes</button>
+  <button id="settingsBtn">Settings</button>
+</header>
+<nav id="tabs"></nav>
+<div id="banner" hidden></div>
+<main>
+  <iframe id="page" title="Player scores" hidden></iframe>
+  <div id="welcome"><div class="card dim">Loading…</div></div>
+</main>
+<div class="modal" id="modal" hidden><div class="panel" id="panel"></div></div>
+<div id="toast" hidden></div>
+<script src="app/toml.js"></script>
+<script src="app/scoring.js"></script>
+<script src="app/read.js"></script>
+<script src="app/files.js"></script>
+<script src="app/main.js"></script>
+</body>
+</html>

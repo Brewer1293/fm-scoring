@@ -105,6 +105,7 @@ __THEME__
 </div></div>
 <script>
 const PAGE = "__PAGE__", SITE = __SITE__, PAGES = SITE.pages;
+const go = p => SITE.app ? parent.postMessage({ fmPage: p }, "*") : (location.href = p + ".html");  // the web app shows pages in a frame
 const TABLE = !["filters", "staff_filters"].includes(PAGE);  // the other pages are tiles, with no table to filter or move around
 const DATA = __DATA__;
 const BATCHES = __BATCHES__;  // last pages: the recent batches' labels, newest first; each row's `batches` says which it's in
@@ -235,7 +236,7 @@ document.addEventListener("keydown", e => {
   }
   if (e.key === "?") { help.classList.toggle("show"); e.preventDefault(); return; }
   if (e.key === "Escape" && help.classList.contains("show")) { help.classList.remove("show"); return; }
-  if (PAGES[e.key] && PAGES[e.key] !== PAGE) { location.href = PAGES[e.key] + ".html"; return; }
+  if (PAGES[e.key] && PAGES[e.key] !== PAGE) { go(PAGES[e.key]); return; }
   if (!TABLE) return;
   const move = { ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1] }[e.key];
   if (move) { cur.r += move[0]; cur.c += move[1]; render(); }

@@ -81,6 +81,7 @@ const SHARED = new Set(DATA.filter(p => p.ref).map(p => p.division));
 const YOUTH = { 15: "15", 16: "16", 17: "17", all: "15–17" };  // the youth %win table's toggle
 const SPEEDS = Object.fromEntries(["Acceleration", "Pace", "Stamina", "Strength", "Jumping Reach", "Anticipation", "Concentration"].map(a => [a, a]));
 const STORE = "fm:__SAVE__:charts", SITE = __SITE__;
+const go = p => SITE.app ? parent.postMessage({ fmPage: p }, "*") : (location.href = p + ".html");  // the web app shows pages in a frame
 let state = { speed: "Acceleration", youth: "all",
               division: DIVISIONS.includes(HOME_DIVISION) ? HOME_DIVISION : DIVISIONS[0], club: MANAGED };
 try { Object.assign(state, JSON.parse(localStorage.getItem(STORE) || "{}")); } catch (e) {}
@@ -324,7 +325,7 @@ function set(k, v) { state[k] = v; save(); render(); }
 
 document.addEventListener("keydown", e => {
   if (e.metaKey || e.ctrlKey || e.altKey || e.target.tagName === "SELECT") return;
-  if (SITE.pages[e.key] && SITE.pages[e.key] !== "charts") location.href = SITE.pages[e.key] + ".html";
+  if (SITE.pages[e.key] && SITE.pages[e.key] !== "charts") go(SITE.pages[e.key]);
 });
 let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(render, 150); });
 render();

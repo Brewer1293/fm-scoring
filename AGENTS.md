@@ -35,6 +35,10 @@ a Start file, so keep their side free of commands: run them yourself and explain
 | `views/`, `player search filters/`, `staff search filters/`, `schedules/` | FM27 views, search filters and training schedules (`.fmf`), named like FM's own folders. |
 | `Start FM Scoring (Mac).command`, `(Windows).bat`, `(Linux).sh` | Double-click launchers: find Python 3.11+ (or open python.org) and run `start.py`. The `.command` and `.sh` must stay executable; the `.bat` keeps CRLF (`.gitattributes`). |
 | `start.py` | The Start files' menu: a plain-English check of the setup, then talk to the assistant (with "Help me set up a new save." when there's no save), open the pages, or install the FM files. `python3 start.py check` prints just the check; `python3 start.py install-fm-files [--overwrite] [--fm-dir PATH]` copies `views/`, the search filters and `schedules/` into FM's folders, never replacing a file that differs unless `--overwrite`. Keep its syntax plain enough for old Pythons to reach its version message. |
+| `index.html`, `app/*.js` | The web app (GitHub Pages: brewer1293.github.io/fm-scoring): the same scoring in the browser, screenshots read by OpenAI through `relay/`, data in the browser's IndexedDB. `app/scoring.js` is `score.py`'s scoring in JavaScript and `app/toml.js` reads the TOML files; `app/read.js` reads screenshots into rows (the "Adding screenshots" rules below, as code); `app/files.js` CSV, ZIP and storage; `app/main.js` the interface. It shows `template.html` and `charts.html` in a frame, with `SITE.app` set so their 1–8 keys post a message instead of following links. |
+| `app/manifest.json` | The web app's lists: weights files, `leagues/*.csv` (`score.py share-leagues` updates it) and the `.fmf` files it zips for download. Add a new weights file here too. |
+| `relay/worker.js` | A Cloudflare Worker the user deploys (`relay/README.md`): forwards `POST /v1/responses` to OpenAI for the allowed origins, since OpenAI refuses keyed requests from browsers. Stores nothing. |
+| `test/compare_scoring.py` | Builds a sample save and checks `app/scoring.js` gives exactly `score.py`'s page data (needs node). Run it after changing either. |
 | `score.py` | `python3 score.py [--save S] [--open PAGE]` → `out/<save>/*.html`. Also `init` (first-time setup) and `screenshots` (list new ones). Stdlib only. |
 | `template.html` | Every page but charts. Its `?` overlay is the reference for keys and filter syntax. |
 | `charts.html` | Page 5: hand-drawn SVG charts. |
@@ -173,5 +177,6 @@ If FM renames an attribute, use the new name in the CSV header and in the weight
   (`git -C saves …`) and code here, separately. Never add personal details (email, real save names) to the code repo.
 - Display: scores `0.0`, vs Age `xx%`.
 - In `weights/*.toml`, quote keys with `/` or spaces: `[outfield."WB/6"]`, `"First Touch" = 1`.
-- Stdlib Python, no build step, no dependencies.
+- Stdlib Python, no build step, no dependencies. The web app likewise: plain JavaScript files, no libraries, no build.
+- Scoring lives twice, in `score.py` and `app/scoring.js`: change both, then run `python3 test/compare_scoring.py`.
 - README's schedules download link points to `fm27-training-schedules.zip` on the latest GitHub release. It holds a copy of the test schedules in `schedules/` and an install guide, so when those schedules change, publish a new release with an updated zip of the same name.

@@ -12,6 +12,23 @@ Works on Mac, Windows and Linux.
 
 ---
 
+## Use it in your browser (easiest)
+
+**Open [brewer1293.github.io/fm-scoring](https://brewer1293.github.io/fm-scoring/).** There's nothing to install, and no
+terminal. You drag your FM screenshots onto the page, check what was read, and see every player scored.
+
+- **What you need:** FM27 and an [OpenAI API key](https://platform.openai.com/api-keys). Screenshots are read by OpenAI
+  with your key: a squad screenshot costs a cent or two with the default model, and the app shows what each batch cost.
+- **One-time setup (5 minutes):** OpenAI won't take requests straight from a web page, so they go through a tiny relay
+  you run free on your own Cloudflare account. [Set up the relay](relay/README.md), then put its address and your key
+  into the app's **Settings**.
+- **Before saving, you check each reading.** Cells OpenAI wasn't sure of are yellow, and values that can't be right
+  (an attribute of 23) are red. You can correct any cell against the screenshot.
+- **Your data stays in your browser**, on that computer. Use **Settings → Download a backup** now and then. **Export for
+  the Python version** and **Import a saves folder** move saves between the web app and the version below.
+
+---
+
 ## Just want the training schedules?
 
 **[Download the FM27 training schedules](https://github.com/jamiebolden/fm-scoring/releases/latest/download/fm27-training-schedules.zip)**
@@ -55,6 +72,11 @@ folders without replacing any of your own. It needs Python, and opens the downlo
    staff search screens. The schedules are in the training screen. Each one has the name of its file.
 
 ---
+
+## Running it on your computer instead
+
+This is the original way: an AI assistant (Claude Code or Codex) on your computer reads the screenshots and keeps your
+pages up to date. It works the same, and your data lives in files in the project folder.
 
 ## What you need
 

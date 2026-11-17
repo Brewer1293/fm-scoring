@@ -556,6 +556,11 @@ def share_leagues(save):
                 wr.writeheader()
                 wr.writerows(rows)
             print(f"{out.relative_to(ROOT)}: {len(rows)} players")
+    manifest = ROOT / "app" / "manifest.json"  # the web app's list of shared leagues
+    if manifest.exists():
+        m = json.loads(manifest.read_text(encoding="utf-8"))
+        m["leagues"] = sorted(p.name for p in LEAGUES.glob("*.csv"))
+        manifest.write_text(json.dumps(m, indent=2) + "\n", encoding="utf-8")
 
 
 def screenshots(minutes):
